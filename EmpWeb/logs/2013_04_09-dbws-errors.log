@@ -1,0 +1,5 @@
+09:57:08.956 INFO   [Rollover] org.mortbay.util.RolloverFileOutputStream.removeOldFiles(RolloverFileOutputStream.java:209) >03> Log age 2013_01_05-dbws-errors.log
+09:57:09.455 INFO   [Rollover] org.mortbay.util.RolloverFileOutputStream.removeOldFiles(RolloverFileOutputStream.java:209) >03> Log age 2013_01_05-dbws-access.log
+09:57:09.470 INFO   [Rollover] org.mortbay.util.RolloverFileOutputStream.removeOldFiles(RolloverFileOutputStream.java:209) >03> Log age 2013_01_05-engine-access.log
+09:57:09.517 INFO   [Rollover] org.mortbay.util.RolloverFileOutputStream.removeOldFiles(RolloverFileOutputStream.java:209) >03> Log age 2013_01_05-gui-errors.log
+09:57:09.548 INFO   [Rollover] org.mortbay.util.RolloverFileOutputStream.removeOldFiles(RolloverFileOutputStream.java:209) >03> Log age 2013_01_05-gui-access.log

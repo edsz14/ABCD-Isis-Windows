@@ -1,0 +1,249 @@
+STOPPED Sat Jan  5 18:23:04 CET 2013
+STARTED Jetty Sat Jan  5 18:23:05 CET 2013
+18:23:06.237 INFO   [main] org.mortbay.log.LogImpl.add(LogImpl.java:109) >16> added org.mortbay.log.OutputStreamLogSink@3f5d8ef1
+18:23:06.204 INFO   [main] org.mortbay.util.FileResource.<clinit>(FileResource.java:60) >11> Checking Resource aliases
+18:23:06.687 INFO   [main] org.mortbay.log.LogImpl.reset(LogImpl.java:228) >22> reset
+=-=-=-=-=-=-= EmpWeb: Initializing all services =-=-=-=-=-=-= 
+Jan 05, 2013 6:23:13 PM com.mchange.v2.log.MLog <clinit>
+INFO: MLog clients using java 1.4+ standard logging.
+Jan 05, 2013 6:23:14 PM com.mchange.v2.c3p0.C3P0Registry banner
+INFO: Initializing c3p0-0.9.1-pre10 [built 24-October-2006 03:48:52; debug? true; trace: 10]
+=-=-=-=-=-=-= EmpWeb: Initialization completed =-=-=-=-=-=-= 
+Total time for stats conf-getLibraries: 1769ms
+User hadn't been authenticated before...
+libsWithAccess :AGR,ARQ,ART,BCB,BU2,BUD,DER,EDU,GIM,HIS,ING,MAT,MEC,MUS,PER,RCV,RNT,SIS,
+library null accesible: false
+Total time for stats conf-getLibraries: 26ms
+User hadn't been authenticated before...
+libsWithAccess :
+library AGR accesible: true
+remoteAddr :127.0.0.1
+iplist     :,*
+addrAllowed:true
+nowH   :1823
+nowD   :7
+range    :0730-1900
+  startH :730
+  endH   :1900
+  startD :7
+  endD   :7
+Setting library to: AGR
+Permissions right after flushing ( there shouldn't be any! )...
+Done printing permissions after flushing
+join:null
+altjoin:null
+ERROR:  'Syntax error in 'field[@tag='10']/occ/subfield[@name='a''.'
+FATAL ERROR:  'Could not compile stylesheet'
+javax.xml.transform.TransformerConfigurationException: Could not compile stylesheet
+	at com.sun.org.apache.xalan.internal.xsltc.trax.TransformerFactoryImpl.newTemplates(TransformerFactoryImpl.java:885)
+	at com.sun.org.apache.xalan.internal.xsltc.trax.TransformerFactoryImpl.newTransformer(TransformerFactoryImpl.java:671)
+	at net.kalio.xml.KalioXMLUtil.getTransformer(KalioXMLUtil.java:43)
+	at net.kalio.empweb.dbws.mxisis.DbwsConfig$TrivialTransformerPool.<init>(DbwsConfig.java:235)
+	at net.kalio.empweb.dbws.mxisis.DbwsConfig.<init>(DbwsConfig.java:117)
+	at net.kalio.empweb.dbws.mxisis.EmpwebService.loadConfig(EmpwebService.java:313)
+	at net.kalio.empweb.dbws.mxisis.EmpwebService.<init>(EmpwebService.java:30)
+	at net.kalio.empweb.dbws.mxisis.EmpwebUsersService.<init>(EmpwebUsersService.java:12)
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:57)
+	at sun.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:45)
+	at java.lang.reflect.Constructor.newInstance(Constructor.java:525)
+	at java.lang.Class.newInstance0(Class.java:372)
+	at java.lang.Class.newInstance(Class.java:325)
+	at org.apache.axis.providers.java.JavaProvider.makeNewServiceObject(JavaProvider.java:385)
+	at org.apache.axis.providers.java.JavaProvider.getNewServiceObject(JavaProvider.java:235)
+	at org.apache.axis.providers.java.JavaProvider.getSessionServiceObject(JavaProvider.java:201)
+	at org.apache.axis.providers.java.JavaProvider.getApplicationScopedObject(JavaProvider.java:131)
+	at org.apache.axis.providers.java.JavaProvider.getServiceObject(JavaProvider.java:109)
+	at org.apache.axis.providers.java.JavaProvider.invoke(JavaProvider.java:287)
+	at org.apache.axis.strategies.InvocationStrategy.visit(InvocationStrategy.java:32)
+	at org.apache.axis.SimpleChain.doVisiting(SimpleChain.java:118)
+	at org.apache.axis.SimpleChain.invoke(SimpleChain.java:83)
+	at org.apache.axis.handlers.soap.SOAPService.invoke(SOAPService.java:453)
+	at org.apache.axis.server.AxisServer.invoke(AxisServer.java:281)
+	at org.apache.axis.transport.http.AxisServlet.doPost(AxisServlet.java:699)
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:616)
+	at org.apache.axis.transport.http.AxisServletBase.service(AxisServletBase.java:327)
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:689)
+	at org.mortbay.jetty.servlet.ServletHolder.handle(ServletHolder.java:428)
+	at org.mortbay.jetty.servlet.WebApplicationHandler.dispatch(WebApplicationHandler.java:473)
+	at org.mortbay.jetty.servlet.ServletHandler.handle(ServletHandler.java:568)
+	at org.mortbay.http.HttpContext.handle(HttpContext.java:1530)
+	at org.mortbay.jetty.servlet.WebApplicationContext.handle(WebApplicationContext.java:633)
+	at org.mortbay.http.HttpContext.handle(HttpContext.java:1482)
+	at org.mortbay.http.HttpServer.service(HttpServer.java:909)
+	at org.mortbay.http.HttpConnection.service(HttpConnection.java:820)
+	at org.mortbay.http.HttpConnection.handleNext(HttpConnection.java:986)
+	at org.mortbay.http.HttpConnection.handle(HttpConnection.java:837)
+	at org.mortbay.http.SocketListener.handleConnection(SocketListener.java:245)
+	at org.mortbay.util.ThreadedServer.handle(ThreadedServer.java:357)
+	at org.mortbay.util.ThreadPool$PoolThread.run(ThreadPool.java:534)
+net.kalio.xml.XMLException: javax.xml.transform.TransformerConfigurationException: Could not compile stylesheet
+	at net.kalio.xml.KalioXMLUtil.getTransformer(KalioXMLUtil.java:47)
+	at net.kalio.empweb.dbws.mxisis.DbwsConfig$TrivialTransformerPool.<init>(DbwsConfig.java:235)
+	at net.kalio.empweb.dbws.mxisis.DbwsConfig.<init>(DbwsConfig.java:117)
+	at net.kalio.empweb.dbws.mxisis.EmpwebService.loadConfig(EmpwebService.java:313)
+	at net.kalio.empweb.dbws.mxisis.EmpwebService.<init>(EmpwebService.java:30)
+	at net.kalio.empweb.dbws.mxisis.EmpwebUsersService.<init>(EmpwebUsersService.java:12)
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:57)
+	at sun.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:45)
+	at java.lang.reflect.Constructor.newInstance(Constructor.java:525)
+	at java.lang.Class.newInstance0(Class.java:372)
+	at java.lang.Class.newInstance(Class.java:325)
+	at org.apache.axis.providers.java.JavaProvider.makeNewServiceObject(JavaProvider.java:385)
+	at org.apache.axis.providers.java.JavaProvider.getNewServiceObject(JavaProvider.java:235)
+	at org.apache.axis.providers.java.JavaProvider.getSessionServiceObject(JavaProvider.java:201)
+	at org.apache.axis.providers.java.JavaProvider.getApplicationScopedObject(JavaProvider.java:131)
+	at org.apache.axis.providers.java.JavaProvider.getServiceObject(JavaProvider.java:109)
+	at org.apache.axis.providers.java.JavaProvider.invoke(JavaProvider.java:287)
+	at org.apache.axis.strategies.InvocationStrategy.visit(InvocationStrategy.java:32)
+	at org.apache.axis.SimpleChain.doVisiting(SimpleChain.java:118)
+	at org.apache.axis.SimpleChain.invoke(SimpleChain.java:83)
+	at org.apache.axis.handlers.soap.SOAPService.invoke(SOAPService.java:453)
+	at org.apache.axis.server.AxisServer.invoke(AxisServer.java:281)
+	at org.apache.axis.transport.http.AxisServlet.doPost(AxisServlet.java:699)
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:616)
+	at org.apache.axis.transport.http.AxisServletBase.service(AxisServletBase.java:327)
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:689)
+	at org.mortbay.jetty.servlet.ServletHolder.handle(ServletHolder.java:428)
+	at org.mortbay.jetty.servlet.WebApplicationHandler.dispatch(WebApplicationHandler.java:473)
+	at org.mortbay.jetty.servlet.ServletHandler.handle(ServletHandler.java:568)
+	at org.mortbay.http.HttpContext.handle(HttpContext.java:1530)
+	at org.mortbay.jetty.servlet.WebApplicationContext.handle(WebApplicationContext.java:633)
+	at org.mortbay.http.HttpContext.handle(HttpContext.java:1482)
+	at org.mortbay.http.HttpServer.service(HttpServer.java:909)
+	at org.mortbay.http.HttpConnection.service(HttpConnection.java:820)
+	at org.mortbay.http.HttpConnection.handleNext(HttpConnection.java:986)
+	at org.mortbay.http.HttpConnection.handle(HttpConnection.java:837)
+	at org.mortbay.http.SocketListener.handleConnection(SocketListener.java:245)
+	at org.mortbay.util.ThreadedServer.handle(ThreadedServer.java:357)
+	at org.mortbay.util.ThreadPool$PoolThread.run(ThreadPool.java:534)
+Caused by: javax.xml.transform.TransformerConfigurationException: Could not compile stylesheet
+	at com.sun.org.apache.xalan.internal.xsltc.trax.TransformerFactoryImpl.newTemplates(TransformerFactoryImpl.java:885)
+	at com.sun.org.apache.xalan.internal.xsltc.trax.TransformerFactoryImpl.newTransformer(TransformerFactoryImpl.java:671)
+	at net.kalio.xml.KalioXMLUtil.getTransformer(KalioXMLUtil.java:43)
+	... 39 more
+AxisFault
+ faultCode: {http://schemas.xmlsoap.org/soap/envelope/}Server.userException
+ faultSubcode: 
+ faultString: net.kalio.xml.XMLException: net.kalio.xml.XMLException: javax.xml.transform.TransformerConfigurationException: Could not compile stylesheet
+ faultActor: 
+ faultNode: 
+ faultDetail: 
+	{http://xml.apache.org/axis/}hostname:eds-Mint14VM
+
+net.kalio.xml.XMLException: net.kalio.xml.XMLException: javax.xml.transform.TransformerConfigurationException: Could not compile stylesheet
+	at org.apache.axis.message.SOAPFaultBuilder.createFault(SOAPFaultBuilder.java:221)
+	at org.apache.axis.message.SOAPFaultBuilder.endElement(SOAPFaultBuilder.java:128)
+	at org.apache.axis.encoding.DeserializationContext.endElement(DeserializationContext.java:1087)
+	at org.apache.xerces.parsers.AbstractSAXParser.endElement(Unknown Source)
+	at org.apache.xerces.impl.XMLNSDocumentScannerImpl.scanEndElement(Unknown Source)
+	at org.apache.xerces.impl.XMLDocumentFragmentScannerImpl$FragmentContentDispatcher.dispatch(Unknown Source)
+	at org.apache.xerces.impl.XMLDocumentFragmentScannerImpl.scanDocument(Unknown Source)
+	at org.apache.xerces.parsers.XML11Configuration.parse(Unknown Source)
+	at org.apache.xerces.parsers.XML11Configuration.parse(Unknown Source)
+	at org.apache.xerces.parsers.XMLParser.parse(Unknown Source)
+	at org.apache.xerces.parsers.AbstractSAXParser.parse(Unknown Source)
+	at javax.xml.parsers.SAXParser.parse(SAXParser.java:392)
+	at org.apache.axis.encoding.DeserializationContext.parse(DeserializationContext.java:227)
+	at org.apache.axis.SOAPPart.getAsSOAPEnvelope(SOAPPart.java:696)
+	at org.apache.axis.Message.getSOAPEnvelope(Message.java:424)
+	at org.apache.axis.handlers.soap.MustUnderstandChecker.invoke(MustUnderstandChecker.java:62)
+	at org.apache.axis.client.AxisClient.invoke(AxisClient.java:206)
+	at org.apache.axis.client.Call.invokeEngine(Call.java:2765)
+	at org.apache.axis.client.Call.invoke(Call.java:2748)
+	at org.apache.axis.client.Call.invoke(Call.java:2424)
+	at org.apache.axis.client.Call.invoke(Call.java:2347)
+	at org.apache.axis.client.Call.invoke(Call.java:1804)
+	at net.kalio.empweb.engine.db.DBConfig.invokeService(DBConfig.java:221)
+	at net.kalio.empweb.engine.WSBroker.invokeService(WSBroker.java:409)
+	at net.kalio.empweb.engine.ws.EmpwebQueryService.searchConsolidatorDOM(EmpwebQueryService.java:182)
+	at net.kalio.empweb.engine.ws.EmpwebQueryService.searchUsers(EmpwebQueryService.java:340)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:57)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:601)
+	at org.apache.axis.providers.java.RPCProvider.invokeMethod(RPCProvider.java:388)
+	at org.apache.axis.providers.java.RPCProvider.processMessage(RPCProvider.java:283)
+	at org.apache.axis.providers.java.JavaProvider.invoke(JavaProvider.java:323)
+	at org.apache.axis.strategies.InvocationStrategy.visit(InvocationStrategy.java:32)
+	at org.apache.axis.SimpleChain.doVisiting(SimpleChain.java:118)
+	at org.apache.axis.SimpleChain.invoke(SimpleChain.java:83)
+	at org.apache.axis.handlers.soap.SOAPService.invoke(SOAPService.java:453)
+	at org.apache.axis.server.AxisServer.invoke(AxisServer.java:281)
+	at org.apache.axis.transport.http.AxisServlet.doPost(AxisServlet.java:699)
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:616)
+	at org.apache.axis.transport.http.AxisServletBase.service(AxisServletBase.java:327)
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:689)
+	at org.mortbay.jetty.servlet.ServletHolder.handle(ServletHolder.java:428)
+	at org.mortbay.jetty.servlet.WebApplicationHandler.dispatch(WebApplicationHandler.java:473)
+	at org.mortbay.jetty.servlet.ServletHandler.handle(ServletHandler.java:568)
+	at org.mortbay.http.HttpContext.handle(HttpContext.java:1530)
+	at org.mortbay.jetty.servlet.WebApplicationContext.handle(WebApplicationContext.java:633)
+	at org.mortbay.http.HttpContext.handle(HttpContext.java:1482)
+	at org.mortbay.http.HttpServer.service(HttpServer.java:909)
+	at org.mortbay.http.HttpConnection.service(HttpConnection.java:820)
+	at org.mortbay.http.HttpConnection.handleNext(HttpConnection.java:986)
+	at org.mortbay.http.HttpConnection.handle(HttpConnection.java:837)
+	at org.mortbay.http.SocketListener.handleConnection(SocketListener.java:245)
+	at org.mortbay.util.ThreadedServer.handle(ThreadedServer.java:357)
+	at org.mortbay.util.ThreadPool$PoolThread.run(ThreadPool.java:534)
+join:null
+altjoin:null
+Comando:/opt/ABCD/www/cgi-bin/mx db=/var/opt/ABCD/bases/users/data/users uctab=ansi "bool=$/(300)" nowTransformacion total: 225
+join:/var/opt/ABCD/bases/loanobjects/data/loanobjects,959='MARC-',v1
+altjoin:/var/opt/ABCD/bases/marc/data/marc,1/958=?N_'v1
+Comando:/opt/ABCD/www/cgi-bin/mx db=/var/opt/ABCD/bases/marc/data/marc uctab=ansi "bool=cua$/(945)" "join=/var/opt/ABCD/bases/loanobjects/data/loanobjects,959='MARC-',v1 " nowTransformacion total: 42
+join:/var/opt/ABCD/bases/loanobjects/data/loanobjects,959='MARC-',v1
+altjoin:/var/opt/ABCD/bases/marc/data/marc,1/958='CN_'v1
+Comando:/opt/ABCD/www/cgi-bin/mx db=/var/opt/ABCD/bases/marc/data/marc uctab=ansi "bool=cua$/(945)" "join=/var/opt/ABCD/bases/loanobjects/data/loanobjects,959='MARC-',v1 " nowTransformacion total: 41
+Comando:/opt/ABCD/www/cgi-bin/mx db=/var/opt/ABCD/bases/marc/data/marc uctab=ansi "bool=$/(945)" "join=/var/opt/ABCD/bases/loanobjects/data/loanobjects,959='MARC-',v1 " nowTransformacion total: 55
+join:/var/opt/ABCD/bases/loanobjects/data/loanobjects,959='MARC-',v1
+altjoin:/var/opt/ABCD/bases/marc/data/marc,1/958='CN_',v1
+Comando:/opt/ABCD/www/cgi-bin/mx db=/var/opt/ABCD/bases/marc/data/marc uctab=ansi "bool=c$/(945)" "join=/var/opt/ABCD/bases/loanobjects/data/loanobjects,959='MARC-',v1 " nowTransformacion total: 34
+join:/var/opt/ABCD/bases/loanobjects/data/loanobjects,959='MARC-',v1
+altjoin:/var/opt/ABCD/bases/marc/data/marc,1/958=v1
+Comando:/opt/ABCD/www/cgi-bin/mx db=/var/opt/ABCD/bases/marc/data/marc uctab=ansi "bool=c$/(945)" "join=/var/opt/ABCD/bases/loanobjects/data/loanobjects,959='MARC-',v1 " nowTransformacion total: 33
+Comando:/opt/ABCD/www/cgi-bin/mx db=/var/opt/ABCD/bases/loanobjects/data/loanobjects uctab=ansi "bool=($/(110))" "join=/var/opt/ABCD/bases/marc/data/marc,1/958=v1 " nowComando:/opt/ABCD/www/cgi-bin/mx db=/var/opt/ABCD/bases/marc/data/marc uctab=ansi "bool=$/(903)" "join=/var/opt/ABCD/bases/loanobjects/data/loanobjects,959='MARC-',v1 " nowTransformacion total: 20
+Comando:/opt/ABCD/www/cgi-bin/mx db=/var/opt/ABCD/bases/loanobjects/data/loanobjects uctab=ansi "bool=($/(110))" "join=/var/opt/ABCD/bases/marc/data/marc,1/958=v1 " nowComando:/opt/ABCD/www/cgi-bin/mx db=/var/opt/ABCD/bases/marc/data/marc uctab=ansi "bool=$/(905)" "join=/var/opt/ABCD/bases/loanobjects/data/loanobjects,959='MARC-',v1 " nowTransformacion total: 42
+join:/var/opt/ABCD/bases/loanobjects/data/loanobjects,959='MARC-',v1
+altjoin:/var/opt/ABCD/bases/marc/data/marc,1/958='CN_'v1
+Comando:/opt/ABCD/www/cgi-bin/mx db=/var/opt/ABCD/bases/marc/data/marc uctab=ansi "bool=cua$/(945)" "join=/var/opt/ABCD/bases/loanobjects/data/loanobjects,959='MARC-',v1 " nowTransformacion total: 26
+Comando:/opt/ABCD/www/cgi-bin/mx db=/var/opt/ABCD/bases/loanobjects/data/loanobjects uctab=ansi "bool=(1$/(110))" "join=/var/opt/ABCD/bases/marc/data/marc,1/958='CN_'v1 " nowComando:/opt/ABCD/www/cgi-bin/mx db=/var/opt/ABCD/bases/marc/data/marc uctab=ansi "bool=11/(903)" "join=/var/opt/ABCD/bases/loanobjects/data/loanobjects,959='MARC-',v1 " nowTransformacion total: 16
+Jan 05, 2013 6:46:09 PM com.mchange.v2.c3p0.impl.AbstractPoolBackedDataSource getPoolManager
+INFO: Initializing c3p0 pool... com.mchange.v2.c3p0.ComboPooledDataSource [ acquireIncrement -> 2, acquireRetryAttempts -> 30, acquireRetryDelay -> 1000, autoCommitOnClose -> false, automaticTestTable -> ew_test_table, breakAfterAcquireFailure -> false, checkoutTimeout -> 0, connectionCustomizerClassName -> null, connectionTesterClassName -> com.mchange.v2.c3p0.impl.DefaultConnectionTester, dataSourceName -> 11adbf11, debugUnreturnedConnectionStackTraces -> false, description -> null, driverClass -> com.mysql.jdbc.Driver, factoryClassLocation -> null, forceIgnoreUnresolvedTransactions -> false, identityToken -> 11adbf11, idleConnectionTestPeriod -> 30, initialPoolSize -> 3, jdbcUrl -> jdbc:mysql://127.0.0.1:3306/transa, lastCheckinFailureDefaultUser -> null, lastCheckoutFailureDefaultUser -> null, lastConnectionTestFailureDefaultUser -> null, lastIdleTestFailureDefaultUser -> null, maxAdministrativeTaskTime -> 0, maxConnectionAge -> 0, maxIdleTime -> 30, maxIdleTimeExcessConnections -> 0, maxPoolSize -> 20, maxStatements -> 0, maxStatementsPerConnection -> 0, minPoolSize -> 3, numFailedCheckinsDefaultUser -> 0, numFailedCheckoutsDefaultUser -> 0, numFailedIdleTestsDefaultUser -> 0, numHelperThreads -> 3, preferredTestQuery -> null, properties -> {user=******, password=******}, propertyCycle -> 0, startTimeMillisDefaultUser -> 1357407969572, statementCacheNumCheckedOutDefaultUser -> 0, statementCacheNumCheckedOutStatementsAllUsers -> 0, statementCacheNumConnectionsWithCachedStatementsAllUsers -> 0, statementCacheNumConnectionsWithCachedStatementsDefaultUser -> 0, statementCacheNumStatementsAllUsers -> 0, statementCacheNumStatementsDefaultUser -> 0, testConnectionOnCheckin -> false, testConnectionOnCheckout -> false, unreturnedConnectionTimeout -> 0, upTimeMillisDefaultUser -> 27, usesTraditionalReflectiveProxies -> false ]
+Jan 05, 2013 6:46:09 PM net.kalio.empweb.engine.db.ew15db.ConnectionPoolHelper getConnection
+FINER: POOL STATUS (total:1, busy:1, idle:0)
+
+Jan 05, 2013 6:46:09 PM net.kalio.empweb.engine.db.ew15db.EwdbConnectionObjectImpl close
+FINER: connection closed
+Comando:/opt/ABCD/www/cgi-bin/mx db=/var/opt/ABCD/bases/loanobjects/data/loanobjects uctab=ansi "bool=(10002/(110))" "join=/var/opt/ABCD/bases/marc/data/marc,1/958='CN_'v1 " nowJan 05, 2013 6:46:30 PM net.kalio.empweb.engine.db.ew15db.ConnectionPoolHelper getConnection
+FINER: POOL STATUS (total:3, busy:1, idle:2)
+
+Jan 05, 2013 6:46:30 PM net.kalio.empweb.engine.db.ew15db.EwdbConnectionObjectImpl close
+FINER: connection closed
+Comando:/opt/ABCD/www/cgi-bin/mx db=/var/opt/ABCD/bases/marc/data/marc uctab=ansi "bool=1/(903)" "join=/var/opt/ABCD/bases/loanobjects/data/loanobjects,959='MARC-',v1 " nowTransformacion total: 22
+Jan 05, 2013 6:46:58 PM net.kalio.empweb.engine.db.ew15db.ConnectionPoolHelper getConnection
+FINER: POOL STATUS (total:3, busy:1, idle:2)
+
+Jan 05, 2013 6:46:58 PM net.kalio.empweb.engine.db.ew15db.EwdbConnectionObjectImpl close
+FINER: connection closed
+Comando:/opt/ABCD/www/cgi-bin/mx db=/var/opt/ABCD/bases/loanobjects/data/loanobjects uctab=ansi "bool=(10001/(110))" "join=/var/opt/ABCD/bases/marc/data/marc,1/958='CN_'v1 " nowComando:/opt/ABCD/www/cgi-bin/mx db=/var/opt/ABCD/bases/marc/data/marc uctab=ansi "bool=1/(903)" "join=/var/opt/ABCD/bases/loanobjects/data/loanobjects,959='MARC-',v1 " nowTransformacion total: 11
+Jan 05, 2013 7:03:47 PM net.kalio.empweb.engine.db.ew15db.ConnectionPoolHelper getConnection
+FINER: POOL STATUS (total:3, busy:1, idle:2)
+
+Jan 05, 2013 7:03:47 PM net.kalio.empweb.engine.db.ew15db.EwdbConnectionObjectImpl close
+FINER: connection closed
+Comando:/opt/ABCD/www/cgi-bin/mx db=/var/opt/ABCD/bases/marc/data/marc uctab=ansi "bool=Pancho$/(945)" "join=/var/opt/ABCD/bases/loanobjects/data/loanobjects,959='MARC-',v1 " nowTransformacion total: 14
+Comando:/opt/ABCD/www/cgi-bin/mx db=/var/opt/ABCD/bases/marc/data/marc uctab=ansi "bool=1/(903)" "join=/var/opt/ABCD/bases/loanobjects/data/loanobjects,959='MARC-',v1 " nowTransformacion total: 17
+Comando:/opt/ABCD/www/cgi-bin/mx db=/var/opt/ABCD/bases/loanobjects/data/loanobjects uctab=ansi "bool=(10001/(110))" "join=/var/opt/ABCD/bases/marc/data/marc,1/958='CN_'v1 " nowComando:/opt/ABCD/www/cgi-bin/mx db=/var/opt/ABCD/bases/loanobjects/data/loanobjects uctab=ansi "bool=(10001/(110))" "join=/var/opt/ABCD/bases/marc/data/marc,1/958='CN_'v1 " nowComando:/opt/ABCD/www/cgi-bin/mx db=/var/opt/ABCD/bases/loanobjects/data/loanobjects uctab=ansi "bool=(10001/(110))" "join=/var/opt/ABCD/bases/marc/data/marc,1/958='CN_'v1 " nowComando:/opt/ABCD/www/cgi-bin/mx db=/var/opt/ABCD/bases/loanobjects/data/loanobjects uctab=ansi "bool=(10001/(110))" "join=/var/opt/ABCD/bases/marc/data/marc,1/958='CN_'v1 " nowComando:/opt/ABCD/www/cgi-bin/mx db=/var/opt/ABCD/bases/loanobjects/data/loanobjects uctab=ansi "bool=(10001/(110))" "join=/var/opt/ABCD/bases/marc/data/marc,1/958='CN_'v1 " nowComando:/opt/ABCD/www/cgi-bin/mx db=/var/opt/ABCD/bases/loanobjects/data/loanobjects uctab=ansi "bool=(10001/(110))" "join=/var/opt/ABCD/bases/marc/data/marc,1/958='CN_'v1 " nowJan 05, 2013 7:31:33 PM net.kalio.empweb.engine.db.ew15db.ConnectionPoolHelper getConnection
+FINER: POOL STATUS (total:3, busy:1, idle:2)
+
+Jan 05, 2013 7:31:33 PM net.kalio.empweb.engine.db.ew15db.EwdbConnectionObjectImpl close
+FINER: connection closed
+Comando:/opt/ABCD/www/cgi-bin/mx db=/var/opt/ABCD/bases/marc/data/marc uctab=ansi "bool=1/(903)" "join=/var/opt/ABCD/bases/loanobjects/data/loanobjects,959='MARC-',v1 " nowTransformacion total: 10
+Jan 05, 2013 7:31:39 PM net.kalio.empweb.engine.db.ew15db.ConnectionPoolHelper getConnection
+FINER: POOL STATUS (total:3, busy:1, idle:2)
+
+Jan 05, 2013 7:31:39 PM net.kalio.empweb.engine.db.ew15db.EwdbConnectionObjectImpl close
+FINER: connection closed

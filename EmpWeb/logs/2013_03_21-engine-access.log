@@ -1,0 +1,5 @@
+127.0.0.1 - - [21/Mar/2013:19:50:01 +0000] "POST /ewengine/services/EmpwebTransactionService HTTP/1.1" 200 1035 "-" "Java/1.7.0_09" -
+127.0.0.1 - - [21/Mar/2013:19:50:03 +0000] "POST /ewengine/services/EmpwebTransactionService HTTP/1.1" 200 1033 "-" "Java/1.7.0_09" -
+127.0.0.1 - - [21/Mar/2013:19:50:03 +0000] "POST /ewengine/services/EmpwebTransactionService HTTP/1.1" 200 1147 "-" "Java/1.7.0_09" -
+127.0.0.1 - - [21/Mar/2013:19:50:08 +0000] "POST /ewengine/services/EmpwebQueryService HTTP/1.1" 200 623 "-" "Java/1.7.0_09" -
+127.0.0.1 - - [21/Mar/2013:19:50:13 +0000] "POST /ewengine/services/EmpwebQueryService HTTP/1.1" 200 2204 "-" "Java/1.7.0_09" -

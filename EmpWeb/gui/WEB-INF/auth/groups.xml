@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<groups>
+  <group id="home">
+    <user id="admin" />
+    <user id="abcd" />
+    <user id="ernesto" />
+    <user id="egbert" />
+    <user id="albertor" />
+  </group>
+  <group id="trans">
+    <user id="admin" />
+    <user id="abcd" />
+    <user id="ernesto" />
+    <user id="egbert" />
+    <user id="albertor" />
+  </group>
+  <group id="stats">
+    <user id="admin" />
+    <user id="abcd" />
+    <user id="egbert" />
+    <user id="albertor" />
+  </group>
+  <group id="home-start">
+    <user id="admin" />
+    <user id="abcd" />
+    <user id="ernesto" />
+    <user id="egbert" />
+    <user id="albertor" />
+  </group>
+  <group id="trans-query">
+    <user id="admin" />
+    <user id="abcd" />
+    <user id="egbert" />
+    <user id="albertor" />
+  </group>
+  <group id="trans-reservation">
+    <user id="admin" />
+    <user id="abcd" />
+    <user id="egbert" />
+  </group>
+  <group id="trans-reservation-create">
+    <user id="admin" />
+    <user id="abcd" />
+    <user id="egbert" />
+  </group>
+  <group id="trans-reservation-cancel">
+    <user id="admin" />
+    <user id="abcd" />
+    <user id="egbert" />
+  </group>
+  <group id="trans-wait">
+    <user id="admin" />
+    <user id="abcd" />
+    <user id="ernesto" />
+    <user id="egbert" />
+    <user id="albertor" />
+  </group>
+  <group id="trans-wait-create">
+    <user id="admin" />
+    <user id="abcd" />
+    <user id="ernesto" />
+    <user id="egbert" />
+    <user id="albertor" />
+  </group>
+  <group id="trans-wait-cancel">
+    <user id="admin" />
+    <user id="abcd" />
+    <user id="egbert" />
+  </group>
+  <group id="trans-loan">
+    <user id="admin" />
+    <user id="abcd" />
+    <user id="egbert" />
+  </group>
+  <group id="trans-renewal">
+    <user id="admin" />
+    <user id="abcd" />
+    <user id="egbert" />
+  </group>
+  <group id="trans-return">
+    <user id="admin" />
+    <user id="abcd" />
+    <user id="ernesto" />
+    <user id="egbert" />
+  </group>
+  <group id="trans-suspension">
+    <user id="admin" />
+    <user id="abcd" />
+    <user id="egbert" />
+  </group>
+  <group id="trans-suspension-create">
+    <user id="admin" />
+    <user id="abcd" />
+    <user id="egbert" />
+  </group>
+  <group id="trans-suspension-cancel">
+    <user id="admin" />
+    <user id="abcd" />
+    <user id="egbert" />
+  </group>
+  <group id="trans-fine">
+    <user id="admin" />
+    <user id="abcd" />
+    <user id="egbert" />
+  </group>
+  <group id="trans-fine-create">
+    <user id="admin" />
+    <user id="abcd" />
+    <user id="egbert" />
+  </group>
+  <group id="trans-fine-pay">
+    <user id="admin" />
+    <user id="abcd" />
+    <user id="egbert" />
+  </group>
+  <group id="trans-fine-cancel">
+    <user id="admin" />
+    <user id="abcd" />
+    <user id="egbert" />
+  </group>
+  <group id="stats-status">
+    <user id="admin" />
+    <user id="abcd" />
+    <user id="egbert" />
+  </group>
+  <group id="stats-globalstatus">
+    <user id="admin" />
+    <user id="abcd" />
+    <user id="egbert" />
+  </group>
+  <group id="stats-historic">
+    <user id="admin" />
+    <user id="abcd" />
+    <user id="egbert" />
+  </group>
+  <group id="admin">
+    <user id="admin" />
+    <user id="abcd" />
+    <user id="egbert" />
+  </group>
+  <group id="admin-status">
+    <user id="admin" />
+    <user id="abcd" />
+    <user id="egbert" />
+  </group>
+  <group id="admin-policies">
+    <user id="admin" />
+    <user id="abcd" />
+    <user id="egbert" />
+  </group>
+  <group id="admin-exceptions">
+    <user id="admin" />
+    <user id="abcd" />
+    <user id="egbert" />
+  </group>
+  <group id="admin-calendar">
+    <user id="admin" />
+    <user id="abcd" />
+    <user id="egbert" />
+  </group>
+  <group id="admin-pipelines">
+    <user id="admin" />
+    <user id="abcd" />
+    <user id="egbert" />
+  </group>
+  <group id="admin-pipelines-engines">
+    <user id="admin" />
+    <user id="abcd" />
+    <user id="egbert" />
+  </group>
+  <group id="admin-pipelines-languages">
+    <user id="admin" />
+    <user id="abcd" />
+    <user id="egbert" />
+  </group>
+  <group id="admin-operators">
+    <user id="admin" />
+    <user id="abcd" />
+    <user id="egbert" />
+  </group>
+  <group id="admin-bases">
+    <user id="admin" />
+    <user id="abcd" />
+    <user id="egbert" />
+  </group>
+  <group id="reports-status">
+    <user id="admin" />
+    <user id="abcd" />
+    <user id="egbert" />
+  </group>
+  <group id="reports-hist">
+    <user id="admin" />
+    <user id="abcd" />
+    <user id="egbert" />
+  </group>
+  <group id="reports-letters">
+    <user id="admin" />
+    <user id="abcd" />
+    <user id="egbert" />
+  </group>
+  <group id="webproxy">
+    <user id="admin" />
+    <user id="egbert" />
+  </group>
+  <group id="webproxy-ciro">
+    <user id="admin" />
+    <user id="egbert" />
+  </group>
+  <group id="webproxy-users_photo">
+    <user id="admin" />
+    <user id="egbert" />
+  </group>
+</groups>
