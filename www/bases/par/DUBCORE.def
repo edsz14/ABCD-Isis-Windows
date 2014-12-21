@@ -1,0 +1,31 @@
+﻿[FILE_LOCATION]
+
+FILE DATABASE.*=/ABCD/www/bases/dubcore/data/dubcore.*
+FILE standard.pft=/ABCD/www/bases/dubcore/pfts/en/dubcore.pft
+FILE SHORTCUT.IAH=/ABCD/www/bases/dubcore/pfts/en/shortcut.pft
+FILE GXML=/ABCD/www/bases/gizmo/gXML.*
+
+[INDEX_DEFINITION]
+
+INDEX TW=^1descriptores^2descriptores^3Description words^4descripteurs^d*^xTW ^yDATABASE^uTW_^mTW_
+INDEX TI=^1titulo^2titulo^3Title^4titre^xTI ^yDATABASE^uTI_^mTI_
+INDEX AU=^1autor^2autor^3Author^4Auteur^xDE ^yDATABASE^uDE_^mDE_
+
+[APPLY_GIZMO]
+
+
+[FORMAT_NAME]
+
+FORMAT standard.pft=^1por defecto^2por defecto^3Default^4défaut
+FORMAT DEFAULT=standard.pft
+
+[HELP_FORM]
+
+
+[PREFERENCES]
+
+AVAILABLE FORMS=F,A
+SEND RESULT BY EMAIL=OFF
+NAVIGATION BAR=ON
+DOCUMENTS PER PAGE=20
+FEATURES=XML
