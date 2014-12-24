@@ -1,0 +1,5 @@
+127.0.0.1 - - [25/Feb/2013:19:07:27 +0000] "POST /ewdbws/services/ABCDUsersService HTTP/1.0" 200 1139 "-" "Axis/1.2.1" -
+127.0.0.1 - - [25/Feb/2013:19:10:04 +0000] "POST /ewdbws/services/ABCDUsersService HTTP/1.0" 200 1139 "-" "Axis/1.2.1" -
+127.0.0.1 - - [25/Feb/2013:19:10:53 +0000] "POST /ewdbws/services/ABCDUsersService HTTP/1.0" 200 1139 "-" "Axis/1.2.1" -
+127.0.0.1 - - [25/Feb/2013:19:25:37 +0000] "POST /ewdbws/services/ABCDUsersService HTTP/1.0" 200 1139 "-" "Axis/1.2.1" -
+127.0.0.1 - - [25/Feb/2013:19:27:11 +0000] "POST /ewdbws/services/ABCDMarcObjectsService HTTP/1.0" 200 25745 "-" "Axis/1.2.1" -

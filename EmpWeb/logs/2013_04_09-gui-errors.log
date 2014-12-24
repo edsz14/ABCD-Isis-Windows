@@ -1,0 +1,2 @@
+09:57:09.517 INFO   [Rollover] org.mortbay.util.RolloverFileOutputStream.removeOldFiles(RolloverFileOutputStream.java:209) >03> Log age 2013_01_05-gui-errors.log
+09:57:09.548 INFO   [Rollover] org.mortbay.util.RolloverFileOutputStream.removeOldFiles(RolloverFileOutputStream.java:209) >03> Log age 2013_01_05-gui-access.log

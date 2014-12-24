@@ -1,0 +1,5 @@
+mx.exe seq=ansi_utf8.seq "proc='a11~asc~a21~asc~'" -all now tell=1 create=ansi_utf8
+
+mx1 doaj gizmo=ansi_utf8 iso=doajuni.iso now -all
+
+mx iso=doajuni.iso create=doajuni now -all

@@ -1,0 +1,6 @@
+Please after full installation check the following files for correct paths :
+- /ABCD/www/htdocs/central/config.php
+- /ABCD/www/htdocs/iah/scripts/iah.def.php
+- /ABCD/www/htdocs/site/bvs-site-conf.php
+- /ABCD/Apache2.4/conf/httpd.conf (last part, reference to php.ini)
+- /ABCD/www/bases/abcd.def (in case of any changes made here)

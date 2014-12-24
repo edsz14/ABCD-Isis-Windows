@@ -1,0 +1,7 @@
+12:13:39.643 INFO   [main] org.mortbay.log.LogImpl.add(LogImpl.java:109) >22> added org.mortbay.log.OutputStreamLogSink@882b92b
+12:13:39.643 INFO   [main] org.mortbay.http.HttpServer.doStart(HttpServer.java:684) >10> Version Jetty/5.1.11
+12:13:39.950 INFO   [main] org.mortbay.util.Container.start(Container.java:74) >15> Started org.mortbay.jetty.servlet.WebApplicationHandler@1e4fcb33
+12:13:40.057 INFO   [main] org.mortbay.util.Container.start(Container.java:74) >11> Started WebApplicationContext[/empweb,Empweb GUI in JSP]
+12:13:40.059 INFO   [main] org.mortbay.http.SocketListener.start(SocketListener.java:205) >11> Started SocketListener on 0.0.0.0:8080
+12:13:40.059 INFO   [main] org.mortbay.util.Container.start(Container.java:74) >09> Started org.mortbay.jetty.Server@69ae04c0
+12:13:50.611 INFO   [SocketListener2-1] org.mortbay.util.Container.start(Container.java:74) >08> Started HttpContext[/,/]

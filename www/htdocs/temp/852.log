@@ -1,0 +1,22 @@
+C:\ABCD\www\htdocs\secs-web\..\..\temp\geraCompactado\852\27156
+15/06/201218:35:53,06 
+Executing of C:\ABCD\www\htdocs\secs-web\hldgChronOrder\win\hldg_db.bat C:\ABCD\www\cgi-bin\ C:\ABCD\www\bases\secs-web\title 852 970 C:\ABCD\www\bases\secs-web\main\holdings C:\ABCD\www\htdocs\secs-web\..\..\temp\852.log C:\ABCD\www\htdocs\secs-web\hldgChronOrder C:\ABCD\www\htdocs\secs-web\..\..\temp\geraCompactado\852\27156 
+Executing C:\ABCD\www\htdocs\secs-web\..\..\temp\geraCompactado\852\27156\register_hldg.bat 
+
+C:\ABCD\www>more C:\ABCD\www\htdocs\secs-web\..\..\temp\geraCompactado\852\27156\register_hldg.bat   
+call C:\ABCD\www\htdocs\secs-web\hldgChronOrder\win\hldg_createRecord.bat C:\ABCD\www\cgi-bin\ C:\ABCD\www\bases\secs-web\title 852 copy 970 C:\ABCD\www\bases\secs-web\main\holdings C:\ABCD\www\htdocs\secs-web\..\..\temp\852.log
+Executing of C:\ABCD\www\htdocs\secs-web\hldgChronOrder\win\hldg_createRecord.bat C:\ABCD\www\cgi-bin\ C:\ABCD\www\bases\secs-web\title 852 copy 970 C:\ABCD\www\bases\secs-web\main\holdings C:\ABCD\www\htdocs\secs-web\..\..\temp\852.log  
+End of execution of C:\ABCD\www\htdocs\secs-web\hldgChronOrder\win\hldg_createRecord.bat C:\ABCD\www\cgi-bin\ C:\ABCD\www\bases\secs-web\title 852 copy 970 C:\ABCD\www\bases\secs-web\main\holdings C:\ABCD\www\htdocs\secs-web\..\..\temp\852.log  
+End of execution of C:\ABCD\www\htdocs\secs-web\hldgChronOrder\win\hldg_db.bat C:\ABCD\www\cgi-bin\ C:\ABCD\www\bases\secs-web\title 852 970 C:\ABCD\www\bases\secs-web\main\holdings C:\ABCD\www\htdocs\secs-web\..\..\temp\852.log C:\ABCD\www\htdocs\secs-web\hldgChronOrder C:\ABCD\www\htdocs\secs-web\..\..\temp\geraCompactado\852\27156 
+Classify the records from FACIC 
+Executing C:\ABCD\www\htdocs\secs-web\hldgChronOrder\win\generateForFacic.bat C:\ABCD\www\cgi-bin\ C:\ABCD\www\htdocs\secs-web\..\..\temp\geraCompactado\852\27156\ORD C:\ABCD\www\htdocs\secs-web\hldgChronOrder C:\ABCD\www\htdocs\secs-web\..\..\temp\geraCompactado\852\27156\proc.prc C:\ABCD\www\htdocs\secs-web\..\..\temp\852.log 970 _ 
+Content of C:\ABCD\www\htdocs\secs-web\..\..\temp\geraCompactado\852\27156\ORD.eval.seq
+
+C:\ABCD\www>more C:\ABCD\www\htdocs\secs-web\..\..\temp\geraCompactado\852\27156\ORD.eval.seq   
+000001|1965|1| ||RANGE_BEGIN|YB|000012|1976|12| ||RANGE_END|YE|VOL_COMPLETO
+000014|1977|1| ||RANGE_BEGIN|VB|000014|1977|1| ||RANGE_END|YE|VOL_COMPLETO
+000015|1978|2| ||RANGE_BEGIN|YB|000015|1978|2| ||RANGE_END|YE|VOL_COMPLETO
+000016|1979|3| ||RANGE_BEGIN|YB|000016|1979|3| ||RANGE_END|VE
+
+End of execution of C:\ABCD\www\htdocs\secs-web\hldgChronOrder\win\generateForFacic.bat C:\ABCD\www\cgi-bin\ C:\ABCD\www\htdocs\secs-web\..\..\temp\geraCompactado\852\27156\ORD C:\ABCD\www\htdocs\secs-web\hldgChronOrder C:\ABCD\www\htdocs\secs-web\..\..\temp\geraCompactado\852\27156\proc.prc C:\ABCD\www\htdocs\secs-web\..\..\temp\852.log 970 _ 
+15/06/201218:35:53,88 
