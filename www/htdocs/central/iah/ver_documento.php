@@ -9,12 +9,24 @@
 <form name=solicitud action=ver_documento_ex.php method=post>
 <?php
 include ("configure.php");
+
 $db_path=$config["DB_PATH"];
 $dbn=$arrHttp["base"];
 $IsisScript=$xWxis."leer_mfnrange.xis";
+
 $Pft=urlencode($config["DOCUMENT_DISPLAY"]);
+/*
+echo ("<br> Pft :: ". $Pft);
+echo ("<br> db_path :: ". $db_path);
+echo ("<br> dbn :: ". $dbn);
+echo ("<br> IsisScript:: ". $IsisScript);
+echo ("<br> PFT:: ". $Pft);
+*/
 $query="&base=$dbn&cipar=".$db_path."par/$dbn.par&from=".$arrHttp["mfn"]."&to=".$arrHttp["mfn"]."&Pft=$Pft";
-include("../common/wxis_llamar.php");
+//echo ("\n>> query:: ". $query);
+
+
+//include("../common/wxis_llamar.php");
 ?>
 <font face="arial" size="2">
 <font color="maroon">
@@ -23,26 +35,27 @@ foreach ($contenido as $value) echo "$value<br>";
 ?>
 <p>
 <font face="arial" size="1">
-<b>	Para consultar el texto completo del documento	ingrese su cédula de identidad <BR>
-             incluya el dígito de control, no use puntos ni guiones. <br>
-	ejemplo: 1.123.456-7   debe ingresarse   11234567
+<b>	Para consultar el texto completo del documento	ingrese su identificación (campo 600, base de usuarios).<br>	
 </b>
 	<br><br>
-
+
 <?php
+
+
 echo "<br><br>";
 echo "Código: ";
 echo "<input type=text name=usuario size=10>\n";
 echo "<input type=submit value=enviar target=_blank>\n";
-foreach ($arrHttp as $var=>$value){	echo "<input type=hidden name=$var value=\"$value\">\n";}
-
-
+foreach ($arrHttp as $var=>$value){
+	echo "<input type=hidden name=$var value=\"$value\">\n";
+}
 
 
 ?>
 </form>
 <br><br>
-<a href="javascript:onClick=self.close()"><img src="/iah/es/image/salir.gif" border="0"></a>
+<a href="javascript:onClick=self.close()"><img src="/iah/es/image/salir.gif" border="0"></a>
+
 </body>
 
 </html>

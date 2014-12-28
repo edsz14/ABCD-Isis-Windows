@@ -4,7 +4,10 @@
 	<tr><td valign="top">
 				<a name="top"><img src="/iah/es/image/logoAEU.gif" border="0" height=91>
 			</td><td valign="top">
-				<img src="/iah/es/image/banner.jpg" border="0">
+				<img src="/iah/es/image/banner.jpg" border="0"> 
+				<br> BANNER  -  
+				<br>ubicaci&oacute;n de la imagen<br> 
+				definida en archivo header.php
 			</td></tr>
 	</table>
 	</center>
