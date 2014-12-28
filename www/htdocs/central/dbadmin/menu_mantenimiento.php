@@ -290,9 +290,8 @@ echo "<font color=white>&nbsp; &nbsp; Script: dbadmin/menu_mantenimiento.php";
 			<li><a href='Javascript:EnviarForma("addloanobjectcopies","<?php echo $msgstr["addLOwithoCP_mx"]?>")'><?php echo $msgstr["addLOwithoCP_mx"]?></a></li>          
 			<li><a href='Javascript:EnviarForma("addcopiesdatabase","<?php echo $msgstr["addCPfromDB_mx"]?>")'><?php echo $msgstr["addCPfromDB_mx"]?></a></li> 			
 			<li><a href='Javascript:EnviarForma("isoimport","<?php echo "ImportISO MX"?>")'><?php echo "Import ISO with MX"?></a></li>
-<li><a href='Javascript:EnviarForma("isoexport","<?php echo "ExportISO MX"?>")'><?php echo "Export ISO with MX"?></a></li>
-<li><a href='Javascript:EnviarForma("cleandb","<?php echo "Clean DB"?>")'><?php echo "Clean/Compact DB"?></a></li>
-             <li><a href='Javascript:EnviarForma("addloanobj","<?php echo "Add to loanobjects"?>")'><?php echo "Add to loanobjects"?></a></li>
+			<li><a href='Javascript:EnviarForma("isoexport","<?php echo "ExportISO MX"?>")'><?php echo "Export ISO with MX"?></a></li>
+			<li><a href='Javascript:EnviarForma("cleandb","<?php echo "Clean DB"?>")'><?php echo "Clean/Compact DB"?></a></li>
 			<?php
 			}
 			if ($arrHttp["base"]=="copies") {
