@@ -51,7 +51,7 @@ $isoname=$base."tmp.iso";
 if($isoname!='')
 {
 
-$strINV=$cisis_path."mx ".$db_path.$base."/data/".$base." iso=".$db_path."wrk/".$isoname." -all now";
+$strINV=$cisis_path."mx ".$db_path.$base."/data/".$base." iso=".$db_path."wrk/".$isoname." outisotag1=3000 -all now";
 	 exec($strINV, $output,$t);
 	 $straux="";
 for($i=0;$i<count($output);$i++)
@@ -66,7 +66,7 @@ echo "<br>Process exporting OK!<br>File saved in ".$db_pat."wrk/".$isoname;
 
 //importing iso
 $op="create";
-$strINV=$cisis_path."mx "."iso=".$db_path."wrk/".$isoname." ".$op."=".$db_path.$base."/data/".$base." -all now";
+$strINV=$cisis_path."mx "."iso=".$db_path."wrk/".$isoname." ".$op."=".$db_path.$base."/data/".$base." isotag1=3000 -all now";
 	 exec($strINV, $output,$t);
 	 $straux="";
 for($i=0;$i<count($output);$i++)

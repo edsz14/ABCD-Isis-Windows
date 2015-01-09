@@ -124,7 +124,7 @@ echo "File upload OK, importing ".$nombre."...";
 if($mf=="no")
 	 $strINV=$cisis_path."mx "."iso="."../../../bases/wrk/".$nombre." ".$op."=".$bd."/data/".$base." -all now";
 else 
-$strINV=$cisis_path."mx "."iso="."../../../bases/wrk/".$nombre." ".$op."=".$bd."/data/".$base." outisotag1=3000 -all now";
+$strINV=$cisis_path."mx "."iso="."../../../bases/wrk/".$nombre." ".$op."=".$bd."/data/".$base." isotag1=3000 -all now";
 	 exec($strINV, $output,$t);
 	 $straux="";
 for($i=0;$i<count($output);$i++)
