@@ -9,11 +9,11 @@
 </center>
 
 <?php 
-echo '<font face=verdana size=2 color="maroon"><br>Solicitud para ver documento</b><p>';
+echo '<font face=verdana size=2 color="maroon"><br>Request to get document</b><p>';
 /*if ($use_odds) {
-	echo '<font face=verdana size=2 color="maroon"><br>Solicitud de copia</b><p>';
+	echo '<font face=verdana size=2 color="maroon"><br>Request for copy</b><p>';
 } else {
-	echo '<font face=verdana size=2 color="maroon"><br>Solicitud para ver documento</b><p>';
+	echo '<font face=verdana size=2 color="maroon"><br>Request to get document</b><p>';
 }
 */
 ?>

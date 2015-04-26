@@ -220,7 +220,7 @@ maxlength="55">
 	    <tbody>
 	    <tr>
 	      <td width="210"> 
-	      <label id="lbl_autor_obra">Autor de la obra</label>
+	      <label id="lbl_autor_obra">Author of work</label>
 	      </td>	
 	      <td align="left">
 		    <input type="text" id="autorObra" name="tag010" size="35"
@@ -241,7 +241,7 @@ maxlength="256">
 	  <tbody>
 	  <tr>
 	    <td width="210"> 
-	    <label id="lbl_titulo_obra">Título de la obra</label>
+	    <label id="lbl_titulo_obra">Title of work</label>
 	    </td>
 	    <td align="left">
 	      <input type="text" name="tag012" id="tituloObra" size="35" maxlength="256">
@@ -260,7 +260,7 @@ maxlength="256">
 	    <tbody>
 	    <tr>
 	      <td width="210"> 
-	      <label id="lbl_autor_especifico">Autor específico</label>
+	      <label id="lbl_autor_especifico">Specific author</label>
 	      </td>	
 	      <td align="left">
 		    <input type="text" id="autorEspecifico" name="tag010" size="35" maxlength="256">
@@ -280,7 +280,7 @@ maxlength="256">
 	  <tbody>
 	  <tr>
 	    <td width="210">
-	    <label id="lbl_titulo_especifico">Título específico</label>
+	    <label id="lbl_titulo_especifico">Specific title</label>
 	    </td>
 	    <td align="left">
 	      <input type="text" name="tag018" id="tituloEspecifico" size="35" maxlength="256">
@@ -300,13 +300,13 @@ maxlength="256">
 	    <tbody>
 	    <tr>	
 	      <td width="210">
-		  <label id="lbl_pagina_inicial">Página inicial</label>
+		  <label id="lbl_pagina_inicial">First Page</label>
 	      </td>
 	      <td align="left" width="88">
 		  <input type="text" id="pagInicial" name="tag020" size="5" maxlength="6">
 	      </td>
 	      <td width="130">
-		  <label id="lbl_pagina_final">Página final</label>
+		  <label id="lbl_pagina_final">Last Page</label>
 	      </td>
 	      <td align="left">
 		    <input type="text" name="tag021" id="pagFinal"  size="5"
@@ -327,13 +327,13 @@ maxlength="6">
 	  <tbody>
 	  <tr>
 	    <td width="210">
-	    <label id="lbl_ano">Año</label>
+	    <label id="lbl_ano">Year</label>
 	    </td>
 	    <td align="left" width="88">
 	      <input type="text" id="ano"  name="tag064" size="5" maxlength="6">
 	    </td>
 	    <td width="130">
-	    <label id="lbl_edicion">Edición</label>
+	    <label id="lbl_edicion">Edition</label>
 	    </td>
 	    <td align="left">
 	    <input type="text" name="tag065" id="edicion" size="5" maxlength="6">
@@ -353,13 +353,13 @@ maxlength="6">
           <tbody
           <tr>
             <td width="210">
-			<label id="lbl_volumen">Volumen de revista</label>
+			<label id="lbl_volumen">Journal Volume</label>
             </td>
             <td align="left" width="88">
               <input type="text" name="tag031" id="volumenRevista" size="5" maxlength="5">
             </td>
             <td width="130">
-			<label id="lbl_numero">Número de la revista</label>             
+			<label id="lbl_numero">Journal number</label>
             </td>
             <td align="left">
               <input type="text" id="numeroRevista"  name="tag032" size="5" maxlength="5">
@@ -377,10 +377,10 @@ maxlength="6">
 		  <tr>
 		    <td align=center style="padding: 10 20 0 0"><a
 href="javascript:enviarForm()"><img src='../dataentry/img/barSave.png' border=0
-alt="Enviar solicitud"></a></td>
+alt="Send request></a></td>
 			<td align=center style="padding: 10 20 0 0"><a
 href="javascript:cancelarEnvio()"><img src='../dataentry/img/barCancelEdit.png'
-border=0 alt="Limpiar formulario"></a></td>
+border=0 alt="Clean form"></a></td>
 		  </tr>
 		</table>
 		<input type=hidden name=IsisScript value=ingreso.xis>

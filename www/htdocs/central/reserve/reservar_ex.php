@@ -1,27 +1,35 @@
 <?php
 session_start();
-// RESERVA DESDE EL SISTEMA DE PRESTAMOS
-if (!isset($_SESSION["permiso"])){
-	header("Location: ../common/error_page.php") ;
-}
-$script_php="../circulation/estado_de_cuenta.php";
-
-if (!isset($_SESSION["login"])) die;
-if (!isset($_SESSION["lang"]))  $_SESSION["lang"]="en";
-
-
 include("../common/get_post.php");
-//foreach ($arrHttp as $var=>$value) echo "$var=$value<br>";
+include("../config.php");
+if (isset($arrHttp["DB_PATH"]))  $db_path=$arrHttp["DB_PATH"] ;
+include("../common/header.php");
+if (isset($arrHttp["desde"]) and $arrHttp["desde"]=="IAH_RESERVA"){	$_SESSION["login"]="IAH";
+	$_SESSION["lang"]="es";
+	$script_php="../circulation/opac_statment_ex.php";}else{
+	// RESERVA DESDE EL SISTEMA DE PRESTAMOS
+	if (!isset($_SESSION["permiso"])){
+		header("Location: ../common/error_page.php") ;
+	}
+	$script_php="../circulation/estado_de_cuenta.php";
 
+	if (!isset($_SESSION["login"])) die;
+	if (!isset($_SESSION["lang"]))  $_SESSION["lang"]="en";
+	include("../common/institutional_info.php");
+}
+
+//foreach ($arrHttp as $var=>$value) echo "$var=$value<br>";//die;
+if (isset($arrHttp["usuario_reserva"])) $arrHttp["usuario"]=$arrHttp["usuario_reserva"];
 if (!isset($arrHttp["db"])) $arrHttp["db"]=$arrHttp["base"];
 $arrHttp["reserve_ex"]="S";
 
-include("../config.php");
+
 include("../lang/admin.php");
 include("../lang/prestamo.php");
 include("../circulation/loan_configuration.php");
-include("../common/header.php");
-include("../common/institutional_info.php");
+
+
+
 if (isset($arrHttp["base"])) $arrHttp["db"]=$arrHttp["base"];
 include("../circulation/leer_pft.php");
 include("../circulation/databases_configure_read.php");
@@ -54,8 +62,7 @@ foreach ($fp as $value) {
 }
 
 //SE DETERMINA EL ESTADO DE CUENTA DE LAS RESERVAS DEL USUARIO
-function ReadUsersReservations($user_code){
-global $db_path,$Wxis,$xWxis,$wxisUrl,$arrHttp;
+function ReadUsersReservations($user_code){global $db_path,$Wxis,$xWxis,$wxisUrl,$arrHttp;
 	$Expresion="CU_".$user_code;
 	$IsisScript=$xWxis."loans/prestamo_disponibilidad.xis";
 	$Expresion=urlencode($Expresion);
@@ -64,20 +71,14 @@ global $db_path,$Wxis,$xWxis,$wxisUrl,$arrHttp;
 	include("../common/wxis_llamar.php");
 	$user_reserves=array();
 	$total_reserves=0;
-	foreach ($contenido as $linea){
-		$linea=trim($linea);
-		if (trim($linea)!="" and substr($linea,0,8)!='$$TOTAL:'){
-			$l=explode('|',$linea);
-			if (trim($l[4])=="" and trim($l[5])=="" ){
-				$total_reserves=$total_reserves+1;
+	foreach ($contenido as $linea){		$linea=trim($linea);
+		if (trim($linea)!="" and substr($linea,0,8)!='$$TOTAL:'){			$l=explode('|',$linea);
+			if (trim($l[4])=="" and trim($l[5])=="" ){				$total_reserves=$total_reserves+1;
 				if ($l[1]==$arrHttp["base"])
-					$user_reserves[$l[2]]=$l[3];
-			}
-
+					$user_reserves[$l[2]]=$l[3];			}
 		}
 	}
-	return array($user_reserves,$total_reserves);
-}
+	return array($user_reserves,$total_reserves);}
 
 
 
@@ -105,8 +106,7 @@ global $db_path,$Wxis,$xWxis,$wxisUrl,$arrHttp,$prefix_cn,$lang_db;
 	return $titulo;
 }
 
-function ActualizarRegistro($arrHttp,$value,$type_user,$referencia,$fecha_anulacion){
-global $db_path,$Wxis,$wxisUrl,$xWxis,$msgstr;
+function ActualizarRegistro($arrHttp,$value,$type_user,$referencia,$fecha_anulacion){global $db_path,$Wxis,$wxisUrl,$xWxis,$msgstr;
 
 	$ValorCapturado ="<1 0>"."0"."</1>";
 	$ValorCapturado.="<10 0>".$arrHttp["usuario"]."</10>";
@@ -132,37 +132,32 @@ global $db_path,$Wxis,$wxisUrl,$xWxis,$msgstr;
 	}
 	$contenido=array();
 	include("../common/wxis_llamar.php");
-	foreach ($contenido as $res){
-		$r=explode('|',$res);
-		$cn=$r[2];
-	   	if (trim($res)!=""){
+	foreach ($contenido as $res){		$r=explode('|',$res);
+		$cn=$r[2];	   	if (trim($res)!=""){
 	   		//echo "<strong><font color=red>".$msgstr["reserved"]."</font></strong><hr>";
 	   	}else{
 	   		echo "$referencia<strong><font color=red>".$msgstr["notreserved"]."</font></strong><hr>";
 	   	}
 	}
-
-}
+}
 
 function Regresar(){
-global $arrHttp,$msgstr;
-	echo "<form name=regresar action=buscar.php method=post>\n";
-	foreach ($arrHttp as $var=>$value){
-		echo "<input type=hidden name=$var value=\"".$value."\">\n";
+global $arrHttp,$msgstr;	echo "<form name=regresar action=buscar.php method=post>\n";
+	foreach ($arrHttp as $var=>$value){		echo "<input type=hidden name=$var value=\"".$value."\">\n";
 	}
 	echo "<input type=hidden name=Opcion value=buscar_en_este>\n";
 	echo "<input type=hidden name=desde value=reserve>\n";
 	echo "<input type=hidden name=base value=".$arrHttp["base"].">\n";
     echo "<input type=hidden name=cipar value=".$arrHttp["cipar"].">\n";
 	echo "<input type=submit value=".$msgstr["back"].">\n";
-	echo "</form>";
-}
+	echo "</form>";}
 
 include("../circulation/scripts_circulation.php");
 
 ?>
 </head>
 <body>
+<?php if (!isset($arrHttp["desde"]) or (isset($arrHttp["desde"]) and $arrHttp["desde"]!="IAH_RESERVA")){?>
 <div class="sectionInfo">
 	<div class="breadcrumb">
 		<?php echo $msgstr["reserve"]?>
@@ -177,6 +172,7 @@ include("../circulation/scripts_circulation.php");
 <?php if (isset($_SESSION["permiso"]["CENTRAL_EDHLPSYS"])) echo "<a href=../documentacion/edit.php?archivo=".$_SESSION["lang"]."/circulacion/reserva.html target=_blank>".$msgstr["edhlp"]."</a>";
 echo "<font color=white>&nbsp; &nbsp; Script: reserve/reservar_ex.php" ?></font>
 </div>
+<? } ?>
 <div class="middle form">
 	<div class="formContent">
 <?php
@@ -231,18 +227,14 @@ if ($nv>0){
 }
 
 //SE REVISA LA VIGENCIA DEL USUARIO
-if ($vigency_user!=""){
-	if ($vigency_user<date('Ymd')){
-		echo "<font color=red><h3>".$msgstr["limituserdate"]."</h3></font>";
+if ($vigency_user!=""){	if ($vigency_user<date('Ymd')){		echo "<font color=red><h3>".$msgstr["limituserdate"]."</h3></font>";
 		$cont="N";
-	}
-}
+	}}
 
 //SE VERIFICA SI EL USUARIO PUEDE RESERVAR
 $continuar="N";
 $reservas_permitidas="";
-if (isset($user_type[$type_user])){
-	$ut=explode('|',$user_type[$type_user]);
+if (isset($user_type[$type_user])){	$ut=explode('|',$user_type[$type_user]);
 	if (isset($ut[5])) $espera=$ut[5];
 	if (isset($ut[4]) and ($ut[4]>0  or trim($ut[4])=="")){
 		$reservas_permitidas=trim($ut[4]);
@@ -250,24 +242,16 @@ if (isset($user_type[$type_user])){
 		$continuar="Y";
 	}else{
 		$continuar="N";
-		$reservas_permitidas=0;
-	}
-}
+		$reservas_permitidas=0;	}}
 if ($continuar=="N"){
-	echo "<font color=red><h3>".$msgstr["reservations_not_allowed"]."</h3></font>";
-	$cont="N";
-}
+	echo "<font color=red><h3>".$msgstr["reservations_not_allowed"]."</h3></font>";	$cont="N";}
 //RESERVAS PENDIENTES
 $ur=ReadUsersReservations($arrHttp["usuario"]);
 $user_reservations=$ur[0];
 $total_reservas=$ur[1];
 //SE VERIFICA SI EL USUARIO HA ALCANZADO EL LÍMITE DE RESERVAS PERMITIDAS
-if ($reservas_permitidas!=""){
-	if ($reservas_permitidas-$total_reservas<=0){
-		echo "<font color=red><h3>".$msgstr["no_more_reservations"]."</h3></font>";
-		$cont="N";
-	}
-}
+if ($reservas_permitidas!=""){	if ($reservas_permitidas-$total_reservas<=0){		echo "<font color=red><h3>".$msgstr["no_more_reservations"]."</h3></font>";
+		$cont="N";	}}
 
 
 if ($cont=="S" and isset($arrHttp["reservados"])){
@@ -279,42 +263,27 @@ if ($cont=="S" and isset($arrHttp["reservados"])){
 		if (trim($pr)!=""){
 			$salida_catalogo="($pr) ".ReadCatalographicRecord($pr,$arrHttp["base"]);
 			$aceptar="S";
-			foreach ($prestamos as $value) {
-				$p=explode('^',$value);
-				if ($pr==$p[1]){
-					$aceptar="N";
-					break;
-				}
+			foreach ($prestamos as $value) {				$p=explode('^',$value);
+				if ($pr==$p[1]){					$aceptar="N";
+					break;				}
 			}
 			if ($aceptar=="S")
 				$reservados[]=trim($pr);
 			else
-				echo "$salida_catalogo<font color=red>".$pr." ".$msgstr["duploan"]."</font><hr>";
-		}
-	}
-	if (count($reservados)>0){
-		foreach ($reservados as $control_number){
-			$salida_catalogo="($control_number) ".ReadCatalographicRecord($control_number,$arrHttp["base"]);
-            $cont="N";
-			if (count($user_reservations>0)){
-				//SE DETERMINA SI YA EL USUARIO TIENE UNA RESERVA DE ESE TITULO
+				echo "$salida_catalogo<font color=red>".$pr." ".$msgstr["duploan"]."</font><hr>";		}	}
+	if (count($reservados)>0){		foreach ($reservados as $control_number){			$salida_catalogo="($control_number) ".ReadCatalographicRecord($control_number,$arrHttp["base"]);            $cont="N";
+			if (count($user_reservations>0)){				//SE DETERMINA SI YA EL USUARIO TIENE UNA RESERVA DE ESE TITULO
 				if (isset($user_reservations[$control_number])){
-					echo $salida_catalogo;
-					echo "<font color=red>".$msgstr["yareservado"]." (";
+					echo $salida_catalogo;					echo "<font color=red>".$msgstr["yareservado"]." (";
 					$f=$user_reservations[$control_number];
 					if ($config_date_format=="DD/MM/YY")
 						echo substr($f,6,2).'-'.substr($f,4,2).'-'.substr($f,0,4);
 					else
 						echo substr($f,4,2).'-'.substr($f,6,2).'-'.substr($f,0,4);
-					echo ")</font><hr>";
-				}else{
-					$cont="S";
-				}
-			}else{
-				$cont="S";
+					echo ")</font><hr>";				}else{					$cont="S";				}
+			}else{				$cont="S";
 			}
-			if ($cont=="S"){
-				if ($reservas_permitidas-$total_reservas<=0){
+			if ($cont=="S"){				if ($reservas_permitidas-$total_reservas<=0){
 					echo "<font color=red><h3>".$msgstr["no_more_reservations"]."</h3></font>";
 				}else{
 			        ActualizarRegistro($arrHttp,$control_number,$type_user,$salida_catalogo,"");
@@ -337,9 +306,9 @@ if (trim($user_reserves)!="")
    </div>
 </div>
 <?php
+	if (!isset($arrHttp["desde"]) or (isset($arrHttp["desde"]) and $arrHttp["desde"]!="IAH_RESERVA"))
 	include("../common/footer.php");
 ?>
 </body>
 </html>
 
-</script>

@@ -51,7 +51,7 @@
 			$fileToLink = trim($files[0]);			
 			$template = str_replace("|url|", "<a target='_blank' href='". $pathToFile . $fileToLink."'>". trim($fileToLink) ."</a>", $template);			
 		} else {
-			die ("Falta al menos un archivo para construir respuesta");
+			die ("Reply cannot be send due to missing files");
 		}		
 		return trim($template);
 	}
@@ -101,7 +101,7 @@
 		$subject_notification =_read_subject(trim($_GET['status']));
 		
 		if (!isset($_GET['email'])) {
-			die("No hay una dirección de email especificada para el envío");		
+			die("E-mail address missing");
 		} else {
 			$to = $_GET['email'];
 			if (isset($_GET['email_apoderado'])) {
@@ -118,13 +118,13 @@
 		if (trim($_GET['status']) == 2) {			
 		  	$successTemplate = _read_success(trim(str_replace("/", " ", $_GET['title'])), $_GET['name'], $_GET['fecha'], $_GET['notes'], $_GET['uploadFiles']);		  	
   			_sendMail($successTemplate, $subject_notification, $to);
-  			echo "<b><font  face='Verdana' size='2' color='#364c6c'> Correo enviado</font></b>"; 			
+  			echo "<b><font  face='Verdana' size='2' color='#364c6c'> E-mail sent</font></b>";
   						
 		// status = 3 - cancel mail will be send
 		} elseif (trim($_GET['status']) == 3) {			
 			$cancelTemplate = _read_cancel($_GET['title'], $_GET['name'], $_GET['fecha'], $_GET['notes']);			
   			_sendMail($cancelTemplate, $subject_notification, $to);
-  			echo "<b><font  face='Verdana' size='2' color='#364c6c'> Correo enviado</font></b>";  			
+  			echo "<b><font  face='Verdana' size='2' color='#364c6c'> E-mail sent</font></b>";
 		}
 	}
 /* -------------------------------------------------------------------*/

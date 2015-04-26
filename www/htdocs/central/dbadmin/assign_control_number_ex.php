@@ -4,6 +4,7 @@ session_start();
 if (!isset($_SESSION["permiso"])){
 	header("Location: ../common/error_page.php") ;
 }
+set_time_limit(0);
 include("../common/get_post.php");
 include("../config.php");
 $lang=$_SESSION["lang"];
@@ -12,7 +13,7 @@ include ("../lang/dbadmin.php");
 include ("../lang/acquisitions.php");
 //foreach ($arrHttp as $var=>$value) echo "$var = $value<br>";
 //die;
-set_time_limit(0);
+
 $base =$arrHttp["base"];
 $cipar =$arrHttp["base"].".par";
 //GET THE MAX MFN
@@ -72,43 +73,30 @@ if (isset($arrHttp["encabezado"])){
 </div>
 <div class="middle form">
 	<div class="formContent">
-
-<?php
+<?
 //se lee la FDT de la base de datos para determinar el campo donde se almacena el número de control
 
 $Formato=$tag_ctl;
 if ($tag_ctl==""){
-	echo "<h4>".$msgstr["missingctl"]."</h4>";
-}else{
+	echo "<h4>".$msgstr["missingctl"]."</h4>";}else{
 	echo "Tag for the control number: $tag_ctl<br>";
 	echo "<table>";
 	echo "<th>Mfn</th><th>".$msgstr["cn"]."</th>";
-	$control=ProximoNumero($arrHttp["base"]);
-	$tag_ctl=trim($tag_ctl);
-	$converter_path=$cisis_path."mx";
-	$desplazamiento=abs($arrHttp["Mfn"]-$control);	
-	$mx=$converter_path." $db_path".$arrHttp["base"]."/data/".$arrHttp["base"]." \"proc='d".$tag_ctl."','<".$tag_ctl.">',f(mfn+".$desplazamiento.",1,0),'</".$tag_ctl.">'\" copy=".$db_path.$arrHttp["base"]."/data/".$arrHttp["base"]." from=".$arrHttp["Mfn"]." to=".$arrHttp["to"]." now -all";
-	exec($mx,$outmx,$banderamx);	
-	for ($Mfn=$arrHttp["Mfn"];$Mfn<=$arrHttp["to"];$Mfn++){	
+	for ($Mfn=$arrHttp["Mfn"];$Mfn<=$arrHttp["to"];$Mfn++){		$control=ProximoNumero($arrHttp["base"]);
+		$tag_ctl=trim($tag_ctl);
+		$ValorCapturado="d".$tag_ctl."<".$tag_ctl." 0>".$control."</".$tag_ctl.">";
+		$ValorCapturado=urlencode($ValorCapturado);
+		$IsisScript=$xWxis."actualizar.xis";
+		$query = "&base=".$arrHttp["base"]."&cipar=$db_path"."par/".$arrHttp["base"].".par&login=".$_SESSION["login"]."&Mfn=$Mfn&Opcion=actualizar&ValorCapturado=".$ValorCapturado;
+		include("../common/wxis_llamar.php");
 		echo "<tr><td>$Mfn</td><td>$control</td>" ;
 		echo "<td>";
-		$control++;
+		//foreach ($contenido as $value) {		//	if (trim($value)!="")
+		//		echo "---$value<br>";
+		//}
 		echo "</td>";
-	}	
-	echo "</table>";
-	// se remueve y crea el archivo .bak
-		if (file_exists($db_path.$arrHttp["base"]."/data/control_number.bak"))
-			unlink($db_path.$arrHttp["base"]."/data/control_number.bak");
-		$fp=fopen($db_path.$arrHttp["base"]."/data/control_number.bak","w");
-	    fwrite($fp,$control-2);
-	    fclose($fp);
-	    chmod($db_path.$arrHttp["base"]."/data/control_number.bak",0666);
-		
-	//Se reescribe el archivo .cn			
-		$fp=fopen($db_path.$arrHttp["base"]."/data/control_number.cn","w");
-	    fwrite($fp,$control-1);
-	    fclose($fp);
-	    chmod($db_path.$arrHttp["base"]."/data/control_number.cn",0666);
+		flush();
+    	ob_flush();	}
 
 	echo "<form name=forma1 action=assign_control_number.php method=post>
 	<input type=hidden name=base value=".$arrHttp["base"].">
@@ -118,13 +106,8 @@ if ($tag_ctl==""){
 		echo "<input type=submit name=go value=".$msgstr["continuar"].">";
     echo "
 	</form>
-	</div>
-</div>
 	";
 }
-
-
-include("../common/footer.php");
 
 function LeerFdt($base){
 global $tag_ctl,$pref_ctl,$arrHttp,$db_path,$msgstr;

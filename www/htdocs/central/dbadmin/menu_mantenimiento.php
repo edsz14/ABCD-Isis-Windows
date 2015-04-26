@@ -1,5 +1,6 @@
 <?php
 session_start();
+unset($_SESSION["Browse_Expresion"]);
 $Permiso=$_SESSION["permiso"];
 if (!isset($_SESSION["lang"]))  $_SESSION["lang"]="en";
 include("../common/get_post.php");
@@ -31,6 +32,19 @@ if (strpos($arrHttp["base"],"|")===false){
 }   else{
 		$ix=strpos($arrHttp["base"],'^b');
 		$arrHttp["base"]=substr($arrHttp["base"],2,$ix-2);
+}
+//SEE IF THE DATABASE IS LINKED TO COPIES
+$copies="N";
+$fp=file($db_path."bases.dat");
+foreach ($fp as $value){
+	$value=trim($value);
+	$x=explode("|",$value);
+	if ($x[0]==$arrHttp["base"]){
+		if (isset($x[2]) and $x[2]=="Y"){
+			$copies="Y";
+		}
+		break;
+	}
 }
 //foreach ($arrHttp as $var=>$value) echo "$var = $value<br>";
 include("../common/header.php");
@@ -70,6 +84,12 @@ function EnviarForma(Opcion,Mensaje){
 //	if (Opcion!="explorar") Mensaje+=" "+base
 //	if (confirm(Mensaje)==true){
 		switch (Opcion){
+			case "lock":
+				document.admin.base.value=base
+				document.admin.cipar.value=base+".par"
+				document.admin.action="lock_bd.php"
+				document.admin.target=""
+				break;
 			case "eliminarbd":
 				document.admin.base.value=base
 				document.admin.cipar.value=base+".par"
@@ -98,30 +118,30 @@ function EnviarForma(Opcion,Mensaje){
 				document.admin.action="copies_linkdb.php"
 				document.admin.target=""
 				break;
-			case "addcopiesdatabase":    //Marcos Script				
+			case "addcopiesdatabase":    //Marcos Script
 				document.admin.base.value=base
 				document.admin.cipar.value=base+".par"
-				document.admin.action="addcopiesdatabase.php"
-				document.admin.target=""				
+				document.admin.action="../utilities/addcopiesdatabase.php"
+				document.admin.target=""
 				break;
-			case "copiesocurrenciesreport":    //Marcos Script				
+			case "copiesdupreport":    //Marcos Script
 				document.admin.base.value=base
 				document.admin.cipar.value=base+".par"
-				document.admin.action="copiesdupreport.php"
-				document.admin.target=""				
+				document.admin.action="../utilities/copiesdupreport.php"
+				document.admin.target=""
 				break;
-			case "addloanobjectcopies":    //Marcos Script				
+			case "addloanobjectcopies":    //Marcos Script
 				document.admin.base.value=base
 				document.admin.cipar.value=base+".par"
-				document.admin.action="addloanobjectcopies.php"
-				document.admin.target=""				
-				break;				
-			case "addloanobj":    //Marino Vretag				
+				document.admin.action="../utilities/addloanobjectcopies.php"
+				document.admin.target=""
+				break;
+			case "addloanobj":    //Marino Vretag
 				document.admin.base.value=base
 				document.admin.cipar.value=base+".par"
-				document.admin.action="addloanobject.php"
-				document.admin.target=""				
-				break;				
+				document.admin.action="../utilities/addloanobject.php"
+				document.admin.target=""
+				break;
 			case "fullinv":     //INVERTED FILE GENERATION WITH MX
 				NewWindow("../dataentry/img/preloader.gif","progress",100,100,"NO","center")
 				document.admin.base.value=base
@@ -134,23 +154,23 @@ function EnviarForma(Opcion,Mensaje){
 				
 				document.admin.base.value=base
 				document.admin.cipar.value=base+".par"
-				document.admin.action="vmxISO_import.php"
+				document.admin.action="../utilities/vmxISO_load.php"
 				document.admin.target=""
 				
 				break;
-				case "isoexport":    //Marino ISO export
+case "isoexport":    //Marino ISO export
 				
 				document.admin.base.value=base
 				document.admin.cipar.value=base+".par"
-				document.admin.action="vmxISO_export.php"
+				document.admin.action="../utilities/vmxISO_export.php"
 				document.admin.target=""
 				
 				break;
-				case "splitoccs":    //Marcos splitoccs
+case "splitoccs":    //Marcos splitoccs
 
 				document.admin.base.value=base
 				document.admin.cipar.value=base+".par"
-				document.admin.action="splitoccs.php"
+				document.admin.action="../utilities/splitoccs.php"
 				document.admin.target=""
 
 				break;
@@ -159,7 +179,7 @@ case "docbatchimport":    //Marcos importdocbatch
 				
 				document.admin.base.value=base
 				document.admin.cipar.value=base+".par"
-				document.admin.action="docbatchimport.php"
+				document.admin.action="../utilities/docbatchimport.php"
 				document.admin.target=""
 				
 				break;
@@ -167,7 +187,7 @@ case "importdoc":    //Marino doc import
 				
 				document.admin.base.value=base
 				document.admin.cipar.value=base+".par"
-				document.admin.action="import_doc.php"
+				document.admin.action="../utilities/import_doc.php"
 				document.admin.target=""
 				
 				break;
@@ -176,7 +196,7 @@ case "cleandb":    //Marino clean DB
 				
 				document.admin.base.value=base
 				document.admin.cipar.value=base+".par"
-				document.admin.action="clean_db.php"
+				document.admin.action="../utilities/clean_db.php"
 				document.admin.target=""
 				
 				break;
@@ -184,24 +204,22 @@ case "cleandb":    //Marino clean DB
 				
 				document.admin.base.value=base
 				document.admin.cipar.value=base+".par"
-				document.admin.action="unlock_db_retag_check.php"
+				document.admin.action="../utilities/unlock_db_retag_check.php"
 				document.admin.target=""
 				break;
-				case "addloanobj":    //Marino addloanobj
-				
+			case "addloanobj":    //Marino addloanobj
 				document.admin.base.value=base
 				document.admin.cipar.value=base+".par"
-				document.admin.action="addloanobject.php"
+				document.admin.action="../utilities/addloanobject.php"
 				document.admin.target=""
-				
+
 				break;
 				case "barcode_check":    //Marino barcode search
-				
 				document.admin.base.value=base
 				document.admin.cipar.value=base+".par"
-				document.admin.action="barcode_check.php"
+				document.admin.action="../utilities/barcode_check.php"
 				document.admin.target=""
-				
+
 								break;
 			case "dirtree": //EXPLORE DATABASE DIRECTORY
 				switch (Mensaje){
@@ -277,31 +295,41 @@ echo "<font color=white>&nbsp; &nbsp; Script: dbadmin/menu_mantenimiento.php";
 			<li><a href='javascript:EnviarForma("fullinv","<?php echo $msgstr["mnt_gli"]?>")'><?php echo $msgstr["mnt_gli"] ."(MX)"?></a></li>
 			<li><a href='javascript:EnviarForma("inicializar","<?php echo $msgstr["mnt_ibd"]?>")'><?php echo $msgstr["mnt_ibd"]?></a></li>
 			<li><a href='javascript:EnviarForma("eliminarbd","<?php echo $msgstr["mnt_ebd"]?>")'><?php echo $msgstr["mnt_ebd"]?></a></li>
-			<li><a href='javascript:EnviarForma("lock","<?php echo $msgstr["mnt_lock"]?>")'><?php echo $msgstr["mnt_lock"]?></a></li>
+			<li><a href='javascript:EnviarForma("lock","<?php echo $msgstr["protect_db"]?>")'><?php echo $msgstr["protect_db"]?></a></li>
 			<li><a href='javascript:EnviarForma("unlock","<?php echo $msgstr["mnt_unlock"]?>")'><?php echo $msgstr["mnt_unlock"]?></a></li>
-			<li><a href='javascript:EnviarForma("cn","<?php echo $msgstr["assigncn"]?>")'><?php echo $msgstr["assigncn"]?></a></li>						
+
+			<li><a href='javascript:EnviarForma("cn","<?php echo $msgstr["assigncn"]?>")'><?php echo $msgstr["assigncn"]?></a></li>
 			<li><a href='javascript:EnviarForma("splitoccs","<?php echo $msgstr["splitoccs"]?>")'><?php echo $msgstr["splitoccs"]?></a></li>
-             <li><a href='Javascript:EnviarForma("barcode_check","<?php echo "Barcode search"?>")'><?php echo "Barcode search"?></a></li>
+                        <li><a href='Javascript:EnviarForma("barcode_check","<?php echo "Barcode search"?>")'><?php echo "Barcode search"?></a></li>
 			<?php
 			if (($arrHttp["base"]!="copies") and ($arrHttp["base"]!="providers") and ($arrHttp["base"]!="suggestions") and ($arrHttp["base"]!="purchaseorder") and ($arrHttp["base"]!="users") and ($arrHttp["base"]!="loanobjects") and ($arrHttp["base"]!="trans") and ($arrHttp["base"]!="suspml") ) {
-            ?>
+			?>
 			<li><a href='javascript:EnviarForma("linkcopies","<?php echo $msgstr["linkcopies"]?>")'><?php echo $msgstr["linkcopies"]?></a></li>
-			<li><a href='Javascript:EnviarForma("addloanobj","<?php echo $msgstr["addLOfromDB_mx"]?>")'><?php echo $msgstr["addLOfromDB_mx"]?></a></li>   
-			<li><a href='Javascript:EnviarForma("addloanobjectcopies","<?php echo $msgstr["addLOwithoCP_mx"]?>")'><?php echo $msgstr["addLOwithoCP_mx"]?></a></li>          
-			<li><a href='Javascript:EnviarForma("addcopiesdatabase","<?php echo $msgstr["addCPfromDB_mx"]?>")'><?php echo $msgstr["addCPfromDB_mx"]?></a></li> 			
+			<?php }
+			if ($arrHttp["base"]!="providers" and $arrHttp["base"]!="suggestions" and $arrHttp["base"]!="purchaseorder" and $arrHttp["base"]!="users" and $arrHttp["base"]!="loanobjects" and $arrHttp["base"]!="trans" and $arrHttp["base"]!="suspml") {
+				if ($copies=="Y" or $arrHttp["base"]=="copies" or $arrHttp["base"]=="loanobjects"){
+            ?>
+			<li><a href='Javascript:EnviarForma("addloanobj","<?php echo $msgstr["addLOfromDB_mx"]?>")'><?php echo $msgstr["addLOfromDB_mx"]?></a></li>
+			<li><a href='Javascript:EnviarForma("addloanobjectcopies","<?php echo $msgstr["addLOwithoCP_mx"]?>")'><?php echo $msgstr["addLOwithoCP_mx"]?></a></li>
+			<li><a href='Javascript:EnviarForma("copiesdupreport","<?php echo $msgstr["CPdupreport_mx"]?>")'><?php echo $msgstr["CPdupreport_mx"]?></a></li>
+			<li><a href='Javascript:EnviarForma("addcopiesdatabase","<?php echo $msgstr["addCPfromDB_mx"]?>")'><?php echo $msgstr["addCPfromDB_mx"]?></a></li>
 			<li><a href='Javascript:EnviarForma("isoimport","<?php echo "ImportISO MX"?>")'><?php echo "Import ISO with MX"?></a></li>
-			<li><a href='Javascript:EnviarForma("isoexport","<?php echo "ExportISO MX"?>")'><?php echo "Export ISO with MX"?></a></li>
-			<li><a href='Javascript:EnviarForma("cleandb","<?php echo "Clean DB"?>")'><?php echo "Clean/Compact DB"?></a></li>
+                        <li><a href='Javascript:EnviarForma("isoexport","<?php echo "ExportISO MX"?>")'><?php echo "Export ISO with MX"?></a></li>
+                        <li><a href='Javascript:EnviarForma("importdoc","<?php echo "Import Document"?>")'><?php echo "Import Document"?></a></li>
+
+
+            <?php }?>
+                        <li><a href='Javascript:EnviarForma("cleandb","<?php echo "Clean DB"?>")'><?php echo "Clean/Compact DB"?></a></li>
 			<?php
 			}
 			if ($arrHttp["base"]=="copies") {
 			?>
 			<li><a href='Javascript:EnviarForma("copiesocurrenciesreport","<?php echo $msgstr["CPdupreport_mx"]?>")'><?php echo $msgstr["CPdupreport_mx"]?></a></li>
 			<?php }?>
-			
-			
-			
-			
+
+
+
+
 	<?php
     //CHECK IF THE DATABASE ACCEPT IMPORT pdf
     $pdf="";

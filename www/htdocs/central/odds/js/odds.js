@@ -1,40 +1,4 @@
-/*
-function  show_controls(object, lang_param) {  
-    alert(variable_fields.length);
-    if (object.value == "") { 
-        $('#button_submit').attr("disabled", true);        
-        $('[id^="jv_error"]').hide();
-        $('#optionals').html('');
-    }
-    else {        
-        $('#button_submit').attr("disabled", false);
-        $.ajax({
-            url: 'lib/show_controls.php',
-            data: {
-                content : object.value,
-                lang : lang_param
-            },
-            cache: false,
-            type: 'post',
-            success: function (data) {
-                $('#optionals').html('');
-                $('[id^="jv_error"]').hide();
 
-                $.each($.parseJSON(data), function(key,value) {
-                    $('#optionals').append(value);
-                });
-                // recorrer para setear valores!
-                $("[data-jv]").keyup(function() {
-                    check_field(this);
-                });
-                $("[data-jv]").bind("input", function(){
-                    check_field(this);
-                })
-            }
-        });
-    }       
-}
-*/
 function sendForm() { 
     // si es un sar
     /*
@@ -174,7 +138,7 @@ function show_category_combo() {
 
 function VerDocumentoSA(Base, Parameters) {
     
-    msgwin=window.open("","AEUDOC","width=400,height=280,resizable");
+    msgwin=window.open("","ABCD ODDS","width=460,height=290,resizable");
     msgwin.focus();
     /*document.verdocumento.mfn.value=Mfn
     document.verdocumento.lang.value=Lang;

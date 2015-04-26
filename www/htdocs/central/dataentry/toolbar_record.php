@@ -98,6 +98,8 @@ startScrollingDetector()
 				}
 				if (isset($_SESSION["permiso"]["CENTRAL_CREC"]) or isset($_SESSION["permiso"][$db."_CENTRAL_CREC"]) or isset($_SESSION["permiso"]["CENTRAL_ALL"]) or isset($_SESSION["permiso"][$db."_CENTRAL_ALL"])) {					echo " &nbsp;<a href=\"javascript:top.Menu('dup_record')\" title=\"".$msgstr["m_copyrec"]."\"><img src=img/toolbarCopy.png alt=\"".$msgstr["m_copyrec"]."\" style=\"border:0;\"></a>  &nbsp;\n";
 				}
+				echo " &nbsp;<a href=\"javascript:top.Menu('same')\" title=\"".$msgstr["refresh_db"]."\"><img src=img/refresh0.gif alt=\"".$msgstr["refresh_record"]."\" title=\"".$msgstr["refresh_record"]."\" style=\"border:0;\"></a>  &nbsp;\n";
+
 				if (isset($_SESSION["permiso"]["CENTRAL_DELREC"]) or isset($_SESSION["permiso"][$db."_CENTRAL_DELREC"]) or isset($_SESSION["permiso"]["CENTRAL_ALL"]) or isset($_SESSION["permiso"][$db."_CENTRAL_ALL"])) echo "<a href=\"javascript:top.Menu('eliminar')\" title=\"".$msgstr["m_eliminar"]."\"><img src=img/toolbarDelete.png alt=\"".$msgstr["m_eliminar"]."\" style=\"border:0;\"></a> &nbsp;\n";
 				if (isset($_SESSION["permiso"]["CENTRAL_Z3950CAT"]) or isset($_SESSION["permiso"][$db."_CENTRAL_Z3950CAT"]) or isset($_SESSION["permiso"]["CENTRAL_ALL"]) or isset($_SESSION["permiso"][$db."_CENTRAL_ALL"])) echo "<a href=\"javascript:top.Menu('edit_Z3950')\" title=\"Z39.50\"><img src=img/z3950.png alt=\"Z39.50\" style=\"border:0;\"></a>\n";
 				if (isset($_SESSION["permiso"]["CENTRAL_EDREC"])  or isset($_SESSION["permiso"][$db."_CENTRAL_EDREC"]) or isset($_SESSION["permiso"]["CENTRAL_CREC"]) or isset($_SESSION["permiso"]["CENTRAL_ALL"]) or isset($_SESSION["permiso"]["CENTRAL_ALL"]))

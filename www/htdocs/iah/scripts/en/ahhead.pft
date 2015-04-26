@@ -20,6 +20,34 @@ else
 '    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" /> '
 fi, 
 '    <link rel="stylesheet" href="',v5000^d,'css/stylesheet.css" type="text/css" media="screen" />
+ <!-- Interacción con el sistema de préstamos -->
+   <script language="JavaScript" type="text/javascript">
+     function EstadoDeCuenta() {
+        action_search=document.search.action
+        document.search.action="/central/circulation/opac_statement.php"
+        document.search.target="statement"
+        janela=window.open("","statement","left=0,top=0,width=400,height=200,toolbar=no,resizable=yes,menubar=no,scrollbars=yes");
+        janela.focus()
+        document.search.submit();
+        document.search.action=action_search
+        document.search.target=""
+     }
+       function Reservar(cn,base,copies){
+          DB_PATH="'V5000^b'"
+          lang="'V5021'"
+          url="/central/iah/usuario_prestamo.php?Expresion=CN_"+cn+"&base="+base+"&cipar="+base+".par&copies="+copies+"&desde=IAH_RESERVA&Opcion=IAH&DB_PATH="+DB_PATH+"&lang="+lang
+          msgwin=window.open(url,"Reserve","width=400,height=250,scrollbars,resizable");
+          msgwin.focus()
+       }
+	   function ReservarMySite(cn,base,copies){
+          DB_PATH="'V5000^b'"
+          lang="'V5021'"
+          url="/../indexmysite.php?id="+cn+"&cdb="+base;
+          msgwin=window.open(url,"Reserve","toolbar=1,scrollbars=1,location=1,statusbar=1,menubar=1,resizable=1");
+          msgwin.focus()
+       }
+   </script>
+  <!-- Fin de la interacción con el sistema de préstamos -->
 </head>
 <body>',
 if v5001^s : 'CONFIG' then,

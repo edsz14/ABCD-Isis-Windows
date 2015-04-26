@@ -408,8 +408,8 @@ if (isset($arrHttp["base"])){
 	if (isset($_SESSION["permiso"][$db."_pft_ALL"]) or isset($_SESSION["permiso"]["CENTRAL_ALL"]) or isset($_SESSION["permiso"][$db."_CENTRAL_ALL"])
 
 	){
-		echo "document.forma1.formato.options[$i]=new Option('Todo','')\n";
-		echo "document.forma1.formato.options[$i+1]=new Option('Sin formato','ALL')\n";
+		echo "document.forma1.formato.options[$i]=new Option('ALL','')\n";
+		echo "document.forma1.formato.options[$i+1]=new Option('NO FORMAT','ALL')\n";
 	}
 	unset($fp);
 	//Se leen las hojas de entrada disponibles

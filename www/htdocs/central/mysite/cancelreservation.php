@@ -7,10 +7,12 @@
  $lang=$_SESSION["lang"];
  require_once ("../lang/mysite.php");
  require_once("../lang/lang.php");
-
+ 
  if (!isset($_SESSION["permiso"])) die;
-
-
+$legend="";$success = false;$myresult=$msgstr["failed_operation"];$image="mysite/img/flag.png";
+if ($EmpWeb=="Y")
+{
+//USING the Emweb Module 
 
       $proxyhost = isset($_POST['proxyhost']) ? $_POST['proxyhost'] : '';
       $proxyport = isset($_POST['proxyport']) ? $_POST['proxyport'] : '';
@@ -45,12 +47,7 @@
 
       //echo $client->request;
 
-      //print_r($result);
-
-      $myresult=$msgstr["failed_operation"];
-      $legend="";
-      $image="mysite/img/flag.png";
-      $success = false;
+      //print_r($result);      
 
       //print_r($result);
 
@@ -92,10 +89,26 @@
 
 
 
-      $resultbuff=serialize($result);
+      $resultbuff=serialize($result);	  
       include_once("legends.php");
+}
+else
+{
+//USING the Central Module
+$converter_path=$cisis_path."mx";
+$recordid=$_REQUEST["waitid"];
+$userid=$_REQUEST["userid"];
 
+$date=date("Ymd");
+$time=date("h:i:s");
+$mx=$converter_path." ".$db_path."reserve/data/reserve \"proc=if mfn=".$recordid." then 'd1d130d131d132','<1>1</1>','<132>".$userid."</132>',,'<130>".$date."</130>','<131>".$time."</131>' fi \" copy=".$db_path."reserve/data/reserve now";
+exec($mx,$outmx,$banderamx);
+$success=true;
+$legend="";
+}
 
+     
+	 
       if ($success)
       {
             $myresult=$msgstr["success_operation"];
@@ -106,11 +119,14 @@
 
       }
 
+      
 
-      echo "<div><table><tr rowspan=2>";
-      echo "<td><img src='".$image."' /></td>";
-      echo "<td><h2>".utf8_encode($myresult)."</h2></td></tr><tr><td><h3>".utf8_encode($legend)."</h3></td>";
+
+      echo "<div><table><tr>";
+      echo "<td width=180><img src='".$image."' /></td>";
+      echo "<td><h2>".utf8_encode($myresult)."</h2></td></tr><tr><td colspan=2><h3>".utf8_encode($legend)."</h3></td>";
       echo "</tr></table></div>";
+
 
 
 ?>

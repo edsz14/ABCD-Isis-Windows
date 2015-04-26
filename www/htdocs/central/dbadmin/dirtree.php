@@ -196,7 +196,7 @@ $_POST["Server_Path"]=$db_path;
 $_POST["Server_Path"].=trim($_SESSION["dir_base"]);
 $_SESSION["Server_Path"]=$_POST["Server_Path"];
 $_SESSION['Upload_Extension']="*.png,*.gif,*.jpg,*.pdf,*.xrf,*.mst,*.n01,*.n02,*.l01,*.l02,*.cnt,*.ifp,*.fmt,*.fdt,*.pft,*.fst,*.tab,*.txt,*.par,*.html,*.zip,*.iso";
-$_POST['FILE_EXTENSION']="*.png,*.gif,*.jpg,*.pdf,*.xrf,*.mst,*.n01,*.n02,*.l01,*.l02,*.cnt,*.ifp,*.fmt,*.fdt,*.pft,*.fst,*.tab,*.txt,*.par,*.html,*.zip,";
+$_POST['FILE_EXTENSION']="*.iso,*.png,*.gif,*.jpg,*.pdf,*.xrf,*.mst,*.n01,*.n02,*.l01,*.l02,*.cnt,*.ifp,*.fmt,*.fdt,*.pft,*.fst,*.tab,*.txt,*.par,*.html,*.zip,";
 //foreach ($arrHttp as $var=>$value) echo "$var = $value<br>"; die;
 $_POST['File_Extension']=$_POST['FILE_EXTENSION'];
 include("../lang/dbadmin.php");

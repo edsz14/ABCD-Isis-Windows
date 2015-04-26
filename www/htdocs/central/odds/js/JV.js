@@ -1,3 +1,4 @@
+/* FORM VALIDATION FUNCTIONS
 /* MENSAJES DE ERROR, UN ARRAY PARA CADA IDIOMA */
 var gap_between_pages = 30;
 var jv_errors_en = {

@@ -18,6 +18,8 @@ $OS=strtoupper(PHP_OS);
 if (strpos($OS,"WIN")=== false) 
 {
 $tikacommands='java -jar '.$tikapath.'tika-server.jar --host=127.0.0.1 --port=9998 > '.$db_path."wrk/TikaTemp.txt".' &';
+//echo "TIKA command : " . $tikacommands . "<BR>";
+//die;
 exec($tikacommands,$outcms,$banderacms);
 }
 echo "<script src=../dataentry/js/lr_trim.js></script>";
@@ -52,7 +54,7 @@ settings='width='+w+',height='+h+',top='+TopPosition+',left='+LeftPosition+',scr
 win=window.open(mypage,myname,settings);}
 
 
-var seconds = 15;
+var seconds = 7;
 function secondPassed() {
     var minutes = Math.round((seconds - 30)/60);
     var remainingSeconds = seconds % 60;
@@ -154,10 +156,10 @@ echo '</br></br></br>';
 	    <td align="left" style="font-size:14px"><input type="text" name="doctext" size="2" value="v99"/></td>	    
 	    <td align="left" style="font-size:14px"><label>Identifier</label></td>
 	    <td align="left" style="font-size:14px"><input type="text" name="id" size="2" value="v111"/></td>
-	    <td align="left" style="font-size:14px">&nbsp;</td>
-	    <td align="left" style="font-size:14px">&nbsp;</td>
-	    <td align="left" style="font-size:14px">&nbsp;</td>
-	    <td align="left" style="font-size:14px">&nbsp;</td>
+	    <td align="left" style="font-size:14px"><label>Date Added</label></td>
+	    <td align="left" style="font-size:14px"><input type="text" name="dated" size="2" value="v112"/></td>
+	    <td align="left" style="font-size:14px"><label>Doc Source</label></td>
+	    <td align="left" style="font-size:14px"><input type="text" name="docsource" size="2" value="v96"/></td>
 	    </tr>	
 		<tr>
 	    <td>&nbsp;</td>
@@ -266,7 +268,7 @@ function get_infoFile($path,$archivo)
 { 
 global $total,$tikapath,$converter_path,$db_path,$base_ant,$cisis_ver,$Wxis,$doctotal,$img_path,$OS,$procstartedatN;
 if(!is_dir($path.$archivo)){ 
-//Get teh file info
+//Get the file info
 $originalFileName=$archivo;
 $info = pathinfo($path.$archivo);
 $ext = $info['extension'];
@@ -274,12 +276,14 @@ $ext = $info['extension'];
 $newdocname= preg_replace("/[^a-z0-9._]/", "",str_replace(" ", "_", str_replace("%20", "_", strtolower($archivo)))); 
 $newdocname=str_replace(".".$ext,"",$newdocname);
 //build the text to display
-$cadena='&nbsp;&nbsp;&nbsp;&nbsp;<label style="color:blue">Processing</label> <label style="font-style:italic">'.$archivo.'</label> of <label style="font-weight:bold">'.number_format(filesize($path.$archivo)/1024,2,",",".").'Kb</label>. Renaming to <label style="font-weight:bold;color:red">'.$newdocname.$total.".".$ext."</label> .Creating records...";
+$cadena='&nbsp;&nbsp;&nbsp;&nbsp;<label style="color:blue">Processing</label> <label style="font-style:italic">'.$archivo.'</label> of <label style="font-weight:bold">'.number_format(filesize($path.$archivo)/1024,2,",",".").'Kb</label>. Renaming to <label style="font-weight:bold;color:red">'.$newdocname.'~'.$total.".".$ext."</label> .Creating records...";
+//echo "Progress : " . $cadena . "<BR>";
+//die;
 //rename the file before proccessing
 $temppath=substr($path,strpos($path,'ABCDImportRepo'));
 $fixpath=substr($temppath,(strpos($temppath,'/')+1));
 createPath($img_path.$base_ant."/collection/".$fixpath);
-rename($path.$archivo, $img_path.$base_ant."/collection/".$fixpath.$newdocname.$total.".".$ext);
+rename($path.$archivo, $img_path.$base_ant."/collection/".$fixpath.$newdocname.'~'.$total.".".$ext);
 //Get the fields tags
 $vid=RemoveV($_POST["id"]);
 $vtitle=RemoveV($_POST["title"]);
@@ -294,24 +298,28 @@ $vsource=RemoveV($_POST["source"]);
 $vsections=RemoveV($_POST["sections"]);
 $vurl=RemoveV($_POST["url"]);
 $vdoctext=RemoveV($_POST["doctext"]);
+$vdated=RemoveV($_POST["dated"]);
+$vdocsource=RemoveV($_POST["docsource"]);
 //Extract the HTML
 if (strpos($OS,"WIN")=== false)
 {
 //Linux
-if (($vdoctext!="") and ($cisis_ver=='bigisis/')) $tikacommand='curl -T '.$img_path.$base_ant."/collection/".$fixpath.$newdocname.$total.".".$ext.' http://127.0.0.1:9998/tika --header "Accept: text/html" >'.$db_path."wrk/".$newdocname.$total.'.html';
+if (($vdoctext!="") and ($cisis_ver=='bigisis/')) $tikacommand='curl -T '.$img_path.$base_ant."/collection/".$fixpath.$newdocname.'~'.$total.".".$ext.' http://127.0.0.1:9998/tika --header "Accept: text/html" >'.$db_path."wrk/".$newdocname.'~'.$total.'.html';
 else 
-$tikacommand='curl -T '.$img_path.$base_ant."/collection/".$fixpath.$newdocname.$total.".".$ext.' http://127.0.0.1:9998/meta >'.$db_path."wrk/".$newdocname.$total.'.html';
+$tikacommand='curl -T '.$img_path.$base_ant."/collection/".$fixpath.$newdocname.'~'.$total.".".$ext.' http://127.0.0.1:9998/meta >'.$db_path."wrk/".$newdocname.'~'.$total.'.html';
+//echo "TIKA command : " . $tikacommand . "<BR>";
 exec($tikacommand,$outcm,$banderacm);
 }
 else
 {
 //Windows
-if (($vdoctext!="") and ($cisis_ver=='ffi/')) $tikacommand='java -jar '.$tikapath.'tika.jar -h '.$img_path.$base_ant."/collection/".$fixpath.$newdocname.$total.".".$ext.' >'.$db_path."wrk/".$newdocname.$total.'.html';
-else $tikacommand='java -jar '.$tikapath.'tika.jar -m '.$img_path.$base_ant."/collection/".$fixpath.$newdocname.$total.".".$ext.' >'.$db_path."wrk/".$newdocname.$total.'.html';
+if (($vdoctext!="") and ($cisis_ver=='ffi/')) $tikacommand='java -jar '.$tikapath.'tika.jar -h '.$img_path.$base_ant."/collection/".$fixpath.$newdocname.'~'.$total.".".$ext.' >'.$db_path."wrk/".$newdocname.'~'.$total.'.html';
+else $tikacommand='java -jar '.$tikapath.'tika.jar -m '.$img_path.$base_ant."/collection/".$fixpath.$newdocname.'~'.$total.".".$ext.' >'.$db_path."wrk/".$newdocname.'~'.$total.'.html';
+//echo "TIKA command : " . $tikacommand . "<BR>";
 exec($tikacommand,$outcm,$banderacm);
 }
-$creator=$fotmat=$subject=$title=$created=$publisher=$description=$str="";
-$fp=file($db_path."wrk/".$newdocname.$total.'.html');
+$creator=$format=$subject=$title=$created=$publisher=$description=$str="";
+$fp=file($db_path."wrk/".$newdocname.'~'.$total.'.html');
 foreach ($fp as $value){
 if ($value!="") 
 {
@@ -330,7 +338,7 @@ if (substr($value,0,21)=='<meta name="dc:title"') $title=trim(substr($value,31,$
 if (substr($value,0,28)=='<meta name="dcterms:created"') $created=trim(substr($value,38,$pos));
 if (substr($value,0,25)=='<meta name="dc:publisher"') $publisher=trim(substr($value,35,$pos));
 if (substr($value,0,27)=='<meta name="dc:description"') $description=trim(substr($value,37,$pos));
-$str.= strip_tags($value);
+if (substr($value,0,6)!='<meta ') $str.= $value;
 }//End of if (($vdoctext!="") and ($cisis_ver=='bigisis/')))
 else
 {
@@ -359,7 +367,7 @@ if (substr($value,0,21)=='<meta name="dc:title"') $title=trim(substr($value,31,$
 if (substr($value,0,28)=='<meta name="dcterms:created"') $created=trim(substr($value,38,$pos));
 if (substr($value,0,25)=='<meta name="dc:publisher"') $publisher=trim(substr($value,35,$pos));
 if (substr($value,0,27)=='<meta name="dc:description"') $description=trim(substr($value,37,$pos));
-$str.= strip_tags($value);
+if (substr($value,0,6)!='<meta ') $str.= $value;
 }//End of if (($vdoctext!="") and ($cisis_ver=='ffi/')))
 else
 {
@@ -380,6 +388,7 @@ $currentID=ProximoNumero($base_ant);
 //Create the fields proc
 $fieldspart="\"proc='";
 $vspath="collection";
+$docsourcepath=$img_path.$base_ant."/collection/ABCDSourceRepo/".$newdocname.'~'.$total.".html";
 if (($fixpath!="") and ($fixpath!="ABCDImportRepo/")) $vspath=substr($fixpath,0,-1);
 if (($currentID!="") and ($vid!="")) $fieldspart.="<".$vid.">".$currentID."</".$vid.">";
 if (($title!="") and ($vtitle!="")) $fieldspart.="<".$vtitle.">".$title."</".$vtitle.">";
@@ -392,38 +401,30 @@ if (($ext!="") and ($vtype!="")) $fieldspart.="<".$vtype.">".$ext."</".$vtype.">
 if (($format!="") and ($vformat!="")) $fieldspart.="<".$vformat.">".$format."</".$vformat.">";
 if (($archivo!="") and ($vsource!="")) $fieldspart.="<".$vsource.">".$archivo."</".$vsource.">";
 if ($vsections!="") $fieldspart.="<".$vsections.">".$vspath."</".$vsections.">"; 
-if (($fixpath.$newdocname.$total.".".$ext!="") and ($vurl!="")) $fieldspart.="<".$vurl.">".$fixpath.$newdocname.$total.".".$ext."</".$vurl.">"; 
+if (($fixpath.$newdocname.'~'.$total.".".$ext!="") and ($vurl!="")) $fieldspart.="<".$vurl.">".$fixpath.$newdocname.'~'.$total.".".$ext."</".$vurl.">"; 
 $fieldspart.="<112>".$procstartedatN."</112>";
+if (($vdocsource!="") and ($vurl!="")) $fieldspart.="<".$vdocsource.">".$docsourcepath."</".$vdocsource.">"; 
 $fieldspart.="'\"";
 //Save the file and import the content into a record if allow
 if (($cisis_ver=="bigisis/") or ($cisis_ver=="ffi/"))
 {
-$gloadproc="";
 if (($vdoctext!="") and ($str!=""))
 {
-$gloadproc="\"proc='Gload/".$vdoctext."=".$db_path."wrk/DocImportFullTxTv99.txt"."'\"";
-//Change the < and the > in the text
-$str=str_replace("&lt;",'<  ',$str);
-$str=str_replace("&gt",'  >',$str);
 //Save the text into a file
-@ $fp = fopen($db_path."wrk/DocImportFullTxTv99.txt", "w");
+@ $fp = fopen($docsourcepath, "w");
 fwrite($fp,$str);
 fclose($fp); 
 }
-$mx = $converter_path." null ".$gloadproc." ".$fieldspart." append=".$db_path.$base_ant."/data/".$base_ant." count=1 now -all";
-exec($mx,$outmx,$banderamx);
 }
-else
-{
+//Create the record
 $mx = $converter_path." null ".$fieldspart." append=".$db_path.$base_ant."/data/".$base_ant." count=1 now -all";
 exec($mx,$outmx,$banderamx);
-} 
-@unlink($db_path."wrk/TikaTemp.txt"); 
-@unlink($db_path."wrk/DocImportFullTxTv99.txt");
-@unlink($db_path."wrk/".$newdocname.$total.'.html');
+@unlink($db_path."wrk/TikaTemp.txt");
+@unlink($db_path."wrk/".$newdocname.'~'.$total.'.html');
 $total++;
 $doctotal++;
-$cadena.=' <label style="font-weight:bold">Done</label></br>'; 
+$cadena.=' <label style="font-weight:bold">Done</label></br>';
+//echo "New record ".$doctotal . " created...<br>";
 }
 return $cadena; 
 }
@@ -470,7 +471,8 @@ function time_diff($s) {
 } 
 //Llamamos a la funcion de procesar la coleccion
 showFiles($img_path.$base_ant."/collection/ABCDImportRepo/");
-$mxinv=$converter_path." ".$db_path.$base_ant."/data/".$base_ant." fst=@".$db_path.$base_ant."/data/".$base_ant.".fst fullinv/m=".$db_path.$base_ant."/data/".$base_ant." now -all";
+//$mxinv=$converter_path." ".$db_path.$base_ant."/data/".$base_ant." fst=@".$db_path.$base_ant."/data/".$base_ant.".fst fullinv/m=".$db_path.$base_ant."/data/".$base_ant." now -all";
+$mxinv=$converter_path." ".$db_path.$base_ant."/data/".$base_ant." fst=@".$db_path.$base_ant."/data/fulltext.fst fullinv/m=".$db_path.$base_ant."/data/".$base_ant." now -all tell=1";
 exec($mxinv, $outputmxinv,$banderamxinv);
 $procendedat=date("Y-m-d H:i:s");
 $t1=strtotime ($procstartedat);

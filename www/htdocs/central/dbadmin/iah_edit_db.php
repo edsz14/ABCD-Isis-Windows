@@ -285,7 +285,7 @@ function DeleteElement(ix,IdSec){
 			break
 		case 2:
 			Name="index"
-			rotul0=rotulo_lan
+			rotulo=rotulo_lan
 			break
 		case 3:
 			Name="gizmo"

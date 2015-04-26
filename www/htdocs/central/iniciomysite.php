@@ -1,11 +1,11 @@
 <?php
 
-global $Permiso, $arrHttp,$valortag,$nombre,$userid,$db;
+global $Permiso, $arrHttp,$valortag,$nombre,$userid,$db,$vectorAbrev;
 $arrHttp=Array();
 session_start();
 require_once ("config.php");
 require_once('nusoap/nusoap.php');
-
+$converter_path=$cisis_path."mx";
 
 $page="";
 if (isset($_REQUEST['GET']))
@@ -27,9 +27,11 @@ function LeerRegistro() {
 // identificada entre $$LLAVE= .....$$
 
 $llave_pft="";
-global $llamada, $valortag,$maxmfn,$arrHttp,$OS,$Bases,$xWxis,$Wxis,$Mfn,$db_path,$wxisUrl,$empwebservicequerylocation,$empwebserviceusersdb,$db;
-
-
+$myllave ="";
+global $llamada,$valortag,$maxmfn,$arrHttp,$OS,$Bases,$xWxis,$Wxis,$Mfn,$db_path,$wxisUrl,$empwebservicequerylocation,$empwebserviceusersdb,$db,$EmpWeb,$MD5,$converter_path,$vectorAbrev;
+if ($EmpWeb=="Y")
+{
+//USING the Emweb Module to login to MySite module
       $proxyhost = isset($_POST['proxyhost']) ? $_POST['proxyhost'] : '';
       $proxyport = isset($_POST['proxyport']) ? $_POST['proxyport'] : '';
       $proxyusername = isset($_POST['proxyusername']) ? $_POST['proxyusername'] : '';
@@ -51,8 +53,6 @@ global $llamada, $valortag,$maxmfn,$arrHttp,$OS,$Bases,$xWxis,$Wxis,$Mfn,$db_pat
 
       //print_r($result);
       //die;
-
-      $myllave ="";
 
       //Esto se ha complejizado con el asunto de la incorporación de mas de una base de datos
 
@@ -96,13 +96,49 @@ global $llamada, $valortag,$maxmfn,$arrHttp,$OS,$Bases,$xWxis,$Wxis,$Mfn,$db_pat
 
 
       }
+}//if ($EmpWeb=="Y")
+else
+{
+//USING the Central Module to login to MySite module
+//Get the user and pass
+$checkuser=$arrHttp["login"];
+if ($MD5==0) $checkpass=$arrHttp["password"];
+else
+$checkpass=md5($arrHttp["password"]);
+//Search the users database
+$mx=$converter_path." ".$db_path."users/data/users \"pft=if v600='".$checkuser."' then if v610='".$checkpass."' then v20,'|',v30,'|',v10,'|',v10^a,'|',v10^b,'|',v18 fi,fi\" now";
+$outmx=array();
+exec($mx,$outmx,$banderamx);
+$textoutmx="";
+for ($i = 0; $i < count($outmx); $i++) {
+$textoutmx.=substr($outmx[$i], 0);
+}
+if ($textoutmx!="")
+{
+$splittxt=explode("|",$textoutmx);
+$myuser = $checkuser;
+$db = "users";
+$myllave = $splittxt[0]."|";
+$myllave .= "1|";
+$myllave .= $splittxt[1]."|";
+$valortag[40] = $splittxt[2]."\n";
+$vectorAbrev['id']=$splittxt[0];
+$vectorAbrev['name']=$splittxt[1];
+$vectorAbrev['userClass']=$splittxt[4]."(".$splittxt[3].")";
+$vectorAbrev['expirationDate']=$splittxt[5];
+$currentdatem=date("Ymd");
+if ($currentdatem>$splittxt[5]) $myllave="";
+
+
+}
+}
 	  return $myllave;
 
 }
 
 function VerificarUsuario(){
 Global $arrHttp,$valortag,$Path,$xWxis,$session_id,$Permiso,$msgstr,$db_path,$nombre,$userid,$lang;
- 	$llave=LeerRegistro();
+ 	$llave=LeerRegistro();	
  	if ($llave!=""){
   		$res=split("\|",$llave);
   		$userid=$res[0];
@@ -116,7 +152,7 @@ Global $arrHttp,$valortag,$Path,$xWxis,$session_id,$Permiso,$msgstr,$db_path,$no
   			$value=substr($value,2);
   			$ix=strpos($value,'^');
     		$Permiso.=substr($value,0,$ix)."|";
-    	}
+    	}		
  	}else{
  		echo "<script>
  		self.location.href=\"../indexmysite.php?login=N&lang=".$lang."\";
@@ -133,7 +169,7 @@ Global $arrHttp,$valortag,$Path,$xWxis,$session_id,$Permiso,$msgstr,$db_path,$no
 $query="";
 include("common/get_post.php");
 
-//foreach ($arrHttp as $var => $value) echo "$var = $value<br>";
+//foreach ($arrHttp as $var => $value) echo "$var = $value<br>";die;
 
 
 if (isset($arrHttp["lang"])){
@@ -161,14 +197,18 @@ if (isset($arrHttp["action"]))
       $_SESSION["action"]="";
       $_SESSION["recordId"]="";
     }
+	if ($arrHttp["action"]=='gotosite')
+    {
+	$arrHttp["login"]=$_SESSION["login"];
+    $arrHttp["password"]=$_SESSION["password"];
+	}
 }
 
 
 
 
 
-if (!$_SESSION["userid"] || !$_SESSION["permiso"]=="mysite".$_SESSION["userid"])
-{
+//if (!$_SESSION["userid"] || !$_SESSION["permiso"]=="mysite".$_SESSION["userid"]) {
 
       	if (isset($arrHttp["reinicio"])){
       		$arrHttp["login"]=$_SESSION["login"];
@@ -177,12 +217,17 @@ if (!$_SESSION["userid"] || !$_SESSION["permiso"]=="mysite".$_SESSION["userid"])
       		$arrHttp["lang"]=$_SESSION["lang"];
             $arrHttp["db"]=$_SESSION["db"];
 
-      	}
+      	}	
+			
       	VerificarUsuario();
 
       	$_SESSION["lang"]=$arrHttp["lang"];
-
-
+		if ($arrHttp["id"]!="") 
+		{
+		$_SESSION["action"]='reserve';
+		$_SESSION["recordId"]=$arrHttp["id"];
+		$_SESSION["cdb"]=$arrHttp["cdb"];
+		}
         $_SESSION["userid"]=$userid;
       	$_SESSION["login"]=$arrHttp["login"];
       	$_SESSION["password"]=$arrHttp["password"];
@@ -190,7 +235,8 @@ if (!$_SESSION["userid"] || !$_SESSION["permiso"]=="mysite".$_SESSION["userid"])
       	$_SESSION["nombre"]=$nombre;
         $_SESSION["db"]=$db;
 
-}
+//}
+
 
 //print_r ($msgstr);
 include("homepagemysite.php");

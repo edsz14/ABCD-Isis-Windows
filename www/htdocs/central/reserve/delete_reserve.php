@@ -6,7 +6,7 @@ if (!isset($_SESSION["permiso"])){
 include ("../common/get_post.php");
 include("../config.php");
 include("../lang/prestamo.php");
-//foreach ($arrHttp as $var=>$value) echo "$var=$value<br>";
+//foreach ($arrHttp as $var=>$value) echo "$var=$value<br>";die;
 
 
 
@@ -57,9 +57,10 @@ switch ($arrHttp["Accion"]){	case "delete":
 		break;}
 
 ?>
-<form name=enviar method=post action="<?php echo $arrHttp["retorno"]?>">;
+<form name=enviar method=post action="<?php echo $arrHttp["retorno"]?>">
 <?php foreach ($arrHttp as $var=>$value){	echo "<input type=hidden name=$var value=\"$value\">\n";}
 ?>
+</form>
 <script>
 document.enviar.submit()
 </script>

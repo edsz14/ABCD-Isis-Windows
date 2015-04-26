@@ -25,7 +25,6 @@
  *
  * == END LICENSE ==
 */
-
 session_start();
 set_time_limit(0);
 if (!isset($_SESSION["permiso"])){
@@ -77,8 +76,7 @@ include("../common/header.php");
 
 
 
-function ReadWorksheetsRights(){
-global $db_path,$arrHttp,$msgstr,$lang_db;
+function ReadWorksheetsRights(){global $db_path,$arrHttp,$msgstr,$lang_db;
 //READ THE DATAENTRY WORKSHEET TO DETERMINE THE AVAILABILITY FOR THE OPERATOR
 	if (file_exists($db_path.$arrHttp["base"]."/def/".$_SESSION["lang"]."/formatos.wks")){
 		$fp = file($db_path.$arrHttp["base"]."/def/".$_SESSION["lang"]."/formatos.wks");
@@ -106,12 +104,9 @@ global $db_path,$arrHttp,$msgstr,$lang_db;
     return $wks_p;
 }
 
-function CambiarFormatoRegistro(){
-// apply conversion to the record captured from the database
-global $valortag,$arrHttp,$db_path,$Wxis,$xWxis,$wxisUrl;
+function CambiarFormatoRegistro(){// apply conversion to the record captured from the databaseglobal $valortag,$arrHttp,$db_path,$Wxis,$xWxis,$wxisUrl;
 	$ValorCapturado="";
-	foreach ($valortag as $key => $lin){
-		if (trim($key)!=""){
+	foreach ($valortag as $key => $lin){		if (trim($key)!=""){
 			$lin=stripslashes($lin);
 			$sal=explode("\n",$lin);
 			foreach ($sal as $l){
@@ -146,8 +141,7 @@ global $valortag,$arrHttp,$db_path,$Wxis,$xWxis,$wxisUrl;
 		$c=explode("\n",$campo);
 		foreach($c as $val){
 			$val=trim($val);
-			if ($val!=""){
-				if (isset($valortag[$tag]))
+			if ($val!=""){				if (isset($valortag[$tag]))
 					$valortag[$tag].="\n".$val;
 				else
 					$valortag[$tag]=$val;
@@ -158,7 +152,7 @@ global $valortag,$arrHttp,$db_path,$Wxis,$xWxis,$wxisUrl;
 }
 
 function EjecutarBusqueda(){
-global $arrHttp,$db_path,$xWxis,$Wxis,$valortag,$tl,$nr,$Mfn,$wxisUrl,$lang_db,$msgstr,$registro,$Expresion;
+global $arrHttp,$db_path,$xWxis,$Wxis,$valortag,$tl,$nr,$Mfn,$wxisUrl,$lang_db,$msgstr,$registro,$Expresion,$Total_Search;
 
 	$Expresion=stripslashes($arrHttp["Expresion"]);
 	$Expresion=str_replace('\"','"',$Expresion);
@@ -167,13 +161,9 @@ global $arrHttp,$db_path,$xWxis,$Wxis,$valortag,$tl,$nr,$Mfn,$wxisUrl,$lang_db,$
 	if (!isset($arrHttp["Formato"]))$arrHttp["Formato"]="";
 	$Formato=$arrHttp["Formato"];
 	if ($Formato!="ALL" and $Formato!=""){
-		$Formato.=".pft";
-		$a=$db_path.$arrHttp["base"]."/pfts/".$_SESSION["lang"]."/".$Formato;
-		if (!file_exists($a)){
-			$a=$db_path.$arrHttp["base"]."/pfts/".$lang_db."/".$Formato;
-		}
-		$Formato=$a;
-	}
+		$Formato.=".pft";		$a=$db_path.$arrHttp["base"]."/pfts/".$_SESSION["lang"]."/".$Formato;
+		if (!file_exists($a)){			$a=$db_path.$arrHttp["base"]."/pfts/".$lang_db."/".$Formato;		}
+		$Formato=$a;	}
 
 	$contenido="";
 	$registro="";
@@ -201,35 +191,28 @@ global $arrHttp,$db_path,$xWxis,$Wxis,$valortag,$tl,$nr,$Mfn,$wxisUrl,$lang_db,$
 				include("../common/wxis_llamar.php");
 				foreach($contenido as $linea_alt) $registro.= "$linea_alt\n";
 	  		}else{
-				if (substr($linea,0,6)=="[MFN:]"){
-					$arrHttp["Mfn"]=trim(substr($linea,6));
+				if (substr($linea,0,6)=="[MFN:]"){					$arrHttp["Mfn"]=trim(substr($linea,6));
 					echo "\n<script>top.Mfn_Search=".$arrHttp["Mfn"]."
 
 					top.mfn=".$arrHttp["from"]."
 					if (top.mfn==0) top.mfn=1
-					top.browseby='search'\n</script>\n";
-				}else{
+					top.browseby='search'\n</script>\n";				}else{
 					if (substr($linea,0,8)=="[TOTAL:]"){
-						if(trim(substr($linea,8))==0){
-							//echo "Total: 0";
+						if(trim(substr($linea,8))==0){							//echo "Total: 0";
 							return "0";
 							echo "\n<script>top.Max_Search=0
 							</script>\n";
-							break;
-						}else{
+							break;						}else{
+							$Total_Search=trim(substr($linea,8));
 							echo "\n<script>top.Max_Search=".trim(substr($linea,8))."
 						\n</script>\n";
 						}
 					}else{
 						if ($arrHttp["Formato"]!="ALL"){
-							$arrHttp["Opcion"]="ver";
-							$registro.= "$linea\n";
-						}else{
-							$registro.=$linea."\n";
-	                        $arrHttp["Opcion"]="ver";
-						}
-					}
-				}
+							$arrHttp["Opcion"]="ver";							$registro.= "$linea\n";
+						}else{							$registro.=$linea."\n";
+	                        $arrHttp["Opcion"]="ver";						}
+					}				}
 			}
 		}
 	}
@@ -240,8 +223,7 @@ global $arrHttp,$db_path,$xWxis,$Wxis,$valortag,$tl,$nr,$Mfn,$wxisUrl,$lang_db,$
     if (!isset($arrHttp["cambiolang"]))  // Si se dibuja el formulario luego de un cambio de lenguaje, no se actualiza la casilla ir_a porque da un error en javascript
     	echo "top.menu.document.forma1.ir_a.value=top.mfn.toString()+'/'+top.Max_Search.toString()\n";
     echo "</script>\n";
-	if ($arrHttp["Formato"]!="ALL"){
-		return "no";
+	if ($arrHttp["Formato"]!="ALL"){		return "no";
 	}
 	$contenido=explode("\n",$registro);
 	$valortag=array();
@@ -285,10 +267,8 @@ function CargarMatriz($var){
 global $valortag,$variables;
 	$var=urldecode($var);
 	$filas=explode("\n",$var);
-	foreach ($filas as $lin){
-		$lin=trim($lin);
-		if (trim($lin)!=""){
-			$lin= stripslashes($lin);
+	foreach ($filas as $lin){		$lin=trim($lin);
+		if (trim($lin)!=""){			$lin= stripslashes($lin);
 			$pos=strpos($lin, " ");
 			if (is_integer($pos)) {
 				$indice=substr($lin,0,$pos);
@@ -308,10 +288,8 @@ global $valortag,$variables;
 	}
 	//COPY THE CAPTURED RECORD TO THE EMPTY FIELDS
 
-	foreach ($valorcap as $tag=>$value){
-		if (!isset($valortag["$tag"])) $valortag[$tag]=$value;
-		$variables["tag$tag"]=$value;
-	}
+	foreach ($valorcap as $tag=>$value){		if (!isset($valortag["$tag"])) $valortag[$tag]=$value;
+		$variables["tag$tag"]=$value;	}
 }
 
 function ColocarMfn(){
@@ -339,8 +317,7 @@ global $arrHttp;
 			echo "</script>\n
 
 		";
-	}
-}
+	}}
 
 function VariablesDeAmbiente($var,$value){
 global $arrHttp,$variables;
@@ -372,14 +349,11 @@ global $arrHttp,$variables;
 				}
 			}
 		}else{
-			if (trim($value)!="") {
-				$arrHttp[$var]=$value;
-			}
+			if (trim($value)!="") {				$arrHttp[$var]=$value;			}
 		}
 }
 
-function GetRecordType(){
-global $arrHttp,$valortag,$tm,$nr,$tl,$tym;
+function GetRecordType(){global $arrHttp,$valortag,$tm,$nr,$tl,$tym;
 	if (isset($arrHttp["wks"]))
 		return;
 	if (isset($tm)){   //para ver si hay tipo de material  y no viene fijado anteriormente
@@ -459,7 +433,6 @@ echo "<script>document.location.href=document.location.href;</script>";
 return $libre;
 }
 //
-
 $ValorCapturado="";
 $arrHttp=Array();
 foreach ($_GET as $var => $value) {
@@ -476,8 +449,7 @@ if (!isset($arrHttp["Expresion"]))     $arrHttp["Expresion"]="";
 //READ THE RIGHTS OF THE USERS FOR THE DATAENTRY WORKSHEETS
 $wks_avail=ReadWorksheetsRights();
 
-if (isset($arrHttp["wks"])){
-	$arrHttp["wks_a"]=$arrHttp["wks"];
+if (isset($arrHttp["wks"])){	$arrHttp["wks_a"]=$arrHttp["wks"];
 	$wk=explode('|',$arrHttp["wks"])  ;
 	$arrHttp["wks"]=$wk[0];            // Nombre de la hoja de entrada
 	if (isset($wk[1]))
@@ -498,9 +470,7 @@ if (isset($arrHttp["wks"])){
 		$arrHttp["wk_tag_tipom_2"]="";
 
 
-}else{
-
-}
+}else{}
 echo "\n<script>top.toolbarEnabled=\"\"\n</script>";
 
 // Settings for returning to the script browse.php  (added 14-04-2009)
@@ -522,8 +492,7 @@ if (isset($arrHttp["Status"])){    // value=1 indicates record deleted
 }
 // end settings
 
-if ($arrHttp["Opcion"]=="ver" or $arrHttp["Opcion"]=="cancelar" or $arrHttp["Opcion"]=="buscar" or ($arrHttp["Opcion"]=="actualizar") or $arrHttp["Opcion"]=="save" ) {
-
+if ($arrHttp["Opcion"]=="ver" or $arrHttp["Opcion"]=="cancelar" or $arrHttp["Opcion"]=="buscar" or ($arrHttp["Opcion"]=="actualizar") or $arrHttp["Opcion"]=="save" ) {
 
 		if (isset($arrHttp["sort"]))
 			$sort="&sort=".$arrHttp["sort"];
@@ -536,11 +505,14 @@ $arrHttp["password"]=$_SESSION["password"];
 
 
 $arrHttp["Notificacion"]="N";
-
-foreach ($arrHttp as $var => $value) {
-	if (substr($var,0,3)=="tag" ){
+//Si hay leader, se lee para ver en qué campos están el tipo de literatura y el nivel bibliográfico
+$fpLeader=file($db_path.$arrHttp["base"]."/def/".$lang_db."/typeofrecord.tab");
+foreach ($fpLeader as $value){	$line_1=trim($value);
+	break;}
+$tmLeader=explode(" ",$line_1);
+foreach ($arrHttp as $var => $value) {	if (substr($var,0,3)=="tag" ){
 		$tag=explode("_",$var);
-		if (substr($tag[0],3)>3000 and substr($tag[0],3)<4000){  //IF LEADER, REFORMAT THE FIELD FOR ELIMINATING |
+		if (substr($tag[0],3)>3000 and substr($tag[0],3)<4000 or (count($tmLeader)>0 and (substr($tag[0],3)==$tmLeader[0] or substr($tag[0],3)==$tmLeader[1]))){  //IF LEADER, REFORMAT THE FIELD FOR ELIMINATING |
 			$v=explode('|',$value);
 			$value=$v[0];
 		}
@@ -607,33 +579,24 @@ if (isset ($arrHttp["Opcion"]))  {
 // se lee el archivo con los tipos de registro
 unset ($tm);
 $tor="";
-if (file_exists($db_path.$base."/def/".$_SESSION["lang"]."/typeofrecord.tab")){
-	$tor=$db_path.$base."/def/".$_SESSION["lang"]."/typeofrecord.tab";
-}else{
-	if (file_exists($db_path.$base."/def/".$lang_db."/typeofrecord.tab"))
-		$tor=$db_path.$base."/def/".$lang_db."/typeofrecord.tab";
-}
+if (file_exists($db_path.$base."/def/".$_SESSION["lang"]."/typeofrecord.tab")){	$tor=$db_path.$base."/def/".$_SESSION["lang"]."/typeofrecord.tab";
+}else{	if (file_exists($db_path.$base."/def/".$lang_db."/typeofrecord.tab"))
+		$tor=$db_path.$base."/def/".$lang_db."/typeofrecord.tab";}
 //se carga la tabla de tipos de registro
 // $tl and $nr are the tags where the type of record is stored
 if ($tor!=""){
 	$fp = file($tor);
 	$ix=0;
 	$tm[]="";
-	foreach ($fp as $linea){
-		$linea=trim($linea);
+	foreach ($fp as $linea){		$linea=trim($linea);
 		if ($linea!=""){
 			if ($ix==0){
 				$ij=strpos($linea," ");
-				if ($ij===false) {
-					$tl=$linea;
-				}else{
-					$tl=trim(substr($linea,0,$ij));
-					$nr=trim(substr($linea,$ij));
-				}
+				if ($ij===false) {					$tl=$linea;				}else{					$tl=trim(substr($linea,0,$ij));
+					$nr=trim(substr($linea,$ij));				}
 
 				$ix=1;
-			}else{
-				$tm[]=trim($linea);
+			}else{				$tm[]=trim($linea);
 			}
 		}
 
@@ -662,14 +625,11 @@ $reintentar="";
 switch ($arrHttp["Opcion"]) {
 	case "reintentar":           // IF A VALIDATION ERROR OCCURS THE RECORD IS REDISPLAYED
     case "save":
-    	if ($arrHttp["Opcion"]=="reintentar"){
-    		$reintentar="S";
-    		if ($arrHttp["Mfn"]=="New"){
+    	if ($arrHttp["Opcion"]=="reintentar"){    		$reintentar="S";    		if ($arrHttp["Mfn"]=="New"){
 				$arrHttp["Opcion"]="crear";
 			}else{
 				$arrHttp["Opcion"]="editar";
-			}
-    	}
+			}    	}
 		CargarMatriz($arrHttp["ValorCapturado"]);
 		//echo "<xmp>";
 //var_dump($variables);
@@ -678,8 +638,7 @@ switch ($arrHttp["Opcion"]) {
 		if (isset($tm) and !isset($arrHttp["wks"])){   //para ver si hay tipo de material  y no viene fijado anteriormente
 			foreach ($tm as $linea){
 				$tym=explode('|',trim($linea));
-				if (!isset($valortag[$tl])){
-					$arrHttp["wks_a"]=$linea;
+				if (!isset($valortag[$tl])){					$arrHttp["wks_a"]=$linea;
 					$arrHttp["wks"]=$tym[0];
 					$arrHttp["wk_tipom_1"]=$tym[1];
 					$arrHttp["wk_tipom_2"]=$tym[2];
@@ -706,9 +665,25 @@ switch ($arrHttp["Opcion"]) {
 	case "buscar":
 		include("scripts_dataentry.php");
         $resultado=EjecutarBusqueda();
+        $_SESSION["Expresion"]=$arrHttp["Expresion"];
+    	$ix=count($_SESSION["history"]);
+    	$found="N";
+    	$arrHttp["Expresion"]=str_replace('"','',$arrHttp["Expresion"]);
+    	foreach ($_SESSION["history"] as $history){
+    		$h=explode('$$|$$',$history);
+    		if ($h[0]=$arrHttp["base"]){
+    			if ($arrHttp["Expresion"]==$h[1]){
+    				$found="Y";
+    				break;
+    			}
+    		}
+    	}
+    	if ($found=="N")
+    		$_SESSION["history"][$ix]=$arrHttp["base"].'$$|$$'.$arrHttp["Expresion"].'$$|$$'.$Total_Search;
         $_SESSION["refinar"]=$arrHttp["Expresion"];
-        if ($resultado=="0"){
-        	$arrHttp["Opcion"]=="ninguna";
+        if (!isset($_SESSION["expresion"][$arrHttp["base"]][$arrHttp["expresion"]]))
+        	$_SESSION["expresion"][$arrHttp["base"]][$arrHttp["expresion"]]=$resultado;
+        if ($resultado=="0"){        	$arrHttp["Opcion"]=="ninguna";
         	echo "	<div class=\"middle form\">
 						<div class=\"formContent\">
 						<table width=100%><td width=10></td><td>\n";
@@ -722,22 +697,18 @@ switch ($arrHttp["Opcion"]) {
 	        echo "</div></div>";
 	        include("../common/footer.php");
 	        die;
-	        break;
-        }else{
+	        break;        }else{
         	include("toolbar_record.php");
 	        if ($resultado!="no"){        //resultado=no indica que ya se formateo el registro
 	        	$ver="s";
 	        	if ($arrHttp["Formato"]!=""){
-	        		echo "<table width=100%><td width=10></td><td><font size+1>$registro.</td></table>";
-	        	}else{
-	        		$res=LeerRegistro($base,$cipar,$arrHttp["Mfn"],$maxmfn,"leer",$arrHttp["login"],$password,"");
+	        		echo "<table width=100%><td width=10></td><td><font size+1>$registro.</td></table>";	        	}else{	        		$res=LeerRegistro($base,$cipar,$arrHttp["Mfn"],$maxmfn,"leer",$arrHttp["login"],$password,"");
             		$ver=true;
             		if (isset($arrHttp["wks"])){
 					}else{
 	        			GetRecordType();
         			}
-        			PlantillaDeIngreso();
-	        	}
+        			PlantillaDeIngreso();	        	}
 
 	        	if (isset($tm)){   //para ver si hay tipo de material  y no viene fijado anteriormente
 					foreach ($tm as $linea){
@@ -764,8 +735,7 @@ switch ($arrHttp["Opcion"]) {
 					if (!isset($arrHttp["encabezado"])) ColocarMfn();
 				}
 
-	        }else{
-	        	$ver="s";
+	        }else{	        	$ver="s";
 	        	echo "<table width=100%><td width=20></td><td>";
 	        	if ($arrHttp["Formato"]!=""){
 	        		echo $registro;
@@ -777,8 +747,7 @@ switch ($arrHttp["Opcion"]) {
 	        			GetRecordType();
         			}
         			PlantillaDeIngreso();
-	        	}
-	        }
+	        	}	        }
 		}
 
 			echo "</form></td></table></div></div>\n";
@@ -800,30 +769,27 @@ switch ($arrHttp["Opcion"]) {
 		$arrHttp["Opcion"]=="ninguna";
         	echo "	<div class=\"middle form\">
 						<div class=\"formContent\">\n";
+						echo "<dd><table><td width=20> </td><td>";
 		echo $salida;
+		echo "</td></table></dd>" ;
 //SE AVERIGUA SE SE VA A LEER LA INFORMACIÓN DE OTRA BASE DE DATOS
-		if (isset($record_deleted) and $record_deleted=="Y"){
-			echo "<a href=javascript:Undelete(".$arrHttp["Mfn"].")>undelete</a>";
-		}
+		if (isset($record_deleted) and $record_deleted=="Y"){			echo "<a href=javascript:Undelete(".$arrHttp["Mfn"].")>undelete</a>";		}
 		if (!isset($arrHttp["capturar"])){
 			ColocarMfn();
 		}
-		echo "</form></div></div>\n";
+		echo "</form></div></div></div>\n";
 		include("../common/footer.php");
 		die;
 		break;
 		}
-
 	case "presentarformulario":
 		PresentarFormulario("nuevo");
 		return;
 		break;
 	case "presentar_captura":
         $ver="";
-        if (isset($arrHttp["cnvtabsel"])){
-        	$res=LeerRegistro($arrHttp["basecap"],$arrHttp["ciparcap"],$arrHttp["Mfn"],$maxmfn,"editar",$login,$password,"");
-        	CambiarFormatoRegistro();
-        }else{
+        if (isset($arrHttp["cnvtabsel"])){        	$res=LeerRegistro($arrHttp["basecap"],$arrHttp["ciparcap"],$arrHttp["Mfn"],$maxmfn,"editar",$login,$password,"");
+        	CambiarFormatoRegistro();        }else{
 			$res=LeerRegistro($arrHttp["basecap"],$arrHttp["ciparcap"],$arrHttp["Mfn"],$maxmfn,"editar",$login,$password,"");
        	}
        	$arrHttp["Mfn"]="New";
@@ -848,17 +814,14 @@ switch ($arrHttp["Opcion"]) {
 		break;
 	case "cancelar":
 
-        if ($arrHttp["Mfn"]=="New") {
-        	include ("scripts_dataentry.php");
+        if ($arrHttp["Mfn"]=="New") {        	include ("scripts_dataentry.php");
         	include("toolbar_record.php");
        		echo "<body><div class=\"middle form\">
 			<div class=\"formContent\">";
 			echo "<h3>".$msgstr["recnotupdated"]."</h3>" ;
         	echo "</form></div></div></div>\n";
-			include("../common/footer.php");
-        	die;
-        	break;
-        }
+			include("../common/footer.php");        	die;
+        	break;        }
 		$arrHttp["unlock"] ="S";
 		$res=LeerRegistro($base,$cipar,$arrHttp["Mfn"],$maxmfn,"leer",$arrHttp["login"],$password,"");
 		if (isset($arrHttp["Formato"]) and $arrHttp["Formato"]!=""){
@@ -880,10 +843,9 @@ switch ($arrHttp["Opcion"]) {
 	        	GetRecordType();
         	}
         	PlantillaDeIngreso();
-			break;
-		}
+			break;		}
 	case "editar":
-session_start();//esto es temporal
+	session_start();//esto es temporal
 $rpctag=$_SESSION['rpctag'];
 //echo 'rpctag=' . $rpctag . '<p>';
 //die;
@@ -922,18 +884,19 @@ else
 session_register($arrHttp['base'].$arrHttp['Mfn']);
 echo "<script>document.location.href=document.location.href;</script>";
 }
+die;
 }
-}
-//end check RPC		
-		if($libre)
-		{
 
+}
+
+//end check RPC		
+if($libre)
+{
 	    $arrHttp["lock"] ="S";
 		}
 	case "leer":
 		$res=LeerRegistro($base,$cipar,$arrHttp["Mfn"],$maxmfn,$arrHttp["Opcion"],$arrHttp["login"],$password,"");
-		if ($res=="LOCKREJECTED") {
-			echo "<script>
+		if ($res=="LOCKREJECTED") {			echo "<script>
 			alert('".$arrHttp["Mfn"].": ".$msgstr["reclocked"]."')
 			if (top.window.frames.length>0){
 				top.xeditar=''
@@ -942,8 +905,7 @@ echo "<script>document.location.href=document.location.href;</script>";
 			}
 			</script>";
 			die;
-			break;
-		}
+			break;		}
 		if (isset($arrHttp["wks"])){
 		}else{
 	        GetRecordType();
@@ -962,26 +924,19 @@ echo "<script>document.location.href=document.location.href;</script>";
 $rpctag=$_SESSION['rpctag'];
 	$passHttp=$_POST['pass'];
 	$actreguser=RPC($cisis_path,$cisis_ver,$db_path,$arrHttp['base'],$arrHttp['Mfn'],$rpctag,$passHttp);
-	//end check RPC	
+	//end check RPC
 	if($actreguser)
-{
+	{
 		include ("scripts_dataentry.php");
         echo "<body><div class=\"middle form\">
 			<div class=\"formContent\">";
 		$res=ActualizarRegistro(1);
-		if (trim($res)=="DELETED"){
-			//echo "<h4>".$arrHttp["Mfn"]." ". $msgstr["recdel"]."</h4>";
-			echo "<dd><table><td width=20> </td><td><h3>MFN: ".$arrHttp["Mfn"]."</h3> <h1>". $msgstr["recdel"]."</h1></td></table></dd>";
+		if (trim($res)=="DELETED"){			echo "<h4>".$arrHttp["Mfn"]." ". $msgstr["recdel"]."</h4>";
 			$record_deleted="Y";
-			if (!isset($arrHttp["ventana"])) echo "<a href=javascript:Undelete(".$arrHttp["Mfn"].")>".$msgstr["undelete"]."</a>";
-		}else{
-			echo "<h4>".$arrHttp["Mfn"]." ". $msgstr["notdeleted"]."</h4>";
-			$record_deleted="N";
-		}
-		if (isset($arrHttp["ventana"])){
-			echo "<a href='javascript:window.opener.location.reload(true); self.close()'>";
-			echo $msgstr["cerrar"]."</a>";
-		}
+			if (!isset($arrHttp["ventana"])) echo "<a href=javascript:Undelete(".$arrHttp["Mfn"].")>".$msgstr["undelete"]."</a>";		}else{			echo "<h4>".$arrHttp["Mfn"]." ". $msgstr["notdeleted"]."</h4>";
+			$record_deleted="N";		}
+		if (isset($arrHttp["ventana"])){			echo "<a href='javascript:window.opener.location.reload(true); self.close()'>";
+			echo $msgstr["cerrar"]."</a>";		}
         echo "\n<script>if (top.window.frames.length>0) top.ApagarEdicion()</script>
         </div></div></body></html>\n";
 		return;
@@ -994,12 +949,10 @@ $rpctag=$_SESSION['rpctag'];
 	default:
 }
 if ($actualizar=="SI"){
-	GetRecordType();
-// READ END CODE
+	GetRecordType();// READ END CODE
 	$validar="N";
 	if ($arrHttp["Opcion"]!="save"){
-
-		$ext=".end";
+		$ext=".end";
 		include("fmt_begin_end.php");
 
 		if (isset($rec_validation)){
@@ -1013,8 +966,7 @@ if ($actualizar=="SI"){
     unset($rec_validation);
 	unset($default_values);
 	$xtl="";
-	$xnr="";
-    if (isset($valortag[$Rtl])) $xtl=trim($valortag[$Rtl]);
+	$xnr="";    if (isset($valortag[$Rtl])) $xtl=trim($valortag[$Rtl]);
 	if (isset($valortag[$Rnr])) $xnr=trim($valortag[$Rnr]);
 	$nuevo="";
 	if ($arrHttp["Mfn"]=="New") $nuevo="s";
@@ -1028,9 +980,7 @@ if ($actualizar=="SI"){
 		$regSal=LeerRegistro($base,$cipar,$arrHttp["Mfn"],$maxmfn,$arrHttp["Opcion"],$login,$password,$arrHttp["Formato"]);
     	$arrHttp["Notificacion"]="N";
 		require_once('ingresoadministrador.php');
-	}else{
-		$regSal=LeerRegistroFormateado($arrHttp["Formato"]);
-	}
+	}else{		$regSal=LeerRegistroFormateado($arrHttp["Formato"]);	}
 	include ("scripts_dataentry.php");
 	if (!isset($record_deleted)) $record_deleted="N";
 	if ($record_deleted=="N")
@@ -1041,9 +991,7 @@ if ($actualizar=="SI"){
 
 }else{
 //se lee la fdt de la base de datos
-	if ($arrHttp["Opcion"]=="crear" or $arrHttp["Opcion"]=="capturar") {
-		if (isset($_SESSION["valdef"])){
-			$fp=explode('$$$',$_SESSION["valdef"]);
+	if ($arrHttp["Opcion"]=="crear" or $arrHttp["Opcion"]=="capturar") {		if (isset($_SESSION["valdef"])){			$fp=explode('$$$',$_SESSION["valdef"]);
 			foreach ($fp as $linea){
 				$linea=rtrim($linea);
 				$tag=trim(substr($linea,0,4))*1;
@@ -1054,11 +1002,9 @@ if ($actualizar=="SI"){
 						$valortag[$tag].="\n".substr($linea,4);
 				}
 			}
-
-		}
+		}
 		if (isset($arrHttp["wk_tag_tipom_1"]) and $arrHttp["wk_tag_tipom_1"]!=""){
-			$valortag[$arrHttp["wk_tag_tipom_1"]]= $arrHttp["wk_tipom_1"];
-		}
+			$valortag[$arrHttp["wk_tag_tipom_1"]]= $arrHttp["wk_tipom_1"];		}
 		if (isset($arrHttp["wk_tag_tipom_2"]) and $arrHttp["wk_tag_tipom_2"]!=""){
 			$valortag[$arrHttp["wk_tag_tipom_2"]]= $arrHttp["wk_tipom_2"];
 		}
@@ -1085,12 +1031,10 @@ if ($actualizar=="SI"){
 if (!isset($arrHttp["encabezado"]) and $arrHttp["Opcion"]!="captura_bd" and !isset($arrHttp["ventana"]))
 	if ($arrHttp["Opcion"]!="eliminar" ) ColocarMfn();
 
-if (isset($arrHttp["ventana"])){
-	echo "<script>
+if (isset($arrHttp["ventana"])){	echo "<script>
 	 window.opener.location.reload(true)
 	 self.close()
 	</script>
-	";
-}
+	";}
 
 ?>

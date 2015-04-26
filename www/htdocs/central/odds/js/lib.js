@@ -1,5 +1,5 @@
 // ------------------------------------------------------------------------------------------
-// All funcrions in this file ares used for send mails from ABCD when a request is answered
+// All functions in this file ares used for send mails from ABCD when a request is answered
 // ------------------------------------------------------------------------------------------
 function getOutput(email, email_apoderado, fecha, name, status, uploadFiles, notes, title) {
   getRequest(
@@ -50,6 +50,7 @@ function getRequest(url, success, error, email, email_apoderado, fecha, name, st
         }
     }
     url = url + "?email=" + email + "&email_apoderado=" + email_apoderado + "&fecha=" + fecha +  "&name=" + name + "&status=" + status+ "&uploadFiles=" + uploadFiles + "&notes=" + notes+ "&title=" + title;
+    alert(url);
     req.open("GET", url, true);
     req.send(null);
     return req;

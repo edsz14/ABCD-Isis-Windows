@@ -11,20 +11,19 @@ include("../lang/dbadmin.php");
 include("../lang/acquisitions.php");
 include("../config.php");
 include("../common/header.php");
-
 $base=$arrHttp["base"];
 $OS=strtoupper(PHP_OS);
 $converter_path=$cisis_path;
-if(!isset($__SESSION["base"]))
-{
-session_register("base");
-$_SESSION["base"]=$base;
-}
 
+//if(!isset($_SESSION["base"]))
+//{
+//session_register("base");
+//$_SESSION["base"]=$base;
+//}
 
 include("../common/institutional_info.php");
 	$encabezado="&encabezado=s";
-echo "<div style='float:right;'> <a href=\"menu_mantenimiento.php?base=".$_POST['basef']."&encabezado=s\" class=\"defaultButton backButton\">";
+echo "<div style='float:right;'> <a href=\"../dbadmin/menu_mantenimiento.php?base=".$_POST['basef']."&encabezado=s\" class=\"defaultButton backButton\">";
 echo "<img 'src=\"../images/defaultButton_iconBorder.gif\" alt=\"\" title=\"\" />
 					<span><strong> back </strong></span>
 				</a></div>";
@@ -40,7 +39,7 @@ echo "</div>
 	<a href=../documentacion/ayuda.php?help=<?php echo $_SESSION["lang"]?>/menu_mantenimiento_vmxISO_export.html target=_blank><?php echo $msgstr["help"]?></a>&nbsp &nbsp;
 <?php
 if (isset($_SESSION["permiso"]["CENTRAL_EDHLPSYS"]))
- 	echo "<a href=../documentacion/edit.php?archivo=".$_SESSION["lang"]."/menu_mantenimiento_vmxISO_load.html target=_blank>".$msgstr["edhlp"]."</a>";
+ 	echo "<a href=../documentacion/edit.php?archivo=".$_SESSION["lang"]."/menu_mantenimiento_vmxISO_export.html target=_blank>".$msgstr["edhlp"]."</a>";
 echo "<font color=white>&nbsp; &nbsp; Script: vmxISO_export.php</font>";
 ?>
 </div>
@@ -49,7 +48,7 @@ echo "<font color=white>&nbsp; &nbsp; Script: vmxISO_export.php</font>";
 <?php echo "<input type='hidden' name='basef' value='$base'>" ?>
 <label>Enter a name</label> <br>
 <input type='text' name='isoname'>
-<br><br><label>Marc format</label>
+<br><br><label>MARC format</label>
   <select name="mf">
   <option>yes</option>
   <option>no</option>
@@ -95,7 +94,7 @@ if($base=="")
 echo"<br>NO database selected";
 }
 }
-//echo "<br>"."<a href='menu_mantenimiento.php?base=&encabezado=s'>Maintenance Menu</a>"."<br>";
+//echo "<br>"."<a href='../dbadmin/menu_mantenimiento.php?base=&encabezado=s'>Maintenance Menu</a>"."<br>";
 ?>
 <?php if (isset($arrHttp["encabezado"])) echo "<input type=hidden name=encabezado value=s>"?>
 </form>

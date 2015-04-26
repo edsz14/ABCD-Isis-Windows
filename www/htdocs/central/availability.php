@@ -13,7 +13,7 @@ if (isset($arrHttp["lang"])){
 }
 require_once ("lang/mysite.php");
 require_once("lang/lang.php");
-if ($EmpWeb == 'N') {
+if ($EmpWeb == 'N') {                            //Central Loans
 ?>
 
 <html>
@@ -138,7 +138,7 @@ else          // if EmpWeb
     function callMySite(id)
     {
         var str_aux = "/central/iniciomysite.php?action=reserve&recordId="+id+"&lang=<?php echo $lang; ?>";
-        janela = window.open(str_aux,"EMPWeb");
+        janela = window.open(str_aux,"EmpWeb");
 
         janela.moveTo(0,0);
         janela.resizeTo(screen.width,screen.height);
@@ -160,15 +160,15 @@ else          // if EmpWeb
 </div>
 <div class="middle homepage">
 <?php
-
-require_once('../isisws/nusoap.php');
+require_once('nusoap/nusoap.php');
 require_once ("config.php");
 
 //set_time_limit(60);
 
 $proxyhost = isset($_POST['proxyhost']) ? $_POST['proxyhost'] : '';
 //echo 'proxyhost='. $proxyhost . '<br>';
-
+//echo 'empwebquerylocation='. $empwebservicequerylocation . '<br>';
+//echo 'empwebserviceobjectsdb='. $empwebserviceobjectsdb . '<br>';
 $proxyport = isset($_POST['proxyport']) ? $_POST['proxyport'] : '';
 $proxyusername = isset($_POST['proxyusername']) ? $_POST['proxyusername'] : '';
 $proxypassword = isset($_POST['proxypassword']) ? $_POST['proxypassword'] : '';
@@ -187,12 +187,14 @@ if ($err) {
 $params = array('queryParam'=>array("query"=> array('recordId'=>$_GET["copyId"])), 'database' =>$empwebserviceobjectsdb);
 $result = $client->call('searchObjects', $params, 'http://kalio.net/empweb/engine/query/v1' , '');
 
-var_dump($result);
+//print_r($result);
 //die;
 
 $miscopias = $result[queryResult][databaseResult][result][modsCollection][mods][extension][holdingsInfo][copies][copy];
-print_r($miscopias);
-die;
+//echo "miscopias = ";
+//print_r($miscopias);
+//var_dump($miscopias);
+//die;
 if (is_array($miscopias))
 {
 
@@ -208,13 +210,13 @@ if (is_array($miscopias))
 
     for ($i=0;$i<=sizeof($copias)-1;$i++)
     {
-      //echo "Copy = ". $copias[$i][copyId]." - ".$copias[$i][copyLocation]." - ".$copias[$i][objectCategory]."<br>";
+      echo "Copy = ". $copias[$i][copyId]." - ".$copias[$i][copyLocation]." - ".$copias[$i][objectCategory]."<br>";
 
       $params = array('copyId'=>$copias[$i][copyId], 'database' => $empwebserviceobjectsdb);
       $result =  $client->call('getCopyStatus', $params, 'http://kalio.net/empweb/engine/query/v1' , '');
 
       print_r ($result[copyStatus][loans][loan][userId]);
-      die;
+      //die;
       if (sizeof($result[copyStatus][loans])>0)
       {
         $copias[$i][loanfrom]=$result[copyStatus][loans][loan][startDate];

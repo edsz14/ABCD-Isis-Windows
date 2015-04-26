@@ -23,7 +23,7 @@ $base=$_POST['base'];
  # movemos el archivo 
  if(@move_uploaded_file($origen, $destino)) 
  { 
- echo "<br>".$_FILES["archivo"]["name"][$i]." suploaded to $carpetaDestino"; 
+ echo "<br>".$_FILES["archivo"]["name"][$i]." uploaded to $carpetaDestino"; 
 $fn.=$_FILES["archivo"]["name"][$i]."&*";
  }
  else
@@ -55,8 +55,8 @@ echo "<br><a href='javascript:send();'><br><img src='../images/importDatabase.pn
  ?>
 <h3> Digital document import</h3>
  <form action="<?php echo $_SERVER["PHP_SELF"]?>" method="post" enctype="multipart/form-data" name="inscripcion" target="_self" onsubmit="OpenWindows();"> 
-Upload location <br><input type="text" name=cd size=50 value='/opt/ABCD/www/htdocs/bases/<?php echo $base;?>/collection/'><br><br>
- Select one or more files<br><input type="file" size=26 name="archivo[]" multiple="multiple"> 
+Upload location <br><input type="text" name=cd size=75 value='<?php echo $img_path.$base;?>/collection/ABCDImportRepo/'><br><br>
+ Select one or more files<br><input type="file" size=40 name="archivo[]" multiple="multiple"> 
 <input type="hidden" name=base value="<?php echo $base;?>">
  <input type="submit" value="Send" class="trig"> 
  </form> 

@@ -17,12 +17,16 @@ global $copies,$ix_nb,$base_sel;
 				</label>
 				<select name=bd onchange=Enviar()>
 				<option></option>\n";
-
-		foreach ($bases_p as $value){
-			$v=explode('|',$value);
-			$sel_base.= "<option value=".$v[0].">".$v[1]."</option>\n";
-		}
-		$sel_base.= "</select>\n";
+    if (count($bases_p)==1)
+       	$selected=" selected";
+    else
+      	$selected="";
+	foreach ($bases_p as $value){
+		$v=explode('|',$value);
+		$sel_base.= "<option value=".$v[0]." $selected>".$v[1]."</option>\n";
+		$selected="";
+	}
+	$sel_base.= "</select>\n";
 
 	return $sel_base;
 }

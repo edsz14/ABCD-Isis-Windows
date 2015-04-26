@@ -115,7 +115,8 @@ echo "
 			<div class=\"formContent\">
 
 ";
-echo "<font size=1>Script: eliminarbd.php</font>";if  (!is_dir($db_path.$arrHttp["base"])) {
+echo "<font size=1>Script: eliminarbd.php</font>";
+if  (!is_dir($db_path.$arrHttp["base"])) {
     	echo "<p><h5>".$arrHttp["base"]."<br>Database does not exist</h5>";
     	if (!isset($arrHttp["encabezado"])){    		if (!isset($arrHttp["eliminar"]))
     			echo " <p><center><a href=menu_mantenimiento.php?base=".$arrHttp["base"]."$encabezado>". $msgstr["back"]."</a>";
@@ -133,43 +134,57 @@ echo "</body></html>\n";
 echo "<h5>".$msgstr["borrartodo"]."</h5></center>";
 
 //foreach ($arrHttp as $var=>$value) echo "$var = $value<br>";
-
-
-if (isset($arrHttp["eliminar"])){
-	$BD=$arrHttp["base"];
-	$el=$db_path.$arrHttp["base"];
-	$res=delete_directory($el);
-	if ($res==true){
-		if (file_exists($db_path."par/".$BD.".par")) unlink($db_path."par/".$BD.".par");
-		$filename=$db_path. "bases.dat";
-		$fp=file($filename);
-		$contenido="";
-		foreach ($fp as $value){
-			$value=trim($value);
-			if ($value!=""){
-				$b=array();
-				$b=explode('|',$value);
-				$comp=$b[0];
-				if ($comp!=$BD) $contenido.=$value."\n";
-			}
+$protected="N";
+if (file_exists($db_path.$arrHttp["base"]."/protect_status.def")){
+	$fp=file($db_path.$arrHttp["base"]."/protect_status.def");
+	foreach ($fp as $value){
+		$value=trim($value);
+		if ($value=="PROTECTED"){
+			echo "<h4>".$msgstr["protect_db"].": OK!!!</h4>";
+			$protected="Y";
 		}
-		$ce=CrearArchivo($filename,$contenido);
-		if (!isset($arrHttp["encabezado"])) echo "<script>EliminarListaBases('".$arrHttp["base"]. "')</script>";
-
+	}
+}
+if ($protected=="N")
+	echo "<h5>".$msgstr["borrartodo"]."</h5></center>";
+if (isset($arrHttp["eliminar"])){
+	if ($protected=="N"){
+		$BD=$arrHttp["base"];
+		$el=$db_path.$arrHttp["base"];
+		$res=delete_directory($el);
+		if ($res==true){
+			if (file_exists($db_path."par/".$BD.".par")) unlink($db_path."par/".$BD.".par");
+			$filename=$db_path. "bases.dat";
+			$fp=file($filename);
+			$contenido="";
+			foreach ($fp as $value){
+				$value=trim($value);
+				if ($value!=""){
+					$b=array();
+					$b=explode('|',$value);
+					$comp=$b[0];
+					if ($comp!=$BD) $contenido.=$value."\n";
+				}
+			}
+			$ce=CrearArchivo($filename,$contenido);
+			if (!isset($arrHttp["encabezado"])) echo "<script>EliminarListaBases('".$arrHttp["base"]. "')</script>";
+		}
 	}
 }else{	if (isset($arrHttp["encabezado"])) {		$url="../common/inicio.php?reiniciar=s";
 	}else{		$url="index.php";	}
-	echo "<script>
-			if (confirm(\"".$msgstr["mnt_ebd"]." ".$arrHttp["base"]." ??\")==true){
-				if (confirm(\"".$msgstr["seguro"]." ??\")==true){";
-					 echo "self.location=\"eliminarbd.php?base=".$arrHttp["base"]."&eliminar=s$encabezado\"
-				}else{
+	if ($protected=="N"){
+		echo "<script>
+				if (confirm(\"".$msgstr["mnt_ebd"]." ".$arrHttp["base"]." ??\")==true){
+					if (confirm(\"".$msgstr["seguro"]." ??\")==true){";
+						 echo "self.location=\"eliminarbd.php?base=".$arrHttp["base"]."&eliminar=s$encabezado\"
+					}else{
 					self.location=\"$url\";
-				}
-			}else{
+					}
+				}else{
 				self.location=\"$url\";
-			}
-		  </script>";
+				}
+			  </script>";
+	}
 }
 if (!isset($arrHttp["encabezado"]))
  	echo "<p><center><a href=menu_mantenimiento.php?base=".$arrHttp["base"].">Menu</a>";

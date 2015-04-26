@@ -80,7 +80,7 @@ function Enviar(){
 	<body class="mysite">
 		<div class="headingmysite">
 			<div class="institutionalInfo">
-				<h1>BIREME - Centro Latino Americano e do Caribe de Informação em Ciências da Saúde</h1>
+				<h1><?php echo $institution_name?></h1>
 				<h2>ABCD</h2>
 			</div>
 			<div class="userInfo">
@@ -101,6 +101,8 @@ function Enviar(){
 <input type=hidden name=Opcion value=admin>
 <input type=hidden name=cipar value=acces.par>
 <input type=hidden name=lang value="<?php echo $arrHttp["lang"];?>">
+<input type=hidden name=id value="<?php echo $_GET['id'];?>">
+<input type=hidden name=cdb value="<?php echo $_GET['cdb'];?>">
 		<div class="middle login">
 			<div class="loginForm">
 				<div class="boxTop">

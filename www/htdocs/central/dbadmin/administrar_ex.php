@@ -17,14 +17,11 @@ global $arrHttp,$OS,$xWxis,$wxisUrl,$db_path,$Wxis,$msgstr;
  	$IsisScript=$xWxis.$arrHttp["IsisScript"];
  	include("../common/wxis_llamar.php");
 	foreach ($contenido as $linea){
-	 	if ($linea=="OK"){
-			//Reset the  base/data/control_number.cn
-			@unlink($db_path.$arrHttp["base"]."/data/control_number.cn"); 			
+	 	if ($linea=="OK"){			//Reset the  base/data/control_number.cn			@unlink($db_path.$arrHttp["base"]."/data/control_number.cn"); 			
 			$fp=fopen($db_path.$arrHttp["base"]."/data/control_number.cn","w");
 			fwrite($fp,"0");
 			fclose($fp);			
-	 		echo "<h4>".$arrHttp["base"]." ".$msgstr["init"]."</h4>";
-	 	}
+	 		echo "<h4>".$arrHttp["base"]." ".$msgstr["init"]."</h4>";	 	}
  	}
 }
 
@@ -46,12 +43,10 @@ function VerStatus(){
 	return $tag;
 }
 
-function Footer(){
-	echo "</div></div>";
+function Footer(){	echo "</div></div>";
 	include("../common/footer.php");
 	echo "</body></html>";
-	die;
-}
+	die;}
 
 
 
@@ -85,63 +80,74 @@ echo "
 echo "<font size=1> &nbsp; &nbsp; Script: dbadmin/administrar_ex.php</font><br>";
 switch ($arrHttp["Opcion"]) {
     case "inicializar":
-    	if (!file_exists($db_path.$arrHttp["base"])){
-    		echo "<h3>".$arrHttp["base"].": ".$msgstr["folderne"]."</h3>";
-    		Footer();
-    	}
+    	if (!file_exists($db_path.$arrHttp["base"])){    		echo "<h3>".$arrHttp["base"].": ".$msgstr["folderne"]."</h3>";
+    		Footer();    	}
     	if (!file_exists($db_path."par/".$arrHttp["base"].".par")){
     		echo "<h3>"."par/".$arrHttp["base"].".par: ".$msgstr["ne"]."</h3>";
     		Footer();
     	}
-    	$arrHttp["IsisScript"]="administrar.xis";
-    	$tag=VerStatus();
-		if (!isset($arrHttp["borrar"])){
-			if ($tag["BD"]!="N"){
+    	$protected="N";
+		if (file_exists($db_path.$arrHttp["base"]."/protect_status.def")){
+			$fp=file($db_path.$arrHttp["base"]."/protect_status.def");
+			foreach ($fp as $value){
+				$value=trim($value);
+				if ($value=="PROTECTED"){
+					echo "<h4>".$msgstr["protect_db"].": OK!!!</h4>";
+					$protected="Y";
+				}
+			}
+		}
+		if ($protected=="N"){
+    		$arrHttp["IsisScript"]="administrar.xis";
+    		$tag=VerStatus();
+			if (!isset($arrHttp["borrar"])){
+				if ($tag["BD"]!="N"){
 				echo "<center><br><span class=td><h4>".$arrHttp["base"]."<br><font color=red>".$msgstr["bdexiste"]."</font><br>".$tag["MAXMFN"]." ".$msgstr["registros"]."<BR>";
-				echo "<script>
-					if (confirm(\"".$msgstr["elregistros"]." ??\")==true){
-						borrarBd=true
-					}else{
-						borrarBd=false
-					}
-					if (borrarBd==true){
-						if (confirm(\"".$msgstr["seguro"]." ??\")==true){
+					echo "<script>
+						if (confirm(\"".$msgstr["elregistros"]." ??\")==true){
 							borrarBd=true
 						}else{
 							borrarBd=false
 						}
-					}
-					if (borrarBd==true)
-						self.location=\"administrar_ex.php?base=".$arrHttp["base"]."&cipar=".$arrHttp["cipar"]."&Opcion=inicializar&borrar=true$encabezado\"
-					</script>";
-			}else{
-
-				InicializarBd();
-				$arrHttp["Opcion"]="unlockbd";
-			}
-		}else{
-			$arrHttp["IsisScript"]="administrar.xis";
-			InicializarBd();
-			$fp=fopen($db_path."par/".$arrHttp["base"].".par","r");
-			if (!$fp){
-				echo $arrHttp["base"].".par"." ".$msgstr["falta"];
-				die;
-			}
-			$fp=file($db_path."par/".$arrHttp["base"].".par");
-			foreach($fp as $value){
-				$ixpos=strpos($value,'=');
-				if ($ixpos===false){
+						if (borrarBd==true){
+							if (confirm(\"".$msgstr["seguro"]." ??\")==true){
+								borrarBd=true
+							}else{
+								borrarBd=false
+							}
+						}
+						if (borrarBd==true)
+							self.location=\"administrar_ex.php?base=".$arrHttp["base"]."&cipar=".$arrHttp["cipar"]."&Opcion=inicializar&borrar=true$encabezado\"
+						</script>";
 				}else{
-					if (substr($value,0,$ixpos)==$arrHttp["base"].".*"){
-						$path=trim(substr($value,$ixpos+1));
-						$ixpos=strrpos($path, '/');
-						$path=substr($path,0,$ixpos)."/";
-//						echo "<p>$path<p>";
-						break;
+
+					InicializarBd();
+					$arrHttp["Opcion"]="unlockbd";
+				}
+			}else{
+				$arrHttp["IsisScript"]="administrar.xis";
+				InicializarBd();
+				$fp=fopen($db_path."par/".$arrHttp["base"].".par","r");
+				if (!$fp){
+					echo $arrHttp["base"].".par"." ".$msgstr["falta"];
+					die;
+				}
+				$fp=file($db_path."par/".$arrHttp["base"].".par");
+				foreach($fp as $value){
+					$ixpos=strpos($value,'=');
+					if ($ixpos===false){
+					}else{
+						if (substr($value,0,$ixpos)==$arrHttp["base"].".*"){
+							$path=trim(substr($value,$ixpos+1));
+							$ixpos=strrpos($path, '/');
+							$path=substr($path,0,$ixpos)."/";
+	//						echo "<p>$path<p>";
+							break;
+						}
 					}
 				}
+				$arrHttp["Opcion"]="unlockbd";
 			}
-			$arrHttp["Opcion"]="unlockbd";
 		}
 		break;
 	case "fullinv":

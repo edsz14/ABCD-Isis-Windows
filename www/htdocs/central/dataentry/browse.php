@@ -39,8 +39,13 @@ include("../lang/dbadmin.php");
 
 include("../lang/admin.php");
 include("../lang/prestamo.php");
-
+if (!isset($arrHttp["bymfn"])) {	unset($_SESSION["Browse_Expresion"]);}else{
+	if (isset($arrHttp["Expresion"])){
+		$_SESSION["Browse_Expresion"] = $arrHttp["Expresion"];
+	}else{		if (isset($_SESSION["Browse_Expresion"]))  $arrHttp["Expresion"]=$_SESSION["Browse_Expresion"];	}
+}
 //foreach ($arrHttp as $var=>$value) echo "$var=$value<br>";
+
 
 if (isset($arrHttp["Expresion"])){
 	$arrHttp["Expresion"]=stripslashes($arrHttp["Expresion"]);
@@ -137,6 +142,7 @@ xEliminar="";
 Mfn_eliminar=0;
 function Browse(){
 	if (Indices=="Y") document.browse.Expresion.value=""
+	document.browse.bymfn.value="Y"
 	document.browse.submit();
 }
 
@@ -448,6 +454,7 @@ echo "</form>
 	<input type=hidden name=Tabla value=browse>
 </form>
 <form name=browse method=post action=browse.php>
+	<input type=hidden name=bymfn>
 	<input type=hidden name=showdeleted>
 	<input type=hidden name=base value=".$arrHttp["base"].">
 	<input type=hidden name=cipar value=".$arrHttp["base"].".par>

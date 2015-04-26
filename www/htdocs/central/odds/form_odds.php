@@ -1,7 +1,7 @@
 <?php
 session_start(); 
 
-// desplegar el combo de la categoría del usuario
+// desplegar la categoría del usuario para solicitarla
 $askCategory = true;
 $referer = false;
 if (isset($_GET['resize'])) {
@@ -12,27 +12,35 @@ if (isset($_GET['resize'])) {
       $referer = true;
   }
 }
+
+$js = false;
+if (isset($_GET['js'])) { 
+  if ($_GET['js'] == 'yes') {
+      $js = true;
+  }
+}
+
 if (isset($_GET['referer'])) {
   $referer = true;
 }
 unset($_SESSION["verifica"]);
 if (isset ($_GET['lang'])) {
-	if ($_GET['lang'] != "") {
-		$lang = $_GET['lang'];
-	}
-
+  if ($_GET['lang'] != "") {
+    $lang = $_GET['lang'];
+  }
 } else {
-  //die("lajsljasd");
-	include("../../central/config.php");
+  include("../../central/config.php");
 }
-//echo "LANG:: ".$lang;
-//die("sdad");
 
 $_SESSION["lang"] = $lang;
 include_once("lib/library.php");
+include_once("lib/decoding_urls.php");
+
 $combos = load_combos($lang);
 
+
 $aditional_info = load_aditional_info($lang);
+
 
 
 // To load automatically some inputs  
@@ -44,9 +52,11 @@ $category = isset($_GET['category']) ? trim($_GET['category']) : "";
 $level = isset($_GET['level']) ? trim($_GET['level']) : "";
 $mfn = isset($_GET['mfn']) ? trim($_GET['mfn']) : "";
 
-$email_apoderado = isset($_GET['email_apoderado']) ? trim($_GET['email_apoderado']) : "";
+//$email_apoderado = isset($_GET['email_apoderado']) ? trim($_GET['email_apoderado']) : "";
 
 $labels = load_labels($lang, $id, $name, $email, $phone);
+
+
 if (!$combos || !$labels) { 
   die ("<center><h3>Error to load .par files</h3><h5>Check paths in config files</h5></center>");
 }
@@ -107,32 +117,39 @@ if (isset($_GET['level'])) {
       <title>ODDS</title>
       <meta content="ODDS" name="title">
       <meta content="ODDS" name="description"> 
-      <link href="../css/estilo_odds.css" rel="stylesheet" type="text/css">       
+      <link href="../css/odds.css" rel="stylesheet" type="text/css">  
       <script type="text/javascript" src="js/jquery.min.js"></script>
-	    <script type="text/javascript" src="js/odds.js"></script>
-	    <script type="text/javascript" src="js/JV.js"></script>
+      <script type="text/javascript" src="js/odds.js"></script>
+      <script type="text/javascript" src="js/JV.js"></script>
       <script type="text/javascript">
        function checkSAR() {   
           document.getElementById('common_error').style.display = 'none';
           //alert(document.getElementById('referer').value);
-          if (document.getElementById('referer').value =='sar') {              
-              var init_page = document.getElementById('tag020').value;
-              var title = document.getElementById('tag012').value;
-              if ( (trim(title) == "") && (trim(init_page) == "")) {
-                  document.getElementById('common_error').style.display = 'block';
-                  document.getElementById('tag012').focus();
-                  return false;
-              } else {
-                  document.getElementById('common_error').style.display = 'none';
-                  return true;
-                  /*
-                  document.forma1.action="process_odds.php";
-                  document.forma1.submit();
-                  */
-              }
+          if (document.getElementById('referer').value =='sar') {
+              if (  document.getElementById('tag020') != null && document.getElementById('tag012') != null) { 
+                var init_page = document.getElementById('tag020').value;
+                var title = document.getElementById('tag012').value;
+                if ( (trim(title) == "") && (trim(init_page) == "")) {
+                    document.getElementById('common_error').style.display = 'block';
+                    document.getElementById('tag012').focus();
+                    return false;
+                } else {
+                    document.getElementById('common_error').style.display = 'none';
+                    return true;
+                    /*
+                    document.forma1.action="process_odds.php";
+                    document.forma1.submit();
+                    */
+                }
+            }  
           }
         }
         function  show_controls(object, lang_param) {
+          if (document.getElementById("level").selectedIndex == 0) {
+            document.getElementById("button_submit").disabled=true;    
+          }
+
+
             var jsdata = <?php echo json_encode($variable_fields); ?>;
             if (object.value == "") {                  
                 
@@ -143,7 +160,8 @@ if (isset($_GET['level'])) {
               
                 if (document.getElementById("button_submit") != null) {
                   document.getElementById("button_submit").disabled = false;
-                }              
+                }
+              
                 $.ajax({
                     url: 'lib/show_controls.php',
                     data: {
@@ -176,48 +194,48 @@ if (isset($_GET['level'])) {
         });
       </script>
     </head>
-	
+  
 <body> 
-<?php		
-	include("lib/header.php");	
-?>	
+<?php   
+  include("lib/header.php");  
+?>  
 
 <div class="middle homepage">
-	<div class="mainBox" onmouseover="this.className = 'mainBox mainBoxHighlighted';" onmouseout="this.className = 'mainBox';">
-		<div class="boxTop">
-			<div class="btLeft">&#160;</div>
-			<div class="btRight">&#160;</div>
-		</div>		
-		<div class="boxContent toolSection ">      
+  <div class="mainBox" onmouseover="this.className = 'mainBox mainBoxHighlighted';" onmouseout="this.className = 'mainBox';">
+    <div class="boxTop">
+      <div class="btLeft">&#160;</div>
+      <div class="btRight">&#160;</div>
+    </div>    
+    <div class="boxContent toolSection ">      
       <div class='welcome'><?php echo $labels['welcome'];?></div> 
       <div style="display: block; background-image: url(lib/odds_title_back.png); height: 32px; width: 760px; color: #ffffff; font-size:150%; font-weight: bold;  padding-left: 5px;font-family: Verdana, Arial, Helvetica, sans-serif; margin: 0 0 5px; 0 "><?php echo $labels['title'];  ?></div>
-			
+      
       <div class = 'subtitle'>
-          <?php				
-				    echo $labels['subtitle'];
-			     ?>
-      </div>		
+          <?php       
+            echo $labels['subtitle'];
+           ?>
+      </div>    
 
       <!-- El archivo que procesa los datos del form -->
-		  <form method = "post" name="forma1" id="forma1" class='textNove' >
-	      <!-- subtitle USER -->		  
+      <form method = "post" name="forma1" id="forma1" class='textNove' >
+        <!-- subtitle USER -->      
       <div class="textNove_data">
-		    <?php 
-		      echo $labels['subtitle_user']
-		    ?> 		    
-		  </div>
+        <?php 
+          echo $labels['subtitle_user']
+        ?>        
+      </div>
       <!-- MFN -->
       <input type="hidden" name="tag999" id="tag999" value= "<?php echo $mfn; ?>" >
 
-	    <!-- Id -->
- 			<label class='lbl' id="lbl_id"><?php echo $labels['id']." :"; ?> </label>
- 			<input type="text" value="<?php echo $id; ?>" id="ci" name="tag630" size="10" maxlength="10" <?php if (trim($id)!='')  { echo ' readonly'; echo ' STYLE="background-color:#eeeeee"';} ?>  data-jv="required(<?php echo $lang; ?>) min_length_3(<?php echo $lang; ?>)">
-			<div class = 'subtitle_blank'><?php echo $labels['subid']; ?></div>
+      <!-- Id -->
+      <label class='lbl' id="lbl_id"><?php echo $labels['id']." :"; ?> </label>
+      <input type="text" value="<?php echo $id; ?>" id="ci" name="tag630" size="10" maxlength="10" <?php if (trim($id)!='')  { echo ' readonly'; echo ' STYLE="background-color:#eeeeee"';} ?>  data-jv="required(<?php echo $lang; ?>) min_length_3(<?php echo $lang; ?>)">
+      <div class = 'subtitle_blank'><?php echo $labels['subid']; ?></div>
 
-			<!-- Name -->
- 			<label class='lbl'  id="lbl_name"><?php echo $labels['name']." :"; ?> </label>
- 			<input type="text"  value="<?php echo $name; ?>"  id="name" name="tag510" size="35" maxlength="35" <?php if (trim($name)!='')  { echo 'readonly'; echo ' STYLE="background-color:#eeeeee"';} ?> data-jv="required(<?php echo $lang; ?>)">
-			<div class = 'subtitle_blank'><?php echo $labels['subname']; ?></div>
+      <!-- Name -->
+      <label class='lbl'  id="lbl_name"><?php echo $labels['name']." :"; ?> </label>
+      <input type="text"  value="<?php echo $name; ?>"  id="name" name="tag510" size="35" maxlength="35" <?php if (trim($name)!='')  { echo 'readonly'; echo ' STYLE="background-color:#eeeeee"';} ?> data-jv="required(<?php echo $lang; ?>)">
+      <div class = 'subtitle_blank'><?php echo $labels['subname']; ?></div>
 
       <!-- additional box -->
       <div class='aditional_box'>
@@ -230,22 +248,17 @@ if (isset($_GET['level'])) {
       ?>
       </div>
 
-			<!-- user category -->
+      <!-- user category -->
       <?php
       if ($askCategory) {
-        /*
-        echo "cateGory: ".$labels['category']."<hr>";
-        echo "cateGory: ".$category."<hr>";
-        echo "cateGory: ";        
-        die;*/
       ?>
- 			<label class='lbl' id="lbl_category"><?php echo $labels['category']." :"; ?> </label>
- 			<select name="tag520" id="category" <?php if (trim($category)!='') { echo ' STYLE="background-color:#eeeeee"'; } ?>> 
- 				<?php
+      <label class='lbl' id="lbl_category"><?php echo $labels['category']." :"; ?> </label>
+      <select name="tag520" id="category" <?php if (trim($category)!='') { echo ' STYLE="background-color:#eeeeee"'; } ?>> 
+        <?php
               $selected = false;
               if ($category != "") {
                 $options = "";
-                foreach ($combos["categoria"] as $key => $value) {
+                foreach ($combos["categoria"] as $key => $value) {                  
                   if ($category == $key) {         
                       $options .= "<option value=\"".$key."\" selected>".$value."</option>\n";                    
                       $selected = true;
@@ -279,27 +292,30 @@ if (isset($_GET['level'])) {
             } else {              
                 echo "<input type='hidden' name='tag520' id='category' value='".$category."'/>";
             }
-				?>      
-			<div class = 'subtitle_blank'></div>      
+        ?>  
+      <div class = 'subtitle_blank'></div>
+      
 
-			<!-- Email -->
- 			<label class='lbl'  id="lbl_email"><?php echo $labels['email']." :"; ?> </label>
- 			<input type="text" value="<?php echo $email; /*show_emails($email, $email_apoderado); */?>" id="email" name="tag528" size="35" maxlength="35" <?php if (trim($email)!='')  { echo 'readonly'; echo ' STYLE="background-color:#eeeeee"'; } ?> data-jv="required(<?php echo $lang; ?>) email(<?php echo $lang; ?>)">      
- 			<div class = 'subtitle_blank'></div>
+      <!-- Email -->
+      <label class='lbl'  id="lbl_email"><?php echo $labels['email']." :"; ?> </label>
+      <input type="text" value="<?php echo $email; /*show_emails($email, $email_apoderado); */?>" id="email" name="tag528" size="35" maxlength="35" <?php if (trim($email)!='')  { echo 'readonly'; echo ' STYLE="background-color:#eeeeee"'; } ?> data-jv="required(<?php echo $lang; ?>) email(<?php echo $lang; ?>)">      
+      <div class = 'subtitle_blank'></div>
 
       <!-- Apoderado -->
       <?php 
+      /*
       if ($email_apoderado != "") {
         echo "<label class='lbl'  id='lbl_email_apoderado'>".$labels['email_apoderado']." :</label>";
         echo "<input  type='checkbox' id='email_apoderado_chk' name='email_apoderado_chk' value='yes' />";
         echo "<input  type='hidden' id='email_apoderado' name='tag828' value='". $email_apoderado. "' />";
         echo "<div class = 'subtitle_blank'></div>";
       }
+      */
       ?>
       
       <!-- Phone -->
-		  <label class='lbl'  id="lbl_tel"><?php echo $labels['phone']." :"; ?></label>
-		  <input type="text" value="<?php echo $phone; ?>" id="phone" name="tag512" size="15" maxlength="15" >
+      <label class='lbl'  id="lbl_tel"><?php echo $labels['phone']." :"; ?></label>
+      <input type="text" value="<?php echo $phone; ?>" id="phone" name="tag512" size="15" maxlength="15" >
       <div class = 'subtitle_blank'></div>
 
       <!-- DATA-->
@@ -365,9 +381,7 @@ if (isset($_GET['level'])) {
           echo "<span class = 'subtitle_blank'>";
           echo $labels['help_select'];       
           echo "</span>";
-        } /*else {        
-          echo "<div class = 'subtitle_blank'></div>";
-        }*/
+        } 
       ?>
     <div class = 'subtitle_blank'></div>
     <div id='optionals'></div>
@@ -385,13 +399,18 @@ if (isset($_GET['level'])) {
 
     <!-- Send --> 
     <p class="form-submit">
-          <input type="submit" class="send-button" value="<?php  echo $labels['send_button'] ?>" id="button_submit" onclick="return checkSAR();" />
+
+          <input type="submit" class="send-button" value="<?php  echo $labels['send_button'] ?>" id="button_submit" onClick="return checkSAR();" />
           <img src="http://static02.olx-st.com/images/spinner.gif" id="spinner" class="spinner" alt="Loading..." width="16" height="16" style="display: none">          
           
-          <input onclick="javascript:cleanForm()" type="button" class="send-button" value="<?php  echo $labels['clean_button'] ?>"  />
+          <input onClick="javascript:cleanForm()" type="button" class="send-button" value="<?php  echo $labels['clean_button'] ?>"  />
+          
           <?php 
             if ($referer) {
-              echo '<input onclick="javascript:onClick=self.close()" type="button" class="send-button" value="'.$labels['cancel_button'].'"  />';
+              if ($js) {
+                echo '<input type="hidden" name="js" id="js" value="yes"  />';
+                echo '<input onclick="javascript:onClick=self.close()" type="button" class="send-button" value="'.$labels['cancel_button'].'"  />';
+              }
               if ($referer == 'sa') { 
                 echo '<input type="hidden" name="referer" id="referer" value="sar"  />';
               } else {
@@ -399,34 +418,40 @@ if (isset($_GET['level'])) {
               }
             }
           ?>    
-        </p>    
+    </p>    
+<script type='text/javascript'>
+        if (document.getElementById("level").selectedIndex == 0) {
+            document.getElementById("button_submit").disabled=true;    
+        }
+</script>
     
 
     <!-- Hidden fields -->    
-		<input type=hidden name=IsisScript value=ingreso.xis />
-		<input type=hidden name=Opcion value="crear" /> 
-		<input type=hidden name=lang value="<?php  echo $lang; ?>" /> 
-		<input type=hidden name=ValorCapturado value="" />
-		<input type=hidden name=check_select value="" />
-		<input type=hidden name=ver value=S />
-		<input type=hidden name=Formato value='odds' />
-		<input type=hidden name=tag094 value='0' /> 
+    <input type=hidden name=IsisScript value=ingreso.xis />
+    <input type=hidden name=Opcion value="crear" /> 
+    <input type=hidden name=lang value="<?php  echo $lang; ?>" /> 
+    <input type=hidden name=ValorCapturado value="" />
+    <input type=hidden name=check_select value="" />
+    <input type=hidden name=ver value=S />
+    <input type=hidden name=Formato value='odds' />
+    <input type=hidden name=tag094 value='0' /> 
     </form>     
     &nbsp;<br/>&nbsp;<br/>&nbsp;&nbsp;<br/>&nbsp;<br/>&nbsp;
-		</div>			
-		<div class="spacer">&nbsp;</div>
-		<div class="boxBottom">
-			<div class="bbLeft">&#160;</div>
-			<div class="bbRight">&#160;</div>
-		</div>
-	</div>
+    </div>      
+    <div class="spacer">&nbsp;</div>
+    <div class="boxBottom">
+      <div class="bbLeft">&#160;</div>
+      <div class="bbRight">&#160;</div>
+    </div>
+  </div>
 </div>
-<?php		  
+<?php     
   if (isset($variable_fields['referer'])) {
     if ($variable_fields['referer'] == "iah") {
 ?>
 
       <script type='text/javascript'>      
+
         $(document).ready(function() {
           $("[data-jv]").keyup(function() {
               check_field(this);        
@@ -442,7 +467,8 @@ if (isset($_GET['level'])) {
       </script>
 <?php   
     }
-  }  
-	include("lib/footer.php");
-?>	
+  }
+include("../common/footer.php");   
+  //include("lib/footer.php");
+?>  
 </body></html>

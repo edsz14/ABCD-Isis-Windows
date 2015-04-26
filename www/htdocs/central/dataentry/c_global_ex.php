@@ -39,7 +39,7 @@ function EliminarListaCampos(){global $arrHttp,$ValorCapturado,$Cambiado;
 	$ValorCapturado=$proc;
 	$Cambiado="N";}
 
-function EjecutarCambio($cont,$Anterior,$Tag,$Actual){
+function EjecutarCambio($cont,$Anterior,$Tag,$Actual){
 global $arrHttp,$ValorCapturado,$Cambiado;
 	switch ($arrHttp["tipoc"]){		case "agregar":
 		case "agregarocc":
@@ -317,7 +317,7 @@ if ($arrHttp["Opcion"]=="rango"){						//se construye el rango de Mfn's a proces
 		}	}
 	$arrHttp["from"]=1;
 	$tope=100;
-}
+}
 
 foreach ($arr_mfn as $Mfn){
  	$IxMfn=$IxMfn+1;
@@ -367,7 +367,7 @@ foreach ($arr_mfn as $Mfn){
   			if (isset($ValorAnterior)){
   				$verifica="";
 				foreach ($ValorAnterior as $Anterior){
-					$Anterior=trim($Anterior);
+					//$Anterior=trim($Anterior);
 					if (strtoupper($cont)==strtoupper($Anterior) or
 					    (isset($arrHttp["tipoa"]) and ($arrHttp["tipoa"] =="cadena" and stripos($cont,$Anterior)!==false))){						$verifica="S";
 						EjecutarCambio($Mfn,$Anterior,$Tag,$cont);
@@ -402,6 +402,8 @@ foreach ($arr_mfn as $Mfn){
 		}else{
 			echo "<tr><td bgcolor=white>$Nreg</td>";			echo "<td bgcolor=white>No se pudo realizar el cambio</td>" ;		}
 		//if ($arrHttp["Opcion"]=='buscar') $tope=$hasta;
+		flush();
+    	ob_flush();
 	}
 }
 

@@ -27,6 +27,7 @@
 */
 global $arrHttp;
 session_start();
+unset($_SESSION["Browse_Expresion"]);
 if (!isset($_SESSION["permiso"])){
 	header("Location: ../common/error_page.php") ;
 }

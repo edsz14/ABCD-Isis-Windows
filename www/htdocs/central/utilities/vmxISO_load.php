@@ -14,11 +14,18 @@ include("../common/header.php");
 
 $base=$arrHttp["base"];
 $OS=strtoupper(PHP_OS);
-$converter_path=$cisis_path;
-
+$converter_path=$mx_path;
+if (strpos($OS,"WIN")=== false) 
+{
+$converter_path=str_replace('mx.exe','',$converter_path);
+$converter_path.=$cisis_ver."mx";
+}
+else
+$converter_path.=$cisis_ver."mx.exe";
+$mx_path=$converter_path;
 include("../common/institutional_info.php");
 	$encabezado="&encabezado=s";
-echo "<div style='float:right;'> <a href=\"menu_mantenimiento.php?base=".$base."&encabezado=s\" class=\"defaultButton backButton\">";
+echo "<div style='float:right;'> <a href=\"../dbadmin/menu_mantenimiento.php?base=".$base."&encabezado=s\" class=\"defaultButton backButton\">";
 echo "<img 'src=\"../images/defaultButton_iconBorder.gif\" alt=\"\" title=\"\" />
 					<span><strong> back </strong></span>
 				</a></div>";
@@ -38,6 +45,9 @@ if (isset($_SESSION["permiso"]["CENTRAL_EDHLPSYS"]))
 echo "<font color=white>&nbsp; &nbsp; Script: vmxISO_load.php</font>";
 ?>
 </div>
+<style type="text/css">
+  form {margin:20px;}
+</style>
 <div class="middle form">
 <form action="" method="post" enctype="multipart/form-data">
  <br> <label for="archivo">Choose File:</label>
@@ -48,83 +58,30 @@ echo "<font color=white>&nbsp; &nbsp; Script: vmxISO_load.php</font>";
   <option>append</option>
   <option>create</option>
   </select>
+  <br><br>
+  <input type=checkbox name=tolinux value=Y>From windows to linux <br><br>
  <?php
  include("../common/get_post.php");
   $base=$arrHttp["base"];
- 
+
   echo " <input type=\"hidden\" value=\"$base\" name=\"base\"/>";
   ?>
-<br><br><label>Marc format</label>
-  <select name="mf">
-  <option>yes</option>
-  <option>no</option>
-  </select>
-<br><br>
-  <input type="submit" value="Start"/>
+  <input type="submit" value="Send"/>
   </form>
 
 <?php
-
-		$base=$_POST['base'];
+include("phpfileuploader/form-simple-upload.php");
+		
 $bd=$db_path.$base;
-			
-if( !isset($_FILES['archivo']) )
-{
-  echo '<div class=\"middle form\"><br>No file chosen yet<br/></div>';
-  
-}
-
-else
-{
-
-  $nombre = $_FILES['archivo']['name'];
-  $nombre_tmp = $_FILES['archivo']['tmp_name'];
-  $tipo = $_FILES['archivo']['type'];
-  $tamano = $_FILES['archivo']['size'];
-
-     $limite = 5000 * 1024;
-
-  
-    if( $_FILES['archivo']['error'] > 0 )
-	{
-      echo 'Error: ' . $_FILES['archivo']['error'] . '<br/>';
-    }
-	else
-	{
-	echo "<h3>File upload information</h3>";
-      echo 'Name: ' . $nombre . '<br/>';
-      echo 'Type: ' . $tipo . '<br/>';
-      echo 'Size: ' . ($tamano / 1024) . ' Kb<br/>';
-      echo 'saved in: ' . $nombre_tmp;
-
-      if( file_exists( 'subidas/'.$nombre) )
-	  {
-        echo '<br/>The file: ' . $nombre. " already exists";
-      }
-	  else
-	  {
-   move_uploaded_file($nombre_tmp,
-          "../../../bases/wrk/" . $nombre);
-		  
-		  echo "<br/>Saved in: " . "../../../bases/wrk/" . $nombre;
-		  $OK="OK";
-      }
-    }
-	
-  }
-		  
-		  
-	
-  if(isset($OK))
+	$op=$_POST['OpISO'];  
+  if(isset($op))
   {
+  $nombre=$_POST["fn"];
   echo "<h3>Process information</h3>";
 echo "File upload OK, importing ".$nombre."...";
 	 $op=$_POST['OpISO'];
-	$mf=$_POST['mf'];
-if($mf=="no")
-	 $strINV=$cisis_path."mx "."iso="."../../../bases/wrk/".$nombre." ".$op."=".$bd."/data/".$base." -all now";
-else 
-$strINV=$cisis_path."mx "."iso="."../../../bases/wrk/".$nombre." ".$op."=".$bd."/data/".$base." outisotag1=3000 -all now";
+
+	 $strINV=$mx_path." "."iso=".$db_path."wrk/".$nombre." ".$op."=".$bd."/data/".$base." -all now";
 	 exec($strINV, $output,$t);
 	 $straux="";
 for($i=0;$i<count($output);$i++)
@@ -132,7 +89,7 @@ for($i=0;$i<count($output);$i++)
 $straux.=$output[$i]."<br>";
 }
 echo "<br>MX query: ".$strINV;
-echo "<br>Process output: ".$straux; 
+echo "<br>Process output: ".$straux;
 if($t==0)
 echo "<br>Process OK!";
 else
@@ -142,7 +99,7 @@ if($base=="")
 echo"<br>NO database selected";
 }
 }
-//echo "<br>"."<a href='menu_mantenimiento.php?base=&encabezado=s'>Maintenance Menu</a>"."<br>";
+//echo "<br>"."<a href='../dbadmin/menu_mantenimiento.php?base=&encabezado=s'>Maintenance Menu</a>"."<br>";
 ?>
 <?php if (isset($arrHttp["encabezado"])) echo "<input type=hidden name=encabezado value=s>"?>
 </form>

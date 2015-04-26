@@ -8,7 +8,6 @@ if (!isset($_SESSION["verifica"])) {
 		$_SESSION["verifica"] = true;  
 } 	
 	
-
 	// build back link	
 	$parameters = "" ;		
 	$parameters .= isset($_POST['tag630']) ? "&id=".trim($_POST['tag630']) : "";
@@ -17,9 +16,10 @@ if (!isset($_SESSION["verifica"])) {
 	$parameters .= isset($_POST['email_apoderado_chk']) ? "&email_apoderado_chk=".trim($_POST['email_apoderado_chk']) : "";
 	$parameters .= isset($_POST['tag828']) ? "&email_apoderado=".trim($_POST['tag828']) : "";
 	$parameters .= isset($_POST['tag512']) ? "&phone=".trim($_POST['tag512']) : "";
-	$parameters .= isset($_POST['tag006']) ? "&level=".trim($_POST['tag006']) : ""; 	
+	//$parameters .= isset($_POST['tag006']) ? "&level=".trim($_POST['tag006']) : ""; 	
 	$parameters .= isset($_POST['tag520']) ? "&category=".trim($_POST['tag520']) : "";
 	$parameters .= isset($_POST['tag520_other']) ? "&category_other=".trim($_POST['tag520_other']) : "";	
+	$parameters .= isset($_POST['js']) ? "&js=".trim($_POST['js']): "";	
 
 	include_once("../../central/config.php");	
 	
@@ -59,8 +59,7 @@ if (!isset($_SESSION["verifica"])) {
 			$cn = get_cn($base, $db_path);
 	 		if ($cn == "" or $cn == false){
 				$fatal_cn = "Could not generate the control number";
-	 		} 
-	 		*/	 		
+	 		} */
 	 		//other in source field			
 			//if ($_POST["tag900"] == "others") {
 	 		if (substr( $_POST["tag900"], 0, 7  )  == "others_") {		
@@ -102,7 +101,8 @@ if (!isset($_SESSION["verifica"])) {
 	$with_close = false;
 	if (isset($_POST['referer'])) {
 		if ($_POST['referer']!="") {
-			//var_dump($_POST); die();			
+			//var_dump($_POST); die();
+			$parameters.="&referer=yes";
 			if ($_POST['referer']=='sar') {
 				//$message .= "<br/><br/><a href='form_odds.php?lang=$lang&sa=sa".$parameters."'>".$requests['notice_back']."</a><br><br>";
 				$message .= "<br/><br/><a href='form_odds.php?lang=$lang".$parameters."'>".$requests['notice_back']."</a><br><br>";
@@ -117,7 +117,11 @@ if (!isset($_SESSION["verifica"])) {
 	if (!$with_close) {
 		$message .= "<br/><br/><a href='form_odds.php?lang=$lang".$parameters."'>".$requests['notice_back']."</a><br><br>";
 	}
-	$message .= '<input onclick="javascript:onClick=self.close()" type="button" class="send-button" value="'.$requests['cancel_button'].'"  />';
+	if (isset($_POST['js'])) {
+		if ($_POST['js'] == "yes") {
+			$message.= '<input onclick="javascript:onClick=self.close()" type="button" class="send-button" value="'.$requests['cancel_button'].'"  />';
+		}
+	}
 
 	/********************************************************************/
 
@@ -129,14 +133,16 @@ if (!isset($_SESSION["verifica"])) {
 	 	*/
         include_once("../../central/config.php");
         $IsisScript=$xwxis."actualizar.xis";
-        /* 
-        //test ::
-        $ValorCapturado=urlencode("<630>ernesto</630>");
-        $query = "&base=odds&cipar=/abcd/www/bases/par/odds.par&Mfn=New&Opcion=crear&ValorCapturado=$ValorCapturado";
+        //var_dump($IsisScript);
+        //die;        
+        //$ValorCapturado=urlencode("<630>ernesto</630>");
+        /* test ::
+        $query2 = "&base=odds&cipar=/abcd/www/bases/par/odds.par&Mfn=New&Opcion=crear&ValorCapturado=$ValorCapturado";
         echo($query2);
-        */      
+        */        
+
+        //echo($query);
         
-        exec("\"".$Wxis."\" IsisScript=$IsisScript", $result);
 	 	include("../common/wxis_llamar.php");
 		// logs
 		if (is_dir($db_path."log")){
@@ -159,8 +165,8 @@ if (!isset($_SESSION["verifica"])) {
 	} 
 	
 	function _saveData($xWxis, $tags, $db_path, $base, $cipar, $mfn, $wxis, $wxisUrl) {		
-		if ($wxis!= '' || $wxisUrl == '') {			
-			$query = "&base=".$base ."&cipar=".$db_path."par/".$cipar."&Mfn=New&Opcion=crear&ValorCapturado=".$tags;						
+		if ($wxisUrl == '') {							
+			$query = "&base=".$base ."&cipar=".$db_path."par/".$cipar."&Mfn=New&Opcion=crear&ValorCapturado=".$tags;
 			$contenido = _execute_local($query, $db_path, $wxis, $xWxis);
 		} else {
 			$query = "&base=".$base ."&cipar=".$db_path."par/".$cipar."&Mfn=New&Opcion=crear&ValorCapturado=";
@@ -236,10 +242,6 @@ if (!isset($_SESSION["verifica"])) {
 				$ValorCapturado.='<'.$key.'>'.urlencode(trim($v)).'</'.$key.'>';
 			}			
 		}		
-		/*
-		echo $ValorCapturado;
-		die("valor");
-		*/
 		return $ValorCapturado;
 	}	
 ?>
@@ -248,7 +250,7 @@ if (!isset($_SESSION["verifica"])) {
 	<head>
     <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">			
     <title>ODDS data</title>      
-    <link href="../css/estilo_odds.css" rel="stylesheet" type="text/css">	 
+    <link href="../css/odds.css" rel="stylesheet" type="text/css">	 
 
 <body>	
 <?php		
@@ -295,7 +297,8 @@ if (!isset($_SESSION["verifica"])) {
 </div>
 </div>	
 </div>	
-<?php		
-	include("lib/footer.php");
+<?php
+include("../common/footer.php");		
+	//include("lib/footer.php");
 ?>	
 </body></html>

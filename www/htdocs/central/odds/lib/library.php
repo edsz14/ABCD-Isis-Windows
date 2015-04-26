@@ -25,7 +25,9 @@ function load_request_message($lang_param = '') {
 	if ($lang_param != "") {
 		$lang = $lang_param;
 	}
-	$file_contents = trim(file_get_contents("../../../bases/lang/$lang/odds.tab"));
+	//$file_contents = trim(file_get_contents("../../../bases/lang/$lang/odds.tab"));
+	$file_contents = trim(file_get_contents($db_path."lang/$lang/odds.tab"));	
+	
 	//REQUEST_MESSAGES 
 	$labels_read = explode("\n", $file_contents);	
 	$end = false;
@@ -54,7 +56,10 @@ function load_labels($lang_param = '', $id, $name, $email, $phone) {
 		$lang = $lang_param;
 	}		
 	$labels = "";
-	$file_contents = trim(file_get_contents("../../../bases/lang/$lang/odds.tab"));	
+	$file_contents = trim(file_get_contents($db_path."lang/$lang/odds.tab"));	
+	//var_dump($db_path."lang/$lang/odds.tab");	
+	//var_dump($file_contents);die();
+
 	$labels_read = explode("\n", $file_contents);
 	$end = false;
 	for ($i = 0; $i<count($labels_read) && !$end; $i++) {
@@ -111,8 +116,7 @@ function load_aditional_info($lang_param = '') {
 	//Path al directorio de tabs 			
 	//$file_contents = trim(file_get_contents("../../../bases/lang/$lang/odds_help_info.tab"));
 	$file_contents = trim(file_get_contents($db_path."lang/$lang/odds_help_info.tab"));
-	//var_dump($db_path."lang/$lang/odds_help_info.tab");
-
+	
 	$help_readed = explode("\n", $file_contents,2);
 	if (count($help_readed) < 2) {
 		die("Fail to specify odds_help_info file (to help box)");
@@ -134,15 +138,15 @@ function load_combos($lang_param = '') {
 	if ($lang_param != "") {
 		$lang = $lang_param;
 	}	
-	//Path al directorio de tabs 		
-	$path_tab = $db_path."odds/def/".$lang."/";	
+	//Path al directorio de tabs 			
+	$path_tab = $db_path."odds/def/".$lang."/";		
 
 	// cuales tabs debemos leer?, o sea, cuales combos se deben llenar
 	$combos["categoria"] = array();
-	$combos["nivelbiblio"] = array();	
+	$combos["nivelbiblio"] = array();
 
 	//leer el directorio y los archivos
-	if (is_dir($path_tab)) { 
+	if (is_dir($path_tab)) { 		
 		if ($dh = opendir($path_tab)) { 
 			while (($file = readdir($dh)) !== false) {
 				if (!is_dir($path_tab . $file) && $file!="." && $file!=".." ) {
@@ -187,7 +191,8 @@ function load_header_messages($lang_param = '') {
 	$header_messages = array();
 	$header_messages['institution_name'] = $institution_name;
 	
-	$file_contents = trim(file_get_contents("../../../bases/lang/$lang/odds.tab"));
+	//$file_contents = trim(file_get_contents("../../../bases/lang/$lang/odds.tab"));
+	$file_contents = trim(file_get_contents($db_path."lang/$lang/odds.tab"));	
 	$labels_read = explode("\n", $file_contents);	
 	$end = false;
 	

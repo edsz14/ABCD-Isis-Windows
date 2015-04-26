@@ -189,14 +189,15 @@ foreach($fp as $linea){
 	if (trim($linea)!="") {
 		$fdt=explode('|',$linea);
 		if ($fdt[7]=="B") $HTML=$fdt[1];  //LOAD EXTERNAL TEXT FILE  IN THIS TAG
-		if ($fdt[7]=="H") $URL=$fdt[1];   //URL TO TH DOCUMENT LOADED IN $HTML
-		if($arr[7]=='RPC')  //RPC check to protect record
+		if ($fdt[7]=="H") $URL=$fdt[1];   //URL TO DOCUMENT LOADED IN $HTML
+                if($arr[7]=='RPC')  //RPC check to protect record
 		   {
     			session_start();
     			session_register('rpctag');
     			$rpctag=$arr[1];
     			$_SESSION['rpctag']=$rpctag;
     		   }
+
 		if ($fdt[3]==1){                  //MAIN FIELD ALPHABETIC INDEX
 			$pi=$fdt[12];
 			$fe=$fdt[13];
@@ -254,7 +255,7 @@ echo $warning;
 if ($wxisUrl!=""){
 	echo "<p>CISIS version: $wxisUrl</p>";
 }else{
-	$wxs=strrchr($Wxis);
+	$wxs=strrchr($Wxis , "/" );
     echo "<p>CISIS version: $cisis_ver".substr($wxs,1)."</p>";
 }
 if (file_exists($db_path.$arrHttp["base"]."/modulos.dat")) {
@@ -298,6 +299,7 @@ $_SESSION['rpctag']=$rpctag;
 if ($rpctag!="") {echo "RPC Field ".$rpctag;}
 // else {echo "NO RPC";}
 ?>
+
 </div>
 </div>
 </center>
