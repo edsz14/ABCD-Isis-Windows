@@ -16,6 +16,15 @@ if p(v13) then '<tr><td width=20% valign=top><font face=arial size=2><b>Relation
 if p(v14) then '<tr><td width=20% valign=top><font face=arial size=2><b>Coverage</b></td><td valign=top><font face=arial size=2>'v14+|<br>|,'</td>' fi/
 if p(v15) then '<tr><td width=20% valign=top><font face=arial size=2><b>Rights Management</b></td><td valign=top><font face=arial size=2>'v15+|<br>|,'</td>' fi/
 if p(v97) and v97<>'collection' then '<tr><td width=20% valign=top><font face=arial size=2><b>Sections</b></td><td valign=top><font face=arial size=2>'replace(v97,'/',' , '),'</td>' fi/
+/*if p(v96) then '<tr><td width=20% valign=top><font face=arial size=2><b>text-source</b></td><td valign=top><font face=arial size=2>',
+'<a href="',replace(v96,'/opt/ABCD/www/htdocs',''),'"
+onclick="window.open(`',replace(v96,'/opt/ABCD/www/htdocs',''),'`, `newwindow`, `width=600, height=500`, `scrollbars=yes, resizable=yes`);
+return false;">' replace(v96,'/opt/ABCD/www/htdocs',''),'</a></td></tr>' fi,    */
+if p(v96) then '<tr><td width=20% valign=top><font face=arial
+size=2><b>Text-source </b></td><td valign=top><font face=arial size=2><iframe
+height=200 width=800  scrolling=yes
+src=',replace(v96,'/ABCD/www/htdocs',''),'></iframe></td></tr>' fi
+
 if p(v98) then '<tr><td width=20% valign=top><font face=arial size=2><b>URL</b></td><td valign=top><font face=arial size=2><A HREF="/bases/dubcore/collection/',v98'" target=new>'v98+|<br>|,'</A></td>' fi/
 
 if p(v112) then '<tr><td width=20% valign=top><font face=arial size=2><b>Date added</b></td><td valign=top><font face=arial size=2>'v112+|<br>|,'</td>' fi/

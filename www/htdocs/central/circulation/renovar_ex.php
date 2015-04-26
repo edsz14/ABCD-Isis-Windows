@@ -29,15 +29,18 @@ session_start();
 if (!isset($_SESSION["login"])) $_SESSION["login"] ="web";
 include("../common/get_post.php");
 include("../config.php");
-if (!isset($arrHttp["vienede"]) or $arrHttp["vienede"]!="ecta_web"){
+if (!isset($arrHttp["vienede"]) or $arrHttp["vienede"]!="ecta_web" ){
 	if (!isset($_SESSION["permiso"])){
 		header("Location: ../common/error_page.php") ;
 	}
 }
+if (isset($arrHttp["DB_PATH"])) $db_path=$arrHttp["DB_PATH"];
 //foreach ($arrHttp as $var=>$value) echo "$var=$value<br>";
+if (isset($arrHttp["lang"])) $_SESSION["lang"]=$arrHttp["lang"];
 //die;
 
 $lang=$_SESSION["lang"];
+
 include("../lang/admin.php");
 include("../lang/prestamo.php");
 
@@ -54,7 +57,6 @@ require_once("../circulation/grabar_log.php");
 
 function compareDate ($FechaP){
 global $locales;
-
 	$dia=substr($FechaP,6,2);
 	$mes=substr($FechaP,4,2);
 	$year=substr($FechaP,0,4);
@@ -62,7 +64,7 @@ global $locales;
 	$todays_date = date("Y-m-d");
 	$today = strtotime($todays_date);
 	$expiration_date = strtotime($exp_date);
-	$diff=$expiration_date-$today;
+	$diff=$today-$expiration_date;
 	return $diff;
 
 }//end Compare Date
@@ -177,7 +179,6 @@ foreach ($items as $num_inv){	$num_inv=trim($num_inv);
             }
 //se verifica la fecha límite del usuario
 			if (trim($p[15])!=""){
-				echo compareDate ($p[15])."<br>";
 				if (compareDate ($p[15])<0){					$error="&error=".$msgstr["limituserdate"].". ".$p[15]."  ".$msgstr["nomorenew"];
 					$resultado.=";".$num_inv."  ".$msgstr["limituserdate"].". ".$p[15]."  ".", ".$msgstr["nomorenew"];
 					$renewed="N";
@@ -262,7 +263,7 @@ foreach ($items as $num_inv){	$num_inv=trim($num_inv);
 					$datos_trans["TIPO_USUARIO"]=$tipo_usuario;
 					$datos_trans["FECHA_DEVOLUCION"]=$fecha_d;
 					$ValorCapturado=GrabarLog("C",$datos_trans,$Wxis,$xWxis,$wxisUrl,$db_path,"RETORNAR");
-                    $query.="&logtrans=".$ValorCapturado;
+                    if ($ValorCapturado!="") $query.="&logtrans=".$ValorCapturado;
 				}
 				include ("../common/wxis_llamar.php");
 			}
@@ -279,16 +280,15 @@ else
 	$cu="&usuario=$cod_usuario";
 if (isset($arrHttp["reserve"])){	$reserve="&reserve=\"S\"";
 }else{	$reserve="";}
-if (isset($arrHttp["vienede"]) and $arrHttp["vienede"]=="ecta_web"){
-    header("Location: opac_statment_ex.php?usuario=$cod_usuario$error&vienede=ecta_web");
+if (isset($arrHttp["vienede"]) and $arrHttp["vienede"]=="ecta_web"){    header("Location: opac_statment_ex.php?usuario=$cod_usuario$error&vienede=ecta_web&DB_PATH=$db_path&lang=$lang");
     die;
 }header("Location: usuario_prestamos_presentar.php?renovado=S&encabezado=s&resultado=".urlencode($resultado)."$cu&rec_dev=$Mfn_rec"."&inventario=".$arrHttp["searchExpr"].$reserve);
 die;
 
-function Regresar($error){global $arrHttp,$cod_usuario;
-    if (isset($arrHttp["vienede"]) and $arrHttp["vienede"]=="ecta_web"){    	header("Location: opac_statment_ex.php?usuario=$cod_usuario$error&vienede=ecta_web");
+function Regresar($error){global $arrHttp,$cod_usuario,$db_path,$lang;
+    if (isset($arrHttp["vienede"]) and $arrHttp["vienede"]=="ecta_web"){    	header("Location: opac_statment_ex.php?usuario=$cod_usuario$error&vienede=ecta_web&DB_PATH=$db_path&lang=$lang");
     	die;    }
-}
+}
 
 
 

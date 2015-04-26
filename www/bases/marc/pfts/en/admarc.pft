@@ -5,6 +5,7 @@
 
 'Descriptive cataloging form: 'v3018,'<br>'
 'Fixed Field 'v8'</br>'/
+'CN : ',v1'<br>'/
 '<table width=90% border=0>'
 '<td width=10></td>'/
 '<td class=textbody03 colspan=3 >'
@@ -147,11 +148,37 @@ fi,
 
 '</td>'/
 '</table>'/
-'<br>'
-/
-
-
-'<font class=texto_n>'/
-
+/* loansinfo table
+'<table width=90%>',
+'<tr><td width=10% valign=top><font face=arial size=2><b>Copies info : </b></td><td width=90% valign=top> <font face=arial size=2>', 
+REF->loanobjects(
+L->loanobjects('CN_MARC_'v1), 
+           'No. of copies : ',f(nocc(v959),1,0), '<br/>',
+ (if p(v959^i) then 
+    'Barcode:'v959^i' - Shelf-mark:'v959^b,
+ REF->trans(
+ L->trans('TR_P_'v959^i),
+   if v1='P' then 
+    '<span style="color:#990000"> Available from 'v40,| |v47'</span>' 
+   else '<span style="color:#767777"> is available for loan</span>',
+   fi, 
+'<br/>',
+ ),
+ fi,'<BR>'),
+)
+*/
+'</TD></TR>',
 '</table>'
-'<br>'
+ref(['loanobjects']l(['loanobjects'],'CN_marc_'v1),
+           '<p><table border=0 bgcolor=#cccccc>'
+           '<td colspan=4 bgcolor=white><b>Available for loans</b>: 'f(nocc(v959),1,0)' copies </td>'
+           '<tr><td>No.inv.</td><td>Library</td><td>Type of material</td><td>Return date</td>'
+	   (if p(v959) then '<tr><td align=center bgcolor=white>'v959^i'</td>
+           <td align=center bgcolor=white>'v959^l'</td><td align=center bgcolor=white>'v959^o'<td bgcolor=white>'
+
+           ref(['trans']l(['trans'],'TR_P_'v959^i),v40,e1:=e1+1) '</td>' fi/)
+	   '</table>',
+           if e1=nocc(v959) and e1>0 then
+           `<a href='javascript:Reservar("`V1`","marc","S")'>Reserve</A>`
+           fi
+      )

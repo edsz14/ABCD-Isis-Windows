@@ -60,7 +60,8 @@
 		$q=explode("&",$query);
 		$query="";
 
-		foreach ($q as $value){			if (trim($value!="")){				$ix=strpos($value,"=");
+		foreach ($q as $value){
+			if (trim($value!="")){				$ix=strpos($value,"=");
 				if ($ix>0){					$key=substr($value,0,$ix);
 					$par=substr($value,$ix+1);
 					if ($key=="cipar"){						if (!file_exists($par)){							$par="";						}					}

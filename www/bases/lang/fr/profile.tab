@@ -72,5 +72,13 @@ ACQREPORTS=Rapport sur les acquisitions
 INUSE=Profil en cours d'utilisation, ne peut être supprimé
 NOTAB=Fichier profile.tab manquant
 ADMINISTRATION=Administration
-DATABASES=Bases de données
 ADMALL=TOUT
+UNLOCKDB=Débloquage de la b.d.
+LISTBKREC=Liste des enregistrements bloqués
+UNLOCKDBREC=Débloquer enregistrements bloqués
+IMPORT=Importation 
+EXPORT=Exportation
+COPYDB=Copier b.d. vers autre dossier
+FULLINV=Génération du fichier inverse complète
+CISISUTILS=outils CISIS
+
